@@ -1,0 +1,48 @@
+body {
+  height:100%;
+  font-size:16px;
+}
+
+.deleteCategory {
+  display:inline;
+  width: 100px;
+  margin:10px;
+}
+.category {
+  width: 200px;
+  display:inline;
+  font-size:16px;
+  margin:10px;
+  text-decoration: underline;
+}
+.category:hover {
+  color:#40a5ed;
+
+}
+.category:active {
+  color:#108ee9;  
+}
+.categories {
+  margin:20px;
+  text-align:left;
+
+  cursor:pointer;
+}
+.logo {
+  font-size:20px; 
+  text-align:center;
+}
+
+.app {
+  height:auto;
+  width: 1300px !important;
+  margin: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.data {
+  margin-top:30px;
+}
+.separatCat {
+  margin:20px;
+}
