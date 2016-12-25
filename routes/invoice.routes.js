@@ -7,5 +7,9 @@ const router = new Router();
 // Add a new good
 router.route('/invoices').post(InvoiceController.addInvoice);
 
+// Get all invoices
+router.route('/invoices').get(InvoiceController.getInvoices);
+
 
 export default router;
+

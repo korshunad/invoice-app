@@ -3,19 +3,32 @@ import fetch from 'isomorphic-fetch'
 const ADD_INVOICE = 'ADD_INVOICE'
 const ADD_INVOICE_SUCCESS = 'ADD_INVOICE_SUCCESS'
 
+const GET_INVOICES = 'GET_INVOICES'
+const GET_INVOICES_SUCCESS = 'GET_INVOICES_SUCCESS'
+
 const initialState = {
+  invoices: []
 }
+
 
 export default function api (state = initialState, action = {}) {
   switch(action.type) {
     
 
-    case ADD_GOOD_SUCCESS:
-      let newGoods = state.goods.slice(0);
-      newGoods.push(action.good);
+    case GET_INVOICES:
+      return state;
+
+    case GET_INVOICES_SUCCESS: 
       return {
         ...state,
-        goods: newGoods
+        invoices: action.invoices
+      };
+    case ADD_INVOICE_SUCCESS:
+      let newInvoices = state.invoices.slice(0);
+      newInvoices.push(action.invoice);
+      return {
+        ...state,
+        invoices: newInvoices
       };
 
     default:
@@ -34,7 +47,8 @@ export function addInvoice(params) {
       mode: 'cors',
       cache: 'default',
       body: JSON.stringify({
-        good: {name: params.newGoodName, purchasingPrice: params.newPurchased, retailPrice: params.newRetail, categoryId: params.newCatId}
+        invoice: {
+        }
       })
     })
     .then((response) => {
@@ -43,13 +57,29 @@ export function addInvoice(params) {
       };
       return response.json();
     })
-    .then((goodResponse) => {
-      dispatch({type: ADD_GOOD_SUCCESS, good: goodResponse.good}) 
+    .then((invoiceResponse) => {
+      dispatch({type: ADD_INVOICE_SUCCESS, invoice: invoiceResponse.invoice}) 
     });
     
   }
 }
 
+
+export function getInvoices() {
+  return (dispatch, getState) => {
+    dispatch({type: GET_INVOICES});
+    fetch('/invoices/invoices', {method: 'get' })
+      .then((response) =>  {
+        if (response.status >= 400) {
+        throw new Error("Bad response from server");
+        };
+        return response.json();
+      })
+      .then((invoicesResponse) => {
+        dispatch({type: GET_INVOICES_SUCCESS, invoices: invoicesResponse.invoices })
+      });
+  }
+}
 
 
 

@@ -21,3 +21,12 @@ export function addInvoice(req, res) {
   });
 }
 
+// Get all invoices
+export function getInvoices(req, res) {
+  Invoice.find().exec((err, invoices) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.json({ invoices });
+  });
+}
