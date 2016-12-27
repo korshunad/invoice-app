@@ -16,12 +16,19 @@ body {
 .form {
   margin:10px;
 }
+.formPart {
+  width:auto !important;
+  height:15px !important;
+}
+.denseHeight {
+  height: 35px !important;
+}
+
 .borderless {
   border: none !important;
 }
 .header {
   font-size:25px !important;
-  text-align:right;
 }
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: #666666 !important;
