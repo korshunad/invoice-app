@@ -57287,231 +57287,8 @@ var BillFrom = _react2.default.createClass({
 exports.default = BillFrom;
 
 },{"antd/lib/button":9,"antd/lib/button/style/css":10,"antd/lib/form":27,"antd/lib/form/style/css":28,"antd/lib/input":44,"antd/lib/input/style/css":45,"antd/lib/modal":53,"antd/lib/modal/style/css":55,"antd/lib/radio":58,"antd/lib/radio/style/css":61,"react":816}],833:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _css = require('antd/lib/button/style/css');
-
-var _button = require('antd/lib/button');
-
-var _button2 = _interopRequireDefault(_button);
-
-var _css2 = require('antd/lib/row/style/css');
-
-var _row = require('antd/lib/row');
-
-var _row2 = _interopRequireDefault(_row);
-
-var _css3 = require('antd/lib/icon/style/css');
-
-var _icon = require('antd/lib/icon');
-
-var _icon2 = _interopRequireDefault(_icon);
-
-var _css4 = require('antd/lib/col/style/css');
-
-var _col = require('antd/lib/col');
-
-var _col2 = _interopRequireDefault(_col);
-
-var _css5 = require('antd/lib/input/style/css');
-
-var _input = require('antd/lib/input');
-
-var _input2 = _interopRequireDefault(_input);
-
-var _css6 = require('antd/lib/form/style/css');
-
-var _form = require('antd/lib/form');
-
-var _form2 = _interopRequireDefault(_form);
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var FormItem = _form2.default.Item;
-
-var uuid = 0;
-
-var DynamicFieldSet = function (_React$Component) {
-  _inherits(DynamicFieldSet, _React$Component);
-
-  function DynamicFieldSet(props) {
-    _classCallCheck(this, DynamicFieldSet);
-
-    var _this = _possibleConstructorReturn(this, (DynamicFieldSet.__proto__ || Object.getPrototypeOf(DynamicFieldSet)).call(this, props));
-
-    _this.state = {};
-    _this.remove = _this.remove.bind(_this);
-    _this.add = _this.add.bind(_this);
-    return _this;
-  }
-
-  _createClass(DynamicFieldSet, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      this.props.form.setFieldsValue({
-        keys: [0]
-      });
-    }
-  }, {
-    key: 'remove',
-    value: function remove(k) {
-      var form = this.props.form;
-      // can use data-binding to get
-
-      var keys = form.getFieldValue('keys');
-      // We need at least one passenger
-      if (keys.length === 1) {
-        return;
-      }
-
-      // can use data-binding to set
-      form.setFieldsValue({
-        keys: keys.filter(function (key) {
-          return key !== k;
-        })
-      });
-    }
-  }, {
-    key: 'add',
-    value: function add() {
-      uuid++;
-      var form = this.props.form;
-      // can use data-binding to get
-
-      var keys = form.getFieldValue('keys');
-      var nextKeys = keys.concat(uuid);
-      // can use data-binding to set
-      // important! notify form to detect changes
-      form.setFieldsValue({
-        keys: nextKeys
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var _props$form = this.props.form,
-          getFieldDecorator = _props$form.getFieldDecorator,
-          getFieldValue = _props$form.getFieldValue;
-
-      var formItemLayout = {
-        labelCol: { span: 4 },
-        wrapperCol: { span: 20 }
-      };
-      var keys = getFieldValue('keys');
-      var formItems = keys.map(function (k, index) {
-        return _react2.default.createElement(
-          _row2.default,
-          null,
-          _react2.default.createElement(
-            FormItem,
-            {
-              required: false,
-              key: k
-            },
-            getFieldDecorator('names-' + k, {
-              validateTrigger: ['onChange', 'onBlur'],
-              rules: [{
-                required: true,
-                whitespace: true,
-                message: "Please input item information or delete this field."
-              }]
-            })(_react2.default.createElement(
-              'div',
-              null,
-              _react2.default.createElement(
-                _col2.default,
-                { span: 5 },
-                _react2.default.createElement(_input2.default, { style: { width: '90%' } })
-              ),
-              _react2.default.createElement(
-                _col2.default,
-                { span: 9 },
-                _react2.default.createElement(_input2.default, { style: { width: '90%' } })
-              ),
-              _react2.default.createElement(
-                _col2.default,
-                { span: 3 },
-                _react2.default.createElement(_input2.default, { style: { width: '90%' } })
-              ),
-              _react2.default.createElement(
-                _col2.default,
-                { span: 3 },
-                _react2.default.createElement(_input2.default, { style: { width: '90%' } })
-              ),
-              _react2.default.createElement(
-                _col2.default,
-                { span: 3 },
-                _react2.default.createElement(_input2.default, { style: { width: '90%' } })
-              )
-            )),
-            _react2.default.createElement(
-              _col2.default,
-              { span: 1 },
-              _react2.default.createElement(_icon2.default, {
-                className: 'dynamic-delete-button',
-                type: 'minus-circle-o',
-                disabled: keys.length === 1,
-                onClick: function onClick() {
-                  return _this2.remove(k);
-                }
-              })
-            )
-          )
-        );
-      });
-      return _react2.default.createElement(
-        _form2.default,
-        { horizontal: true },
-        formItems,
-        _react2.default.createElement(
-          _row2.default,
-          null,
-          _react2.default.createElement(
-            _col2.default,
-            { span: 8, offset: 8 },
-            _react2.default.createElement(
-              FormItem,
-              null,
-              _react2.default.createElement(
-                _button2.default,
-                { type: 'dashed', onClick: this.add },
-                _react2.default.createElement(_icon2.default, { type: 'plus' }),
-                ' Add another item'
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return DynamicFieldSet;
-}(_react2.default.Component);
-
-var Items = _form2.default.create()(DynamicFieldSet);
-exports.default = Items;
-
-},{"antd/lib/button":9,"antd/lib/button/style/css":10,"antd/lib/col":13,"antd/lib/col/style/css":14,"antd/lib/form":27,"antd/lib/form/style/css":28,"antd/lib/icon":35,"antd/lib/icon/style/css":36,"antd/lib/input":44,"antd/lib/input/style/css":45,"antd/lib/row":63,"antd/lib/row/style/css":64,"react":816}],834:[function(require,module,exports){
 module.exports = {"page":"_src_containers_App_App__page","form":"_src_containers_App_App__form","formPart":"_src_containers_App_App__formPart","denseHeight":"_src_containers_App_App__denseHeight","borderless":"_src_containers_App_App__borderless","header":"_src_containers_App_App__header"}
-},{}],835:[function(require,module,exports){
+},{}],834:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -57606,10 +57383,6 @@ var _BillFrom = require('components/BillFrom');
 
 var _BillFrom2 = _interopRequireDefault(_BillFrom);
 
-var _Items = require('components/Items');
-
-var _Items2 = _interopRequireDefault(_Items);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -57621,6 +57394,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 _moment2.default.locale('en');
 
 var FormItem = _form2.default.Item;
+var total = 0;
 var Option = _select2.default.Option;
 var uuid = 0;
 
@@ -57632,9 +57406,14 @@ var CustomizedForm = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (CustomizedForm.__proto__ || Object.getPrototypeOf(CustomizedForm)).call(this, props));
 
-    _this.state = {};
+    _this.state = {
+      quantity: 0,
+      items: { 0: { price: 0, quantity: 0 } }
+    };
     _this.remove = _this.remove.bind(_this);
     _this.add = _this.add.bind(_this);
+    _this.handleQuant = _this.handleQuant.bind(_this);
+    _this.handlePrice = _this.handlePrice.bind(_this);
     return _this;
   }
 
@@ -57646,13 +57425,32 @@ var CustomizedForm = function (_React$Component) {
       });
     }
   }, {
+    key: 'handleQuant',
+    value: function handleQuant(k, e) {
+      var quant = e.target.value;
+      var items = this.state.items;
+      items[k]["quantity"] = quant;
+      this.setState({ items: items });
+
+      console.log(JSON.stringify(this.state.items) + "this are state items from quant");
+    }
+  }, {
+    key: 'handlePrice',
+    value: function handlePrice(k, e) {
+      var price = e.target.value;
+      var items = this.state.items;
+      items[k]["price"] = price;
+      this.setState({ items: items });
+      console.log(JSON.stringify(this.state.items) + "this are state items from price");
+    }
+  }, {
     key: 'remove',
     value: function remove(k) {
       var form = this.props.form;
       // can use data-binding to get
 
       var keys = form.getFieldValue('keys');
-      // We need at least one passenger
+      // We need at least one item
       if (keys.length === 1) {
         return;
       }
@@ -57663,6 +57461,10 @@ var CustomizedForm = function (_React$Component) {
           return key !== k;
         })
       });
+      var newItems = this.state.items;
+      delete newItems[k];
+      // const newItems=items.filter((item, index, arr) => {index!==k})
+      this.setState({ items: newItems });
     }
   }, {
     key: 'add',
@@ -57673,6 +57475,13 @@ var CustomizedForm = function (_React$Component) {
 
       var keys = form.getFieldValue('keys');
       var nextKeys = keys.concat(uuid);
+      /* const newItems=nextKeys.map((k,index)=> {
+         return (items[k]={price:0, quantity:0})
+       })*/
+      var newItems = this.state.items;
+      newItems[uuid] = { price: 0, quantity: 0 };
+      console.log(JSON.stringify(newItems) + "newitems");
+      this.setState({ items: newItems });
       // can use data-binding to set
       // important! notify form to detect changes
       form.setFieldsValue({
@@ -57690,24 +57499,22 @@ var CustomizedForm = function (_React$Component) {
       });
     }
   }, {
-    key: 'handleSelectChange',
-    value: function handleSelectChange(value) {
-      console.log(value);
-      this.props.form.setFieldsValue({});
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
-      console.log(_moment2.default.months());
       var dateFormat = 'DD/MM/YYYY';
       var _props$form = this.props.form,
           getFieldDecorator = _props$form.getFieldDecorator,
           getFieldValue = _props$form.getFieldValue;
 
       var keys = getFieldValue('keys');
+      console.log(keys + "keys");
       var formItems = keys.map(function (k, index) {
+
+        total = _this2.state.items[k]["quantity"] * _this2.state.items[k]["price"];
+        console.log(total + "total");
+
         return _react2.default.createElement(
           _row2.default,
           { key: k + "row", className: _App2.default.denseHeight },
@@ -57721,9 +57528,8 @@ var CustomizedForm = function (_React$Component) {
             getFieldDecorator('names-' + k, {
               validateTrigger: ['onChange', 'onBlur'],
               rules: [{
-                required: true,
                 whitespace: true,
-                message: "Please input item information or delete this field."
+                message: "Please input item information."
               }]
             })(_react2.default.createElement(
               'div',
@@ -57731,27 +57537,27 @@ var CustomizedForm = function (_React$Component) {
               _react2.default.createElement(
                 _col2.default,
                 { key: k + "itemCol", span: 5 },
-                _react2.default.createElement(_input2.default, { key: k + "item", style: { width: '90%' } })
+                _react2.default.createElement(_input2.default, { key: k + "item", placeholder: 'item or service', style: { width: '90%' } })
               ),
               _react2.default.createElement(
                 _col2.default,
                 { key: k + "descrCol", span: 9 },
-                _react2.default.createElement(_input2.default, { key: k + "descr", style: { width: '90%' } })
+                _react2.default.createElement(_input2.default, { key: k + "descr", placeholder: 'description', style: { width: '90%' } })
               ),
               _react2.default.createElement(
                 _col2.default,
                 { key: k + "quantCol", span: 3 },
-                _react2.default.createElement(_input2.default, { key: k + "quant", style: { width: '90%' } })
+                _react2.default.createElement(_input2.default, { key: k + "quant", onChange: _this2.handleQuant.bind(_this2, k), placeholder: 0, style: { width: '90%' } })
               ),
               _react2.default.createElement(
                 _col2.default,
                 { key: k + "priceCol", span: 3 },
-                _react2.default.createElement(_input2.default, { key: k + "price", style: { width: '90%' } })
+                _react2.default.createElement(_input2.default, { key: k + "price", placeholder: 0, onChange: _this2.handlePrice.bind(_this2, k), style: { width: '90%' } })
               ),
               _react2.default.createElement(
                 _col2.default,
                 { key: k + "totalCol", span: 3 },
-                _react2.default.createElement(_input2.default, { key: k + "total", style: { width: '90%' } })
+                _react2.default.createElement(_input2.default, { style: { width: '90%' }, key: k + "total", value: total, placeholder: 0 })
               )
             )),
             _react2.default.createElement(
@@ -57769,6 +57575,7 @@ var CustomizedForm = function (_React$Component) {
           )
         );
       });
+
       return _react2.default.createElement(
         _localeProvider2.default,
         { locale: _en_US2.default },
@@ -57778,7 +57585,7 @@ var CustomizedForm = function (_React$Component) {
           _react2.default.createElement(
             FormItem,
             {
-              wrapperCol: { span: 8, offset: 16 }
+              wrapperCol: { span: 4, offset: 18 }
             },
             getFieldDecorator('invoiceName', {
               rules: [{ required: true, message: 'Please name your document' }], initialValue: "Invoice"
@@ -57814,9 +57621,7 @@ var CustomizedForm = function (_React$Component) {
                   wrapperCol: { span: 12 },
                   label: 'Invoice summary'
                 },
-                getFieldDecorator('invoiceSummary', {
-                  onChange: this.handleSelectChange
-                })(_react2.default.createElement(_input2.default, { placeholder: 'Invoice summary' }))
+                getFieldDecorator('invoiceSummary', {})(_react2.default.createElement(_input2.default, { placeholder: 'Invoice summary' }))
               )
             )
           ),
@@ -57832,9 +57637,7 @@ var CustomizedForm = function (_React$Component) {
                   className: _App2.default.formPart,
                   wrapperCol: { span: 8 }
                 },
-                getFieldDecorator('invoiceSummary', {
-                  onChange: this.handleSelectChange
-                })(_react2.default.createElement(
+                getFieldDecorator('invoiceSummary', {})(_react2.default.createElement(
                   'div',
                   null,
                   _react2.default.createElement(_BillFrom2.default, null)
@@ -57868,9 +57671,7 @@ var CustomizedForm = function (_React$Component) {
                   className: _App2.default.formPart,
                   wrapperCol: { span: 8 }
                 },
-                getFieldDecorator('invoiceSummary', {
-                  onChange: this.handleSelectChange
-                })(_react2.default.createElement(
+                getFieldDecorator('invoiceSummary', {})(_react2.default.createElement(
                   'div',
                   null,
                   'Bill to:'
@@ -57904,9 +57705,7 @@ var CustomizedForm = function (_React$Component) {
                   className: _App2.default.formPart,
                   wrapperCol: { span: 8 }
                 },
-                getFieldDecorator('invoiceSummary', {
-                  onChange: this.handleSelectChange
-                })(_react2.default.createElement(
+                getFieldDecorator('invoiceSummary', {})(_react2.default.createElement(
                   'div',
                   null,
                   _react2.default.createElement(_BillFrom2.default, null)
@@ -57980,7 +57779,7 @@ var CustomizedForm = function (_React$Component) {
               { span: 3, className: _App2.default.denseHeight },
               _react2.default.createElement(
                 FormItem,
-                { wrapperCol: { span: 24 } },
+                { wrapperCol: { span: 21, offset: 3 } },
                 getFieldDecorator('total', {
                   rules: [{ required: true, message: 'Please specify description way of total charge for items/services ' }], initialValue: "Total"
                 })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless }))
@@ -58085,7 +57884,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
 
-},{"./_App.css":834,"antd/lib/button":9,"antd/lib/button/style/css":10,"antd/lib/col":13,"antd/lib/col/style/css":14,"antd/lib/date-picker":18,"antd/lib/date-picker/style/css":21,"antd/lib/form":27,"antd/lib/form/style/css":28,"antd/lib/icon":35,"antd/lib/icon/style/css":36,"antd/lib/input":44,"antd/lib/input-number":37,"antd/lib/input-number/style/css":38,"antd/lib/input/style/css":45,"antd/lib/locale-provider":48,"antd/lib/locale-provider/en_US":47,"antd/lib/locale-provider/style/css":49,"antd/lib/row":63,"antd/lib/row/style/css":64,"antd/lib/select":65,"antd/lib/select/style/css":66,"components/BillFrom":832,"components/Items":833,"moment":549,"moment/locale/ru":547,"react":816,"react-redux":786,"redux/modules/api":837}],836:[function(require,module,exports){
+},{"./_App.css":833,"antd/lib/button":9,"antd/lib/button/style/css":10,"antd/lib/col":13,"antd/lib/col/style/css":14,"antd/lib/date-picker":18,"antd/lib/date-picker/style/css":21,"antd/lib/form":27,"antd/lib/form/style/css":28,"antd/lib/icon":35,"antd/lib/icon/style/css":36,"antd/lib/input":44,"antd/lib/input-number":37,"antd/lib/input-number/style/css":38,"antd/lib/input/style/css":45,"antd/lib/locale-provider":48,"antd/lib/locale-provider/en_US":47,"antd/lib/locale-provider/style/css":49,"antd/lib/row":63,"antd/lib/row/style/css":64,"antd/lib/select":65,"antd/lib/select/style/css":66,"components/BillFrom":832,"moment":549,"moment/locale/ru":547,"react":816,"react-redux":786,"redux/modules/api":836}],835:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -58126,7 +57925,7 @@ var store = (0, _redux.createStore)(invoicesState, (0, _redux.applyMiddleware)(_
   _react2.default.createElement(_App2.default, null)
 ), document.getElementById('container'));
 
-},{"./containers/App":835,"./redux/modules/api":837,"babel-polyfill":98,"react":816,"react-dom":650,"react-redux":786,"redux":823,"redux-thunk":817}],837:[function(require,module,exports){
+},{"./containers/App":834,"./redux/modules/api":836,"babel-polyfill":98,"react":816,"react-dom":650,"react-redux":786,"redux":823,"redux-thunk":817}],836:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -58218,4 +58017,4 @@ function getInvoices() {
   };
 }
 
-},{"isomorphic-fetch":532}]},{},[836]);
+},{"isomorphic-fetch":532}]},{},[835]);

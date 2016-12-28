@@ -1,7 +1,7 @@
 {
-  "name": "inventory-app",
+  "name": "invoice-app",
   "version": "1.0.0",
-  "description": "inventory app using client-side rendering, React, Redux, Webpack, Express, MongoDB",
+  "description": "invoice app using client-side rendering, React, Redux, Webpack, Express, MongoDB",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -7,30 +7,50 @@ import moment from 'moment';
 import enUS from 'antd/lib/locale-provider/en_US'
 import 'moment/locale/ru';
 import BillFrom from 'components/BillFrom'
-import Items from 'components/Items'
+
 moment.locale('en')
 
 const FormItem = Form.Item;
+let total = 0;
 const Option = Select.Option;
 let uuid = 0;
 class CustomizedForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state={};
+    this.state={
+      quantity:0,
+      items:{0:{price:0, quantity:0}},
+    };
     this.remove=this.remove.bind(this);
     this.add=this.add.bind(this);
+    this.handleQuant=this.handleQuant.bind(this);
+    this.handlePrice=this.handlePrice.bind(this);
   }
   componentWillMount() {
     this.props.form.setFieldsValue({
       keys: [0],
     });
   }
-
+  handleQuant(k,e) {
+    const quant=e.target.value;
+    const items=this.state.items;
+    items[k]["quantity"]=quant;
+    this.setState({items: items})
+    
+    console.log(JSON.stringify(this.state.items)+"this are state items from quant")
+  }
+  handlePrice(k,e) {
+    const price=e.target.value;
+    const items=this.state.items;
+    items[k]["price"]=price;
+    this.setState({items: items})
+    console.log(JSON.stringify(this.state.items)+"this are state items from price")
+  }
   remove(k) {
     const { form } = this.props;
     // can use data-binding to get
     const keys = form.getFieldValue('keys');
-    // We need at least one passenger
+    // We need at least one item
     if (keys.length === 1) {
       return;
     }
@@ -39,6 +59,10 @@ class CustomizedForm extends React.Component {
     form.setFieldsValue({
       keys: keys.filter(key => key !== k),
     });
+    const newItems=this.state.items 
+    delete newItems[k]
+    // const newItems=items.filter((item, index, arr) => {index!==k})
+    this.setState({items: newItems})
   }
 
   add(){
@@ -47,6 +71,13 @@ class CustomizedForm extends React.Component {
     // can use data-binding to get
     const keys = form.getFieldValue('keys');
     const nextKeys = keys.concat(uuid);
+   /* const newItems=nextKeys.map((k,index)=> {
+      return (items[k]={price:0, quantity:0})
+    })*/
+    const newItems=this.state.items
+    newItems[uuid]={price:0, quantity:0}
+    console.log(JSON.stringify(newItems)+"newitems")
+    this.setState({items: newItems})
     // can use data-binding to set
     // important! notify form to detect changes
     form.setFieldsValue({
@@ -61,17 +92,16 @@ class CustomizedForm extends React.Component {
       }
     });
   }
-  handleSelectChange(value) {
-    console.log(value);
-    this.props.form.setFieldsValue({
-    });
-  }
   render() {
-    console.log(moment.months())
     const dateFormat = 'DD/MM/YYYY';
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const keys = getFieldValue('keys');
+    console.log(keys+"keys")
     const formItems = keys.map((k, index) => {
+
+    total=this.state.items[k]["quantity"]*this.state.items[k]["price"]
+    console.log(total+"total")
+
       return (
             <Row key={k+"row"} className={styles.denseHeight}> 
         <FormItem
@@ -82,29 +112,27 @@ class CustomizedForm extends React.Component {
           {getFieldDecorator(`names-${k}`, {
             validateTrigger: ['onChange', 'onBlur'],
             rules: [{
-              required: true,
               whitespace: true,
-              message: "Please input item information or delete this field.",
+              message: "Please input item information.",
             }],
           })(
             <div key={k+"wrapdiv"}>
 
             <Col key={k+"itemCol"} span={5}>
-            <Input key={k+"item"} style={{ width: '90%' }}  />
+            <Input key={k+"item"} placeholder="item or service" style={{ width: '90%' }}  />
             </Col>
             <Col key={k+"descrCol"} span={9}>
-            <Input key={k+"descr"} style={{ width: '90%'}}  />
+            <Input key={k+"descr"} placeholder="description" style={{ width: '90%'}}  />
             </Col>
             <Col key={k+"quantCol"} span={3}>
-            <Input key={k+"quant"} style={{ width: '90%' }} />
+            <Input key={k+"quant"}  onChange={this.handleQuant.bind(this, k)} placeholder={0} style={{ width: '90%' }} />
             </Col>
             <Col key={k+"priceCol"} span={3}>
-            <Input key={k+"price"} style={{ width: '90%' }} />
+            <Input key={k+"price"} placeholder={0} onChange={this.handlePrice.bind(this, k)} style={{ width: '90%' }} />
             </Col>
-            <Col key={k+"totalCol"} span={3}>
-            <Input key={k+"total"} style={{ width: '90%' }} />
+            <Col key={k+"totalCol"} span={3} >
+            <Input style={{width:'90%'}} key={k+"total"} value={total} placeholder={0} />
             </Col>
-
             </div>
           )}
 
@@ -121,11 +149,13 @@ class CustomizedForm extends React.Component {
             </Row>
       );
     });
+
+
   return (
     <LocaleProvider locale={enUS}>
       <Form onSubmit={this.handleSubmit} className={styles.form}>
         <FormItem
-          wrapperCol={{ span: 8, offset: 16 }}
+          wrapperCol={{ span: 4, offset: 18 }}
         >
           {getFieldDecorator('invoiceName', {
             rules: [{ required: true, message: 'Please name your document' }], initialValue:"Invoice"
@@ -151,7 +181,6 @@ class CustomizedForm extends React.Component {
               label="Invoice summary"
             >
               {getFieldDecorator('invoiceSummary', {
-                onChange: this.handleSelectChange,
               })(
                 <Input placeholder="Invoice summary"/>
               )}
@@ -166,7 +195,6 @@ class CustomizedForm extends React.Component {
               wrapperCol={{ span: 8 }}
             >
               {getFieldDecorator('invoiceSummary', {
-                onChange: this.handleSelectChange,
               })(
                 <div>
                   <BillFrom />
@@ -194,7 +222,6 @@ class CustomizedForm extends React.Component {
               wrapperCol={{ span: 8 }}
             >
               {getFieldDecorator('invoiceSummary', {
-                onChange: this.handleSelectChange,
               })(
                 <div>
 
@@ -224,7 +251,6 @@ class CustomizedForm extends React.Component {
               wrapperCol={{ span: 8 }}
             >
               {getFieldDecorator('invoiceSummary', {
-                onChange: this.handleSelectChange,
               })(
                 <div>
                   <BillFrom />
@@ -287,7 +313,7 @@ class CustomizedForm extends React.Component {
                       
           </Col>
           <Col span={3} className={styles.denseHeight}>
-            <FormItem wrapperCol={{ span: 24 }}>
+            <FormItem wrapperCol={{ span: 21, offset:3 }}>
               {getFieldDecorator('total', {
                 rules: [{ required: true, message: 'Please specify description way of total charge for items/services ' }], initialValue:"Total"
               })(
