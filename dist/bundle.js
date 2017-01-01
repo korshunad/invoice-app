@@ -57287,8 +57287,725 @@ var BillFrom = _react2.default.createClass({
 exports.default = BillFrom;
 
 },{"antd/lib/button":9,"antd/lib/button/style/css":10,"antd/lib/form":27,"antd/lib/form/style/css":28,"antd/lib/input":44,"antd/lib/input/style/css":45,"antd/lib/modal":53,"antd/lib/modal/style/css":55,"antd/lib/radio":58,"antd/lib/radio/style/css":61,"react":816}],833:[function(require,module,exports){
-module.exports = {"page":"_src_containers_App_App__page","form":"_src_containers_App_App__form","formPart":"_src_containers_App_App__formPart","denseHeight":"_src_containers_App_App__denseHeight","borderless":"_src_containers_App_App__borderless","header":"_src_containers_App_App__header"}
+module.exports = {"horizontalCentering":"_src_containers_App_App__horizontalCentering","page":"_src_containers_App_App__page","form":"_src_containers_App_App__form","formPart":"_src_containers_App_App__formPart","denseHeight":"_src_containers_App_App__denseHeight","borderless":"_src_containers_App_App__borderless","header":"_src_containers_App_App__header"}
 },{}],834:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var currencies = exports.currencies = {
+    "USD": {
+        "symbol": "$",
+        "name": "US Dollar",
+        "code": "USD",
+        "name_plural": "US dollars"
+    },
+    "CAD": {
+        "symbol": "CA$",
+        "name": "Canadian Dollar",
+        "code": "CAD",
+        "name_plural": "Canadian dollars"
+    },
+    "EUR": {
+        "symbol": "€",
+        "name": "Euro",
+        "code": "EUR",
+        "name_plural": "euros"
+    },
+    "AED": {
+        "symbol": "AED",
+        "name": "United Arab Emirates Dirham",
+        "code": "AED",
+        "name_plural": "UAE dirhams"
+    },
+    "AFN": {
+        "symbol": "Af",
+        "name": "Afghan Afghani",
+        "code": "AFN",
+        "name_plural": "Afghan Afghanis"
+    },
+    "ALL": {
+        "symbol": "ALL",
+        "name": "Albanian Lek",
+        "code": "ALL",
+        "name_plural": "Albanian lekë"
+    },
+    "AMD": {
+        "symbol": "AMD",
+        "name": "Armenian Dram",
+        "code": "AMD",
+        "name_plural": "Armenian drams"
+    },
+    "ARS": {
+        "symbol": "AR$",
+        "name": "Argentine Peso",
+        "code": "ARS",
+        "name_plural": "Argentine pesos"
+    },
+    "AUD": {
+        "symbol": "AU$",
+        "name": "Australian Dollar",
+        "code": "AUD",
+        "name_plural": "Australian dollars"
+    },
+    "AZN": {
+        "symbol": "man.",
+        "name": "Azerbaijani Manat",
+        "code": "AZN",
+        "name_plural": "Azerbaijani manats"
+    },
+    "BAM": {
+        "symbol": "KM",
+        "name": "Bosnia-Herzegovina Convertible Mark",
+        "code": "BAM",
+        "name_plural": "Bosnia-Herzegovina convertible marks"
+    },
+    "BDT": {
+        "symbol": "Tk",
+        "name": "Bangladeshi Taka",
+        "code": "BDT",
+        "name_plural": "Bangladeshi takas"
+    },
+    "BGN": {
+        "symbol": "BGN",
+        "name": "Bulgarian Lev",
+        "code": "BGN",
+        "name_plural": "Bulgarian leva"
+    },
+    "BHD": {
+        "symbol": "BD",
+        "name": "Bahraini Dinar",
+        "code": "BHD",
+        "name_plural": "Bahraini dinars"
+    },
+    "BIF": {
+        "symbol": "FBu",
+        "name": "Burundian Franc",
+        "code": "BIF",
+        "name_plural": "Burundian francs"
+    },
+    "BND": {
+        "symbol": "BN$",
+        "name": "Brunei Dollar",
+        "code": "BND",
+        "name_plural": "Brunei dollars"
+    },
+    "BOB": {
+        "symbol": "Bs",
+        "name": "Bolivian Boliviano",
+        "code": "BOB",
+        "name_plural": "Bolivian bolivianos"
+    },
+    "BRL": {
+        "symbol": "R$",
+        "name": "Brazilian Real",
+        "code": "BRL",
+        "name_plural": "Brazilian reals"
+    },
+    "BWP": {
+        "symbol": "BWP",
+        "name": "Botswanan Pula",
+        "code": "BWP",
+        "name_plural": "Botswanan pulas"
+    },
+    "BYR": {
+        "symbol": "BYR",
+        "name": "Belarusian Ruble",
+        "code": "BYR",
+        "name_plural": "Belarusian rubles"
+    },
+    "BZD": {
+        "symbol": "BZ$",
+        "name": "Belize Dollar",
+        "code": "BZD",
+        "name_plural": "Belize dollars"
+    },
+    "CDF": {
+        "symbol": "CDF",
+        "name": "Congolese Franc",
+        "code": "CDF",
+        "name_plural": "Congolese francs"
+    },
+    "CHF": {
+        "symbol": "CHF",
+        "name": "Swiss Franc",
+        "code": "CHF",
+        "name_plural": "Swiss francs"
+    },
+    "CLP": {
+        "symbol": "CL$",
+        "name": "Chilean Peso",
+        "code": "CLP",
+        "name_plural": "Chilean pesos"
+    },
+    "CNY": {
+        "symbol": "CN¥",
+        "name": "Chinese Yuan",
+        "code": "CNY",
+        "name_plural": "Chinese yuan"
+    },
+    "COP": {
+        "symbol": "CO$",
+        "name": "Colombian Peso",
+        "code": "COP",
+        "name_plural": "Colombian pesos"
+    },
+    "CRC": {
+        "symbol": "₡",
+        "name": "Costa Rican Colón",
+        "code": "CRC",
+        "name_plural": "Costa Rican colóns"
+    },
+    "CVE": {
+        "symbol": "CV$",
+        "name": "Cape Verdean Escudo",
+        "code": "CVE",
+        "name_plural": "Cape Verdean escudos"
+    },
+    "CZK": {
+        "symbol": "Kč",
+        "name": "Czech Republic Koruna",
+        "code": "CZK",
+        "name_plural": "Czech Republic korunas"
+    },
+    "DJF": {
+        "symbol": "Fdj",
+        "name": "Djiboutian Franc",
+        "code": "DJF",
+        "name_plural": "Djiboutian francs"
+    },
+    "DKK": {
+        "symbol": "Dkr",
+        "name": "Danish Krone",
+        "code": "DKK",
+        "name_plural": "Danish kroner"
+    },
+    "DOP": {
+        "symbol": "RD$",
+        "name": "Dominican Peso",
+        "code": "DOP",
+        "name_plural": "Dominican pesos"
+    },
+    "DZD": {
+        "symbol": "DA",
+        "name": "Algerian Dinar",
+        "code": "DZD",
+        "name_plural": "Algerian dinars"
+    },
+    "EEK": {
+        "symbol": "Ekr",
+        "name": "Estonian Kroon",
+        "code": "EEK",
+        "name_plural": "Estonian kroons"
+    },
+    "EGP": {
+        "symbol": "EGP",
+        "name": "Egyptian Pound",
+        "code": "EGP",
+        "name_plural": "Egyptian pounds"
+    },
+    "ERN": {
+        "symbol": "Nfk",
+        "name": "Eritrean Nakfa",
+        "code": "ERN",
+        "name_plural": "Eritrean nakfas"
+    },
+    "ETB": {
+        "symbol": "Br",
+        "name": "Ethiopian Birr",
+        "code": "ETB",
+        "name_plural": "Ethiopian birrs"
+    },
+    "GBP": {
+        "symbol": "£",
+        "name": "British Pound Sterling",
+        "code": "GBP",
+        "name_plural": "British pounds sterling"
+    },
+    "GEL": {
+        "symbol": "GEL",
+        "name": "Georgian Lari",
+        "code": "GEL",
+        "name_plural": "Georgian laris"
+    },
+    "GHS": {
+        "symbol": "GH₵",
+        "name": "Ghanaian Cedi",
+        "code": "GHS",
+        "name_plural": "Ghanaian cedis"
+    },
+    "GNF": {
+        "symbol": "FG",
+        "name": "Guinean Franc",
+        "code": "GNF",
+        "name_plural": "Guinean francs"
+    },
+    "GTQ": {
+        "symbol": "GTQ",
+        "name": "Guatemalan Quetzal",
+        "code": "GTQ",
+        "name_plural": "Guatemalan quetzals"
+    },
+    "HKD": {
+        "symbol": "HK$",
+        "name": "Hong Kong Dollar",
+        "code": "HKD",
+        "name_plural": "Hong Kong dollars"
+    },
+    "HNL": {
+        "symbol": "HNL",
+        "name": "Honduran Lempira",
+        "code": "HNL",
+        "name_plural": "Honduran lempiras"
+    },
+    "HRK": {
+        "symbol": "kn",
+        "name": "Croatian Kuna",
+        "code": "HRK",
+        "name_plural": "Croatian kunas"
+    },
+    "HUF": {
+        "symbol": "Ft",
+        "name": "Hungarian Forint",
+        "code": "HUF",
+        "name_plural": "Hungarian forints"
+    },
+    "IDR": {
+        "symbol": "Rp",
+        "name": "Indonesian Rupiah",
+        "code": "IDR",
+        "name_plural": "Indonesian rupiahs"
+    },
+    "ILS": {
+        "symbol": "₪",
+        "name": "Israeli New Sheqel",
+        "code": "ILS",
+        "name_plural": "Israeli new sheqels"
+    },
+    "INR": {
+        "symbol": "Rs",
+        "name": "Indian Rupee",
+        "code": "INR",
+        "name_plural": "Indian rupees"
+    },
+    "IQD": {
+        "symbol": "IQD",
+        "name": "Iraqi Dinar",
+        "code": "IQD",
+        "name_plural": "Iraqi dinars"
+    },
+    "IRR": {
+        "symbol": "IRR",
+        "name": "Iranian Rial",
+        "code": "IRR",
+        "name_plural": "Iranian rials"
+    },
+    "ISK": {
+        "symbol": "Ikr",
+        "name": "Icelandic Króna",
+        "code": "ISK",
+        "name_plural": "Icelandic krónur"
+    },
+    "JMD": {
+        "symbol": "J$",
+        "name": "Jamaican Dollar",
+        "code": "JMD",
+        "name_plural": "Jamaican dollars"
+    },
+    "JOD": {
+        "symbol": "JD",
+        "name": "Jordanian Dinar",
+        "code": "JOD",
+        "name_plural": "Jordanian dinars"
+    },
+    "JPY": {
+        "symbol": "¥",
+        "name": "Japanese Yen",
+        "code": "JPY",
+        "name_plural": "Japanese yen"
+    },
+    "KES": {
+        "symbol": "Ksh",
+        "name": "Kenyan Shilling",
+        "code": "KES",
+        "name_plural": "Kenyan shillings"
+    },
+    "KHR": {
+        "symbol": "KHR",
+        "name": "Cambodian Riel",
+        "code": "KHR",
+        "name_plural": "Cambodian riels"
+    },
+    "KMF": {
+        "symbol": "CF",
+        "name": "Comorian Franc",
+        "code": "KMF",
+        "name_plural": "Comorian francs"
+    },
+    "KRW": {
+        "symbol": "₩",
+        "name": "South Korean Won",
+        "code": "KRW",
+        "name_plural": "South Korean won"
+    },
+    "KWD": {
+        "symbol": "KD",
+        "name": "Kuwaiti Dinar",
+        "code": "KWD",
+        "name_plural": "Kuwaiti dinars"
+    },
+    "KZT": {
+        "symbol": "KZT",
+        "name": "Kazakhstani Tenge",
+        "code": "KZT",
+        "name_plural": "Kazakhstani tenges"
+    },
+    "LBP": {
+        "symbol": "LB£",
+        "name": "Lebanese Pound",
+        "code": "LBP",
+        "name_plural": "Lebanese pounds"
+    },
+    "LKR": {
+        "symbol": "SLRs",
+        "name": "Sri Lankan Rupee",
+        "code": "LKR",
+        "name_plural": "Sri Lankan rupees"
+    },
+    "LTL": {
+        "symbol": "Lt",
+        "name": "Lithuanian Litas",
+        "code": "LTL",
+        "name_plural": "Lithuanian litai"
+    },
+    "LVL": {
+        "symbol": "Ls",
+        "name": "Latvian Lats",
+        "code": "LVL",
+        "name_plural": "Latvian lati"
+    },
+    "LYD": {
+        "symbol": "LD",
+        "name": "Libyan Dinar",
+        "code": "LYD",
+        "name_plural": "Libyan dinars"
+    },
+    "MAD": {
+        "symbol": "MAD",
+        "name": "Moroccan Dirham",
+        "code": "MAD",
+        "name_plural": "Moroccan dirhams"
+    },
+    "MDL": {
+        "symbol": "MDL",
+        "name": "Moldovan Leu",
+        "code": "MDL",
+        "name_plural": "Moldovan lei"
+    },
+    "MGA": {
+        "symbol": "MGA",
+        "name": "Malagasy Ariary",
+        "code": "MGA",
+        "name_plural": "Malagasy Ariaries"
+    },
+    "MKD": {
+        "symbol": "MKD",
+        "name": "Macedonian Denar",
+        "code": "MKD",
+        "name_plural": "Macedonian denari"
+    },
+    "MMK": {
+        "symbol": "MMK",
+        "name": "Myanma Kyat",
+        "code": "MMK",
+        "name_plural": "Myanma kyats"
+    },
+    "MOP": {
+        "symbol": "MOP$",
+        "name": "Macanese Pataca",
+        "code": "MOP",
+        "name_plural": "Macanese patacas"
+    },
+    "MUR": {
+        "symbol": "MURs",
+        "name": "Mauritian Rupee",
+        "code": "MUR",
+        "name_plural": "Mauritian rupees"
+    },
+    "MXN": {
+        "symbol": "MX$",
+        "name": "Mexican Peso",
+        "code": "MXN",
+        "name_plural": "Mexican pesos"
+    },
+    "MYR": {
+        "symbol": "RM",
+        "name": "Malaysian Ringgit",
+        "code": "MYR",
+        "name_plural": "Malaysian ringgits"
+    },
+    "MZN": {
+        "symbol": "MTn",
+        "name": "Mozambican Metical",
+        "code": "MZN",
+        "name_plural": "Mozambican meticals"
+    },
+    "NAD": {
+        "symbol": "N$",
+        "name": "Namibian Dollar",
+        "code": "NAD",
+        "name_plural": "Namibian dollars"
+    },
+    "NGN": {
+        "symbol": "₦",
+        "name": "Nigerian Naira",
+        "code": "NGN",
+        "name_plural": "Nigerian nairas"
+    },
+    "NIO": {
+        "symbol": "C$",
+        "name": "Nicaraguan Córdoba",
+        "code": "NIO",
+        "name_plural": "Nicaraguan córdobas"
+    },
+    "NOK": {
+        "symbol": "Nkr",
+        "name": "Norwegian Krone",
+        "code": "NOK",
+        "name_plural": "Norwegian kroner"
+    },
+    "NPR": {
+        "symbol": "NPRs",
+        "name": "Nepalese Rupee",
+        "code": "NPR",
+        "name_plural": "Nepalese rupees"
+    },
+    "NZD": {
+        "symbol": "NZ$",
+        "name": "New Zealand Dollar",
+        "code": "NZD",
+        "name_plural": "New Zealand dollars"
+    },
+    "OMR": {
+        "symbol": "OMR",
+        "name": "Omani Rial",
+        "code": "OMR",
+        "name_plural": "Omani rials"
+    },
+    "PAB": {
+        "symbol": "B/.",
+        "name": "Panamanian Balboa",
+        "code": "PAB",
+        "name_plural": "Panamanian balboas"
+    },
+    "PEN": {
+        "symbol": "S/.",
+        "name": "Peruvian Nuevo Sol",
+        "code": "PEN",
+        "name_plural": "Peruvian nuevos soles"
+    },
+    "PHP": {
+        "symbol": "₱",
+        "name": "Philippine Peso",
+        "code": "PHP",
+        "name_plural": "Philippine pesos"
+    },
+    "PKR": {
+        "symbol": "PKRs",
+        "name": "Pakistani Rupee",
+        "code": "PKR",
+        "name_plural": "Pakistani rupees"
+    },
+    "PLN": {
+        "symbol": "zł",
+        "name": "Polish Zloty",
+        "code": "PLN",
+        "name_plural": "Polish zlotys"
+    },
+    "PYG": {
+        "symbol": "₲",
+        "name": "Paraguayan Guarani",
+        "code": "PYG",
+        "name_plural": "Paraguayan guaranis"
+    },
+    "QAR": {
+        "symbol": "QR",
+        "name": "Qatari Rial",
+        "code": "QAR",
+        "name_plural": "Qatari rials"
+    },
+    "RON": {
+        "symbol": "RON",
+        "name": "Romanian Leu",
+        "code": "RON",
+        "name_plural": "Romanian lei"
+    },
+    "RSD": {
+        "symbol": "din.",
+        "name": "Serbian Dinar",
+        "code": "RSD",
+        "name_plural": "Serbian dinars"
+    },
+    "RUB": {
+        "symbol": "₽",
+        "name": "Russian Ruble",
+        "code": "RUB",
+        "name_plural": "Russian rubles"
+    },
+    "RWF": {
+        "symbol": "RWF",
+        "name": "Rwandan Franc",
+        "code": "RWF",
+        "name_plural": "Rwandan francs"
+    },
+    "SAR": {
+        "symbol": "SR",
+        "name": "Saudi Riyal",
+        "code": "SAR",
+        "name_plural": "Saudi riyals"
+    },
+    "SDG": {
+        "symbol": "SDG",
+        "name": "Sudanese Pound",
+        "code": "SDG",
+        "name_plural": "Sudanese pounds"
+    },
+    "SEK": {
+        "symbol": "Skr",
+        "name": "Swedish Krona",
+        "code": "SEK",
+        "name_plural": "Swedish kronor"
+    },
+    "SGD": {
+        "symbol": "S$",
+        "name": "Singapore Dollar",
+        "code": "SGD",
+        "name_plural": "Singapore dollars"
+    },
+    "SOS": {
+        "symbol": "Ssh",
+        "name": "Somali Shilling",
+        "code": "SOS",
+        "name_plural": "Somali shillings"
+    },
+    "SYP": {
+        "symbol": "SY£",
+        "name": "Syrian Pound",
+        "code": "SYP",
+        "name_plural": "Syrian pounds"
+    },
+    "THB": {
+        "symbol": "฿",
+        "name": "Thai Baht",
+        "code": "THB",
+        "name_plural": "Thai baht"
+    },
+    "TND": {
+        "symbol": "DT",
+        "name": "Tunisian Dinar",
+        "code": "TND",
+        "name_plural": "Tunisian dinars"
+    },
+    "TOP": {
+        "symbol": "T$",
+        "name": "Tongan Paʻanga",
+        "code": "TOP",
+        "name_plural": "Tongan paʻanga"
+    },
+    "TRY": {
+        "symbol": "TL",
+        "name": "Turkish Lira",
+        "code": "TRY",
+        "name_plural": "Turkish Lira"
+    },
+    "TTD": {
+        "symbol": "TT$",
+        "name": "Trinidad and Tobago Dollar",
+        "code": "TTD",
+        "name_plural": "Trinidad and Tobago dollars"
+    },
+    "TWD": {
+        "symbol": "NT$",
+        "name": "New Taiwan Dollar",
+        "code": "TWD",
+        "name_plural": "New Taiwan dollars"
+    },
+    "TZS": {
+        "symbol": "TSh",
+        "name": "Tanzanian Shilling",
+        "code": "TZS",
+        "name_plural": "Tanzanian shillings"
+    },
+    "UAH": {
+        "symbol": "₴",
+        "name": "Ukrainian Hryvnia",
+        "code": "UAH",
+        "name_plural": "Ukrainian hryvnias"
+    },
+    "UGX": {
+        "symbol": "USh",
+        "name": "Ugandan Shilling",
+        "code": "UGX",
+        "name_plural": "Ugandan shillings"
+    },
+    "UYU": {
+        "symbol": "$U",
+        "name": "Uruguayan Peso",
+        "code": "UYU",
+        "name_plural": "Uruguayan pesos"
+    },
+    "UZS": {
+        "symbol": "UZS",
+        "name": "Uzbekistan Som",
+        "code": "UZS",
+        "name_plural": "Uzbekistan som"
+    },
+    "VEF": {
+        "symbol": "Bs.F.",
+        "name": "Venezuelan Bolívar",
+        "code": "VEF",
+        "name_plural": "Venezuelan bolívars"
+    },
+    "VND": {
+        "symbol": "₫",
+        "name": "Vietnamese Dong",
+        "code": "VND",
+        "name_plural": "Vietnamese dong"
+    },
+    "XAF": {
+        "symbol": "FCFA",
+        "name": "CFA Franc BEAC",
+        "code": "XAF",
+        "name_plural": "CFA francs BEAC"
+    },
+    "XOF": {
+        "symbol": "CFA",
+        "name": "CFA Franc BCEAO",
+        "code": "XOF",
+        "name_plural": "CFA francs BCEAO"
+    },
+    "YER": {
+        "symbol": "YR",
+        "name": "Yemeni Rial",
+        "code": "YER",
+        "name_plural": "Yemeni rials"
+    },
+    "ZAR": {
+        "symbol": "R",
+        "name": "South African Rand",
+        "code": "ZAR",
+        "name_plural": "South African rand"
+    },
+    "ZMK": {
+        "symbol": "ZK",
+        "name": "Zambian Kwacha",
+        "code": "ZMK",
+        "name_plural": "Zambian kwachas"
+    }
+};
+
+},{}],835:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -57355,6 +58072,8 @@ var _form = require('antd/lib/form');
 
 var _form2 = _interopRequireDefault(_form);
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -57383,7 +58102,11 @@ var _BillFrom = require('components/BillFrom');
 
 var _BillFrom2 = _interopRequireDefault(_BillFrom);
 
+var _currencies = require('./currencies');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -57391,11 +58114,14 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+console.log(JSON.stringify(_currencies.currencies["USD"]));
 _moment2.default.locale('en');
-
 var FormItem = _form2.default.Item;
 var total = 0;
 var Option = _select2.default.Option;
+
+//let preCur;
+//let postCur;
 var uuid = 0;
 
 var CustomizedForm = function (_React$Component) {
@@ -57408,12 +58134,16 @@ var CustomizedForm = function (_React$Component) {
 
     _this.state = {
       quantity: 0,
-      items: { 0: { price: 0, quantity: 0 } }
+      items: { 0: { price: 0, quantity: 0 } },
+      preCur: null,
+      postCur: null
     };
     _this.remove = _this.remove.bind(_this);
     _this.add = _this.add.bind(_this);
     _this.handleQuant = _this.handleQuant.bind(_this);
     _this.handlePrice = _this.handlePrice.bind(_this);
+    _this.handleCurrencyChoice = _this.handleCurrencyChoice.bind(_this);
+    _this.handleItemTotal = _this.handleItemTotal.bind(_this);
     return _this;
   }
 
@@ -57425,6 +58155,20 @@ var CustomizedForm = function (_React$Component) {
       });
     }
   }, {
+    key: 'handleCurrencyChoice',
+    value: function handleCurrencyChoice(value) {
+      console.log("chosen currency: " + value);
+      if (value == _currencies.currencies[value]["symbol"]) {
+        this.setState({ preCur: null, postCur: value });
+        //   preCur=null;
+        //   postCur=value; 
+      } else {
+        this.setState({ postCur: null, preCur: _currencies.currencies[value]["symbol"] });
+        //   postCur=null;
+        //   preCur=currencies[value]["symbol"]
+      }
+    }
+  }, {
     key: 'handleQuant',
     value: function handleQuant(k, e) {
       var quant = e.target.value;
@@ -57432,7 +58176,7 @@ var CustomizedForm = function (_React$Component) {
       items[k]["quantity"] = quant;
       this.setState({ items: items });
 
-      console.log(JSON.stringify(this.state.items) + "this are state items from quant");
+      //console.log(JSON.stringify(this.state.items)+"this are state items from quant")
     }
   }, {
     key: 'handlePrice',
@@ -57441,8 +58185,11 @@ var CustomizedForm = function (_React$Component) {
       var items = this.state.items;
       items[k]["price"] = price;
       this.setState({ items: items });
-      console.log(JSON.stringify(this.state.items) + "this are state items from price");
+      // console.log(JSON.stringify(this.state.items)+"this are state items from price")
     }
+  }, {
+    key: 'handleItemTotal',
+    value: function handleItemTotal(k, e) {}
   }, {
     key: 'remove',
     value: function remove(k) {
@@ -57463,7 +58210,6 @@ var CustomizedForm = function (_React$Component) {
       });
       var newItems = this.state.items;
       delete newItems[k];
-      // const newItems=items.filter((item, index, arr) => {index!==k})
       this.setState({ items: newItems });
     }
   }, {
@@ -57475,9 +58221,6 @@ var CustomizedForm = function (_React$Component) {
 
       var keys = form.getFieldValue('keys');
       var nextKeys = keys.concat(uuid);
-      /* const newItems=nextKeys.map((k,index)=> {
-         return (items[k]={price:0, quantity:0})
-       })*/
       var newItems = this.state.items;
       newItems[uuid] = { price: 0, quantity: 0 };
       console.log(JSON.stringify(newItems) + "newitems");
@@ -57501,7 +58244,8 @@ var CustomizedForm = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this2 = this,
+          _React$createElement2;
 
       var dateFormat = 'DD/MM/YYYY';
       var _props$form = this.props.form,
@@ -57509,12 +58253,109 @@ var CustomizedForm = function (_React$Component) {
           getFieldValue = _props$form.getFieldValue;
 
       var keys = getFieldValue('keys');
-      console.log(keys + "keys");
+      //console.log(keys+"keys")
+
+      function objectEntries(obj) {
+        var _ref;
+
+        var index = 0;
+
+        var propKeys = Reflect.ownKeys(obj);
+
+        return _ref = {}, _defineProperty(_ref, Symbol.iterator, function () {
+          return this;
+        }), _defineProperty(_ref, 'next', function next() {
+          if (index < propKeys.length) {
+            var key = propKeys[index];
+            index++;
+            return { value: [key, obj[key]] };
+          } else {
+            return { done: true };
+          }
+        }), _ref;
+      }
+      var some = [];
+
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = objectEntries(_currencies.currencies)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var _step$value = _slicedToArray(_step.value, 2),
+              key = _step$value[0],
+              value = _step$value[1];
+
+          // console.log(key+value["symbol"]);
+          some.push(_react2.default.createElement(
+            Option,
+            { key: key, value: key },
+            value["name"]
+          ));
+        }
+        //console.log("some:"+some)
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      var currencyOptions = _react2.default.createElement(
+        'div',
+        { key: "curOpts" },
+        _react2.default.createElement(
+          _select2.default,
+          {
+            onChange: this.handleCurrencyChoice,
+            showSearch: true,
+            placeholder: 'Select currency',
+            optionFilterProp: 'children',
+            style: { width: 200 } },
+          some
+        )
+      );
+
       var formItems = keys.map(function (k, index) {
+        var _React$createElement;
 
+        var totStyle = { width: "24px" };
+        var curStyle = { width: "24px" };
         total = _this2.state.items[k]["quantity"] * _this2.state.items[k]["price"];
-        console.log(total + "total");
+        //console.log(total+"total")
 
+        var totwidth = void 0;
+        var curwidth = void 0;
+        var price = _this2.state.items[k]["price"];
+
+        if (("" + total).length < 8) {
+          totwidth = (("" + total).length + 1) * 7 + 10;
+        } else if (("" + total).length >= 8) {
+          totwidth = 73;
+        }
+
+        if (("" + price).length < 8) {
+          curwidth = (("" + price).length + 1) * 7 + 10;
+        } else if (("" + price).length >= 8) {
+          curwidth = 73;
+        }
+
+        console.log("total.length" + totwidth);
+        var dyncurStyle = {};
+        dyncurStyle["width"] = curwidth + "px";
+        curStyle = dyncurStyle;
+        var dyntotStyle = {};
+        dyntotStyle["width"] = totwidth + "px";
+        totStyle = dyntotStyle;
+        console.log(JSON.stringify(totStyle));
         return _react2.default.createElement(
           _row2.default,
           { key: k + "row", className: _App2.default.denseHeight },
@@ -57537,27 +58378,46 @@ var CustomizedForm = function (_React$Component) {
               _react2.default.createElement(
                 _col2.default,
                 { key: k + "itemCol", span: 5 },
-                _react2.default.createElement(_input2.default, { key: k + "item", placeholder: 'item or service', style: { width: '90%' } })
+                _react2.default.createElement(_input2.default, { key: k + "item", placeholder: 'item or service', className: _App2.default.borderless, style: { width: '95%' } })
               ),
               _react2.default.createElement(
                 _col2.default,
-                { key: k + "descrCol", span: 9 },
-                _react2.default.createElement(_input2.default, { key: k + "descr", placeholder: 'description', style: { width: '90%' } })
+                { key: k + "descrCol", span: 7 },
+                _react2.default.createElement(_input2.default, { key: k + "descr", placeholder: 'description', className: _App2.default.borderless, style: { width: '98%' } })
               ),
               _react2.default.createElement(
                 _col2.default,
                 { key: k + "quantCol", span: 3 },
-                _react2.default.createElement(_input2.default, { key: k + "quant", onChange: _this2.handleQuant.bind(_this2, k), placeholder: 0, style: { width: '90%' } })
+                _react2.default.createElement(_input2.default, { key: k + "quant",
+                  onChange: _this2.handleQuant.bind(_this2, k),
+                  className: _App2.default.borderless, placeholder: 0,
+                  style: { width: '90%', textAlign: "center" } })
               ),
               _react2.default.createElement(
                 _col2.default,
-                { key: k + "priceCol", span: 3 },
-                _react2.default.createElement(_input2.default, { key: k + "price", placeholder: 0, onChange: _this2.handlePrice.bind(_this2, k), style: { width: '90%' } })
+                { key: k + "priceCol", span: 4 },
+                _react2.default.createElement(
+                  'div',
+                  { className: _App2.default.horizontalCentering },
+                  _this2.state.preCur,
+                  _react2.default.createElement(_input2.default, { key: k + "price", placeholder: 0,
+                    onChange: _this2.handlePrice.bind(_this2, k),
+                    className: _App2.default.borderless, style: curStyle }),
+                  _this2.state.postCur
+                )
               ),
               _react2.default.createElement(
                 _col2.default,
-                { key: k + "totalCol", span: 3 },
-                _react2.default.createElement(_input2.default, { style: { width: '90%' }, key: k + "total", value: total, placeholder: 0 })
+                { key: k + "totalCol", span: 4 },
+                _react2.default.createElement(
+                  'div',
+                  { className: _App2.default.horizontalCentering },
+                  _this2.state.preCur,
+                  _react2.default.createElement(_input2.default, (_React$createElement = { style: curStyle, key: k + "total", value: total,
+                    onChange: _this2.handleItemTotal.bind(_this2, k),
+                    className: _App2.default.borderless }, _defineProperty(_React$createElement, 'style', totStyle), _defineProperty(_React$createElement, 'placeholder', 0), _React$createElement)),
+                  _this2.state.postCur
+                )
               )
             )),
             _react2.default.createElement(
@@ -57637,7 +58497,7 @@ var CustomizedForm = function (_React$Component) {
                   className: _App2.default.formPart,
                   wrapperCol: { span: 8 }
                 },
-                getFieldDecorator('invoiceSummary', {})(_react2.default.createElement(
+                getFieldDecorator('companyContacts', {})(_react2.default.createElement(
                   'div',
                   null,
                   _react2.default.createElement(_BillFrom2.default, null)
@@ -57655,7 +58515,7 @@ var CustomizedForm = function (_React$Component) {
                   wrapperCol: { span: 12 },
                   label: 'Invoice Number'
                 },
-                getFieldDecorator('input-number', { initialValue: 1 })(_react2.default.createElement(_inputNumber2.default, { min: 1 }))
+                getFieldDecorator('invoiceNumber', { initialValue: 1 })(_react2.default.createElement(_inputNumber2.default, { min: 1 }))
               )
             )
           ),
@@ -57671,11 +58531,11 @@ var CustomizedForm = function (_React$Component) {
                   className: _App2.default.formPart,
                   wrapperCol: { span: 8 }
                 },
-                getFieldDecorator('invoiceSummary', {})(_react2.default.createElement(
+                _react2.default.createElement(
                   'div',
                   null,
                   'Bill to:'
-                ))
+                )
               )
             ),
             _react2.default.createElement(
@@ -57689,7 +58549,7 @@ var CustomizedForm = function (_React$Component) {
                   wrapperCol: { span: 12 },
                   label: 'Invoice Date'
                 },
-                getFieldDecorator('invoice-date')(_react2.default.createElement(_datePicker2.default, null))
+                getFieldDecorator('invoiceDate')(_react2.default.createElement(_datePicker2.default, null))
               )
             )
           ),
@@ -57705,11 +58565,11 @@ var CustomizedForm = function (_React$Component) {
                   className: _App2.default.formPart,
                   wrapperCol: { span: 8 }
                 },
-                getFieldDecorator('invoiceSummary', {})(_react2.default.createElement(
+                _react2.default.createElement(
                   'div',
                   null,
                   _react2.default.createElement(_BillFrom2.default, null)
-                ))
+                )
               )
             ),
             _react2.default.createElement(
@@ -57723,7 +58583,7 @@ var CustomizedForm = function (_React$Component) {
                   wrapperCol: { span: 12 },
                   label: 'Payment Due'
                 },
-                getFieldDecorator('payment-due')(_react2.default.createElement(_datePicker2.default, null))
+                getFieldDecorator('paymentDue')(_react2.default.createElement(_datePicker2.default, null))
               )
             )
           ),
@@ -57743,7 +58603,7 @@ var CustomizedForm = function (_React$Component) {
             ),
             _react2.default.createElement(
               _col2.default,
-              { span: 9, className: _App2.default.denseHeight },
+              { span: 7, className: _App2.default.denseHeight },
               _react2.default.createElement(
                 FormItem,
                 { wrapperCol: { span: 24 } },
@@ -57757,32 +58617,32 @@ var CustomizedForm = function (_React$Component) {
               { span: 3, className: _App2.default.denseHeight },
               _react2.default.createElement(
                 FormItem,
-                { wrapperCol: { span: 24 } },
+                null,
                 getFieldDecorator('itemsQuantity', {
                   rules: [{ required: true, message: 'Please specify quantity name of your items/services ' }], initialValue: "Quantity"
-                })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless }))
+                })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless, style: { textAlign: "center", width: "90%" } }))
               )
             ),
             _react2.default.createElement(
               _col2.default,
-              { span: 3, className: _App2.default.denseHeight },
+              { span: 4, className: _App2.default.denseHeight },
               _react2.default.createElement(
                 FormItem,
-                { wrapperCol: { span: 24 } },
+                null,
                 getFieldDecorator('itemsPrice', {
                   rules: [{ required: true, message: 'Please specify description way of pricing items/services ' }], initialValue: "Price"
-                })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless }))
+                })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless, style: { textAlign: "center", width: "90%" } }))
               )
             ),
             _react2.default.createElement(
               _col2.default,
-              { span: 3, className: _App2.default.denseHeight },
+              { span: 4, className: _App2.default.denseHeight },
               _react2.default.createElement(
                 FormItem,
-                { wrapperCol: { span: 21, offset: 3 } },
+                null,
                 getFieldDecorator('total', {
                   rules: [{ required: true, message: 'Please specify description way of total charge for items/services ' }], initialValue: "Total"
-                })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless }))
+                })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless, style: { textAlign: "center", width: "90%" } }))
               )
             )
           ),
@@ -57809,6 +58669,25 @@ var CustomizedForm = function (_React$Component) {
                   { type: 'dashed', onClick: this.add },
                   _react2.default.createElement(_icon2.default, { type: 'plus' }),
                   ' Add another item'
+                )
+              )
+            )
+          ),
+          _react2.default.createElement(
+            _row2.default,
+            null,
+            _react2.default.createElement(
+              _col2.default,
+              { span: 24 },
+              _react2.default.createElement(
+                FormItem,
+                (_React$createElement2 = { wrapperCol: { span: 8, offset: 10 },
+                  labelCol: { span: 12 }
+                }, _defineProperty(_React$createElement2, 'wrapperCol', { span: 12 }), _defineProperty(_React$createElement2, 'label', 'Choose currency'), _React$createElement2),
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  currencyOptions
                 )
               )
             )
@@ -57884,7 +58763,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
 
-},{"./_App.css":833,"antd/lib/button":9,"antd/lib/button/style/css":10,"antd/lib/col":13,"antd/lib/col/style/css":14,"antd/lib/date-picker":18,"antd/lib/date-picker/style/css":21,"antd/lib/form":27,"antd/lib/form/style/css":28,"antd/lib/icon":35,"antd/lib/icon/style/css":36,"antd/lib/input":44,"antd/lib/input-number":37,"antd/lib/input-number/style/css":38,"antd/lib/input/style/css":45,"antd/lib/locale-provider":48,"antd/lib/locale-provider/en_US":47,"antd/lib/locale-provider/style/css":49,"antd/lib/row":63,"antd/lib/row/style/css":64,"antd/lib/select":65,"antd/lib/select/style/css":66,"components/BillFrom":832,"moment":549,"moment/locale/ru":547,"react":816,"react-redux":786,"redux/modules/api":836}],835:[function(require,module,exports){
+},{"./_App.css":833,"./currencies":834,"antd/lib/button":9,"antd/lib/button/style/css":10,"antd/lib/col":13,"antd/lib/col/style/css":14,"antd/lib/date-picker":18,"antd/lib/date-picker/style/css":21,"antd/lib/form":27,"antd/lib/form/style/css":28,"antd/lib/icon":35,"antd/lib/icon/style/css":36,"antd/lib/input":44,"antd/lib/input-number":37,"antd/lib/input-number/style/css":38,"antd/lib/input/style/css":45,"antd/lib/locale-provider":48,"antd/lib/locale-provider/en_US":47,"antd/lib/locale-provider/style/css":49,"antd/lib/row":63,"antd/lib/row/style/css":64,"antd/lib/select":65,"antd/lib/select/style/css":66,"components/BillFrom":832,"moment":549,"moment/locale/ru":547,"react":816,"react-redux":786,"redux/modules/api":837}],836:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -57925,7 +58804,7 @@ var store = (0, _redux.createStore)(invoicesState, (0, _redux.applyMiddleware)(_
   _react2.default.createElement(_App2.default, null)
 ), document.getElementById('container'));
 
-},{"./containers/App":834,"./redux/modules/api":836,"babel-polyfill":98,"react":816,"react-dom":650,"react-redux":786,"redux":823,"redux-thunk":817}],836:[function(require,module,exports){
+},{"./containers/App":835,"./redux/modules/api":837,"babel-polyfill":98,"react":816,"react-dom":650,"react-redux":786,"redux":823,"redux-thunk":817}],837:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -58017,4 +58896,4 @@ function getInvoices() {
   };
 }
 
-},{"isomorphic-fetch":532}]},{},[835]);
+},{"isomorphic-fetch":532}]},{},[836]);
