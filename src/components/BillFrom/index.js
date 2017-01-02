@@ -1,6 +1,7 @@
 import React from 'react'
-import { Button, Modal, Form, Input, Radio } from 'antd';
+import { Button, Modal, Form, Input, Tabs} from 'antd';
 const FormItem = Form.Item;
+const TabPane = Tabs.TabPane;
 
 const CollectionCreateForm = Form.create()(
   (props) => {
@@ -9,32 +10,97 @@ const CollectionCreateForm = Form.create()(
     return (
       <Modal
         visible={visible}
-        title="Create a new collection"
-        okText="Create"
+        title="Add your contacts"
+        okText="Save"
         onCancel={onCancel}
         onOk={onCreate}
       >
         <Form vertical>
-          <FormItem label="Title">
-            {getFieldDecorator('title', {
-              rules: [{ required: true, message: 'Please input the title of collection!' }],
+          <Tabs defaultActiveKey="1">
+    <TabPane tab="Name and address" key="1">
+          <FormItem label="Company name">
+            {getFieldDecorator('name', {
+              rules: [{ required: true, message: 'Please input company name' }],
             })(
               <Input />
             )}
           </FormItem>
-          <FormItem label="Description">
-            {getFieldDecorator('description')(<Input type="textarea" />)}
-          </FormItem>
-          <FormItem className="collection-create-form_last-form-item">
-            {getFieldDecorator('modifier', {
-              initialValue: 'public',
-            })(
-              <Radio.Group>
-                <Radio value="public">Public</Radio>
-                <Radio value="private">Private</Radio>
-              </Radio.Group>
+          <FormItem label="Address">
+            {getFieldDecorator('address1')(
+              <Input />
             )}
           </FormItem>
+          <FormItem label="Address (additional line)">
+            {getFieldDecorator('address2')(
+              <Input />
+            )}
+          </FormItem>
+          <FormItem label="City">
+            {getFieldDecorator('city')(
+              <Input />
+            )}
+          </FormItem>
+          <FormItem label="ZIP">
+            {getFieldDecorator('ZIP')(
+              <Input />
+            )}
+          </FormItem>
+          <FormItem label="Country">
+            {getFieldDecorator('Country')(
+              <Input />
+            )}
+          </FormItem>
+          <FormItem label="Province">
+            {getFieldDecorator('Province')(
+              <Input />
+            )}
+          </FormItem>
+   < /TabPane>
+    <TabPane tab="Contact" key="2">
+          <FormItem label="Website">
+            {getFieldDecorator('Website')(
+              <Input />
+            )}
+          </FormItem>
+          <FormItem label="E-mail">
+            {getFieldDecorator('E-mail')(
+              <Input />
+            )}
+          </FormItem>
+          <FormItem label="Phone">
+            {getFieldDecorator('Phone')(
+              <Input />
+            )}
+          </FormItem>
+          <FormItem label="Fax">
+            {getFieldDecorator('Fax')(
+              <Input />
+            )}
+          </FormItem>
+   < /TabPane>
+    <TabPane tab="Billing" key="3">
+          <FormItem label="Bank account">
+            {getFieldDecorator('account')(
+              <Input />
+            )}
+          </FormItem>
+          <FormItem label="Bank name">
+            {getFieldDecorator('Bank name')(
+              <Input />
+            )}
+          </FormItem>
+          <FormItem label="Bank address">
+            {getFieldDecorator('bank address')(
+              <Input />
+            )}
+          </FormItem>
+          <FormItem label="SWIFT">
+            {getFieldDecorator('SWIFT')(
+              <Input />
+            )}
+          </FormItem>
+   < /TabPane>
+</Tabs>
         </Form>
       </Modal>
     );

@@ -12,7 +12,7 @@ import {currencies} from './currencies'
 console.log(JSON.stringify(currencies["USD"]))
 moment.locale('en')
 const FormItem = Form.Item;
-let total = 0;
+let itemTotal = 0;
 const Option = Select.Option;
 
 //let preCur;
@@ -68,6 +68,8 @@ class CustomizedForm extends React.Component {
    // console.log(JSON.stringify(this.state.items)+"this are state items from price")
   }
   handleItemTotal(k,e) {
+    const amount=e.target.value;
+    
   }
   remove(k) {
     const { form } = this.props;
@@ -112,7 +114,7 @@ class CustomizedForm extends React.Component {
     });
   }
   render() {
-    const dateFormat = 'DD/MM/YYYY';
+    const dateFormat = 'DD.MM.YYYY';
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const keys = getFieldValue('keys');
     //console.log(keys+"keys")
@@ -160,37 +162,31 @@ for (const [key,value] of objectEntries(currencies)) {
 
    )
     
+function adjustWidth(numInput) {
+    let width;
+    let styleObject={};
+    if ((""+numInput).length<8) {
+      width=((""+numInput).length+1)*7+10;
+    } else if ((""+numInput).length>=8) {
+      width=80
+    }  
+    styleObject["width"]=width+"px"
+    return styleObject;
+}    
 
+let total=0;
     const formItems = keys.map((k, index) => {
     let totStyle={width:"24px"};
     let curStyle={width:"24px"};
-    total=this.state.items[k]["quantity"]*this.state.items[k]["price"]
-    //console.log(total+"total")
-    
-    let totwidth;
-    let curwidth;
+    itemTotal=this.state.items[k]["quantity"]*this.state.items[k]["price"]
+
+    total+=itemTotal;
+    console.log(total+"total")
     let price=this.state.items[k]["price"]
     
-    if ((""+total).length<8) {
-      totwidth=((""+total).length+1)*7+10;
-    } else if ((""+total).length>=8) {
-      totwidth=73
-    }
-    
-    if ((""+price).length<8) {
-      curwidth=((""+price).length+1)*7+10;
-    } else if ((""+price).length>=8) {
-      curwidth=73
-    }
-
-    console.log("total.length"+totwidth)
-    let dyncurStyle={};
-    dyncurStyle["width"]=curwidth+"px";
-    curStyle=dyncurStyle;
-    let dyntotStyle={};
-    dyntotStyle["width"]=totwidth+"px";
-    totStyle=dyntotStyle
-    console.log(JSON.stringify(totStyle))
+    curStyle=adjustWidth(price);
+    totStyle=adjustWidth(itemTotal);
+   console.log(JSON.stringify(totStyle))
       return (
             <Row key={k+"row"} className={styles.denseHeight}> 
         <FormItem
@@ -207,7 +203,7 @@ for (const [key,value] of objectEntries(currencies)) {
           })(
             <div key={k+"wrapdiv"}>
 
-              <Col key={k+"itemCol"} span={5}>
+              <Col key={k+"itemCol"} span={4}>
                 <Input key={k+"item"} placeholder="item or service" className={styles.borderless} style={{ width: '95%' }}  />
               </Col>
               <Col key={k+"descrCol"} span={7}>
@@ -228,10 +224,10 @@ for (const [key,value] of objectEntries(currencies)) {
                   {this.state.postCur}
                 </div>
               </Col>
-              <Col key={k+"totalCol"} span={4}>
+              <Col key={k+"totalCol"} span={5}>
                 <div className={styles.horizontalCentering}>
                   {this.state.preCur}
-                  <Input style={curStyle} key={k+"total"} value={total} 
+                  <Input style={curStyle} key={k+"item total"} value={itemTotal} 
                     onChange={this.handleItemTotal.bind(this, k)} 
                     className={styles.borderless} style={totStyle} 
                     placeholder={0} />
@@ -278,7 +274,7 @@ for (const [key,value] of objectEntries(currencies)) {
               <div>Bill from</div>
             </FormItem>
           </Col>
-          <Col span={12}>
+          <Col span={12} style={{marginBottom:"10px"}}>
             <FormItem
               className={styles.formPart}
               labelCol={{ span: 12 }}
@@ -287,7 +283,7 @@ for (const [key,value] of objectEntries(currencies)) {
             >
               {getFieldDecorator('invoiceSummary', {
               })(
-                <Input placeholder="Invoice summary"/>
+                <Input type="textarea"rows={1} placeholder="Invoice summary"/>
               )}
             </FormItem>
           </Col>
@@ -339,7 +335,7 @@ for (const [key,value] of objectEntries(currencies)) {
               label="Invoice Date"
             >
               {getFieldDecorator('invoiceDate')(
-                <DatePicker  />
+                <DatePicker format={dateFormat} />
               )}
             </FormItem>
           </Col>
@@ -364,13 +360,13 @@ for (const [key,value] of objectEntries(currencies)) {
               label="Payment Due"
             >
               {getFieldDecorator('paymentDue')(
-                 <DatePicker  />
+                 <DatePicker format={dateFormat} />
               )}
             </FormItem>
           </Col>
         </Row>
         <Row className={styles.denseHeight} style={{marginTop:"40px"}}>
-          <Col span={5} className={styles.denseHeight}>
+          <Col span={4} className={styles.denseHeight}>
             <FormItem wrapperCol={{ span: 24 }}>
               {getFieldDecorator('items', {
                 rules: [{ required: true, message: 'Please classify your items/services ' }], initialValue:"Items"
@@ -410,10 +406,10 @@ for (const [key,value] of objectEntries(currencies)) {
             </FormItem>
                       
           </Col>
-          <Col span={4} className={styles.denseHeight}>
+          <Col span={5} className={styles.denseHeight}>
             <FormItem >
-              {getFieldDecorator('total', {
-                rules: [{ required: true, message: 'Please specify description way of total charge for items/services ' }], initialValue:"Total"
+              {getFieldDecorator('Amount', {
+                rules: [{ required: true, message: 'Please specify description way of total charge for an item or service ' }], initialValue:"Amount"
               })(
                 <Input className={styles.borderless} style={{textAlign:"center", width:"90%"}} />
               )}
@@ -427,15 +423,34 @@ for (const [key,value] of objectEntries(currencies)) {
           </Col>
         </Row>
         <Row style={{marginTop:"20px"}}>
-        <Col span={8} offset={8}>
-        <FormItem >
-          <Button type="dashed" onClick={this.add} >
-            <Icon type="plus" /> Add another item
-          </Button>
-        </FormItem>
-        </Col>
+          <Col span={8} offset={8}>
+            <FormItem >
+              <Button type="dashed" onClick={this.add} >
+                <Icon type="plus" /> Add another item
+              </Button>
+            </FormItem>
+          </Col>
         </Row>
         
+        <Row>
+          <Col span={14} offset={10}>
+            <FormItem wrapperCol={{ span: 16 }}
+              value={total}
+              label="Total:"
+              labelCol={{ span:8 }}
+            >
+              <div className={styles.totalElems}>
+                {this.state.preCur}
+              </div>
+              <div className={styles.totalElems} style={{marginLeft:"5px", marginRight:"5px"}}>
+               {total}
+              </div>
+              <div className={styles.totalElems}>
+               {this.state.postCur}
+              </div>
+            </FormItem>
+          </Col>
+        </Row>
         
         <Row>
           <Col span={24}>
@@ -451,12 +466,32 @@ for (const [key,value] of objectEntries(currencies)) {
             </FormItem>
           </Col>
         </Row>
+        <Row>
+          <Col span={24}>
+            <FormItem labelCol={{ span: 2 }}
+              wrapperCol={{ span: 24 }}
+              label="Notes"
+             >
+              <Input type="textarea" />
+            </FormItem>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <FormItem labelCol={{ span: 2 }}
+              wrapperCol={{ span: 24 }}
+              label="Terms"
+             >
+              <Input type="textarea" />
+            </FormItem>
+          </Col>
+        </Row>
 
         <Row>
           <Col span={24}>
-            <FormItem wrapperCol={{ span: 8, offset: 10 }}>
-              <Button type="primary" htmlType="submit">
-                Submit
+            <FormItem wrapperCol={{ span: 20}}>
+              <Button type="primary" htmlType="submit" style={{width:"600px"}}>
+                Save the invoice
               </Button>
             </FormItem>
           </Col>
