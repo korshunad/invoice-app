@@ -7,6 +7,7 @@ import moment from 'moment';
 import enUS from 'antd/lib/locale-provider/en_US'
 import 'moment/locale/ru';
 import BillFrom from 'components/BillFrom'
+import BillTo from 'components/BillTo'
 import {currencies} from './currencies'
 
 console.log(JSON.stringify(currencies["USD"]))
@@ -348,7 +349,7 @@ let total=0;
               wrapperCol={{ span: 8 }}
             >
                 <div>
-                  <BillFrom />
+                  <BillTo />
                 </div>
             </FormItem>
           </Col>
