@@ -3,30 +3,16 @@ const autoIncrement = require('mongoose-auto-increment');
 
 autoIncrement.initialize(mongoose.connection);
 
-const addPerItemChargeSchema = new mongoose.Schema({
-  chargeName: {type: String},
-  chargeCount: {type: Number}
-})
-
-
-const addChargeSchema = new mongoose.Schema({
-  chargeName: {type: String},
-  chargeCount: {type: Number}
-})
-
 const itemSchema = new mongoose.Schema({
   name: {type: String},
   description: {type: String},
   price: {type: Number},
   quantity: {type: Number},
-  taxName: {type: Number},
-  tax: {type: Number},
-  additionalCharge: {type: [addPerItemChargeSchema]}
 }) 
 
 const invoiceSchema = new mongoose.Schema( {
 
-  invoiceName: {type: String, default: 'Invoice', required: true},
+  invoiceTitle: {type: String, default: 'Invoice', required: true},
   invoiceSummary: {type: String},
   invoiceNumber: {type: Number},
   invoiceDate: {type: Date, required: true},
@@ -40,9 +26,12 @@ const invoiceSchema = new mongoose.Schema( {
   currency: {type: String},
 
   invoiceTotal: {type: Number, required: true},
-  addCharge: {type: [addChargeSchema]}, 
-  taxName: {type: Number},
+  taxName: {type: String},
   tax: {type: Number},
+  discountName: {type: String},
+  discount: {type: Number},
+  additionalChargeName: {type: String},
+  additionalCharge: {type: Number},
 
   items: {type: [itemSchema]},  
 
@@ -59,12 +48,19 @@ const invoiceSchema = new mongoose.Schema( {
   companyPhone: {type: String},
   companyWebsite: {type: String},
   companyFax: {type: String},
+  companyEmail: {type: String},
   companyAccount: {type: String},
+  companyBankAccountHolder: {type: String},
   companyBankName: {type: String},
   companyBankAddress: {type: String},
   companySWIFT: {type: String},  
+  companyBIC: {type: String},  
+  companyIBAN: {type: String},  
+  companyPayPalinfo: {type: String},  
+  companyOtherBilling: {type: String},  
 
   customerName: {type: String, required: true},
+  customerAccount: {type: String},
   customerAddressL1: {type: String},
   customerAddressL2: {type: String},
   customerCity: {type: String},

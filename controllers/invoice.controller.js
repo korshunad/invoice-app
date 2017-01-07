@@ -5,7 +5,7 @@ import Invoice from '../models/invoice';
 
 export function addInvoice(req, res) {
   console.log(req.body)
-  if (!req.body.invoice.invoiceName || !req.body.invoice.invoiceDate || !req.body.invoice.invoiceTotal || !req.body.invoice.companyName || !req.body.invoice.customerName) {
+  if (!req.body.invoice.invoiceTitle || !req.body.invoice.invoiceDate || !req.body.invoice.invoiceTotal || !req.body.invoice.companyName || !req.body.invoice.customerName) {
     return res.status(403).end();
   } 
 

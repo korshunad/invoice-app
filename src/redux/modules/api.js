@@ -48,6 +48,68 @@ export function addInvoice(params) {
       cache: 'default',
       body: JSON.stringify({
         invoice: {
+          invoiceTitle: params.newInvoiceTitle,
+          invoiceSummary: params.newInvoiceSummary,
+          invoiceNumber: params.newInvoiceNumber,
+          invoiceDate: params.newInvoiceDate,
+
+          paymentdue: params.newPaymentDue,
+
+          itemsName: params.newItemsName,
+          unitPriceName: params.newUnitPriceName,
+          quantityName: params.newQuantityName,
+          totalName: params.newTotalName,
+
+          currency: params.newCurrency,
+
+          invoiceTotal: params.newInvoiceTotal,
+          taxName: params.newTaxName,
+          tax: params.newTax,
+          discountName: params.newDiscountName,
+          discount: params.newDiscount,
+          additionalChargeName: params.newAdditionalChargeName,
+          additionalCharge: params.newAdditionalCharge,
+
+          items: params.newItems,  
+
+          notes: params.newItems,
+          footer: params.newFooter,
+
+          companyName: params.newCompanyName,
+          companyAddressL1: params.newCompanyAddressL1,
+          companyAddressL2: params.newCompanyAddressL2,
+          companyCity: params.newCompanyCity,
+          companyZip: params.newCompanyZip,
+          companyCountry: params.newCompanyCountry,
+          companyProvince: params.newCompanyProvince,
+          companyPhone: params.newCompanyPhone,
+          companyWebsite: params.newCompanyWebsite,
+          companyFax: params.newCompanyFax,
+          companyEmail: params.newCompanyEmail,
+          companyAccount: params.newCompanyAccount,
+          companyBankAccountHolder: params.newCompanyBankAccountHolder,
+          companyBankName: params.newCompanyBankName,
+          companyBankAddress: params.newCompanyBankAddress,
+          companySWIFT: params.newCompanySWIFT,  
+          companyBIC:  params.newCompanyBIC,  
+          companyIBAN:  params.newCompanyIBAN,  
+          companyPayPalinfo:  params.newCompanyPayPalinfo,  
+          companyOtherBilling:  params.newCompanyOtherBilling,  
+
+          customerName: params.newCustomerName,
+          customerAddressL1: params.newCustomerAddressL1,
+          customerAddressL2: params.newCustomerAddressL2,
+          customerCity: params.newCustomerCity,
+          customerZip: params.newCustomerZip,
+          customerCountry: params.newCustomerCountry,
+          customerProvince: params.newCustomerProvince,
+          customerPhone: params.newCustomerPhone,
+          customerEmail: params.newCustomerEmail,
+          customerContactFirstName: params.newCustomerContactFirstName,
+          customerContactLastName: params.newCustomerContactLastName,
+          customerWebsite: params.newCustomerWebsite,
+          customerFax: params.newCustomerFax,
+          customerAccountNumber: params.newCustomerAccountNumber,
         }
       })
     })

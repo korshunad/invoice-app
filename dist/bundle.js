@@ -58810,7 +58810,7 @@ var BillTo = function (_React$Component2) {
 exports.default = BillTo;
 
 },{"./_BillTo.css":839,"antd/lib/button":9,"antd/lib/button/style/css":10,"antd/lib/form":27,"antd/lib/form/style/css":28,"antd/lib/input":44,"antd/lib/input/style/css":45,"antd/lib/modal":53,"antd/lib/modal/style/css":55,"antd/lib/tabs":63,"antd/lib/tabs/style/css":64,"react":821,"react-country-region-selector":653}],841:[function(require,module,exports){
-module.exports = {"horizontalCentering":"_src_containers_App_App__horizontalCentering","totalElems":"_src_containers_App_App__totalElems","page":"_src_containers_App_App__page","form":"_src_containers_App_App__form","formPart":"_src_containers_App_App__formPart","denseHeight":"_src_containers_App_App__denseHeight","borderless":"_src_containers_App_App__borderless","header":"_src_containers_App_App__header"}
+module.exports = {"hidden":"_src_components_InvoiceForm_InvoiceForm__hidden","horizontalCentering":"_src_components_InvoiceForm_InvoiceForm__horizontalCentering","totalElems":"_src_components_InvoiceForm_InvoiceForm__totalElems","form":"_src_components_InvoiceForm_InvoiceForm__form","formPart":"_src_components_InvoiceForm_InvoiceForm__formPart","denseHeight":"_src_components_InvoiceForm_InvoiceForm__denseHeight","borderless":"_src_components_InvoiceForm_InvoiceForm__borderless","header":"_src_components_InvoiceForm_InvoiceForm__header"}
 },{}],842:[function(require,module,exports){
 "use strict";
 
@@ -59603,13 +59603,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _App = require('./_App.css');
+var _InvoiceForm = require('./_InvoiceForm.css');
 
-var _App2 = _interopRequireDefault(_App);
-
-var _reactRedux = require('react-redux');
-
-var _api = require('redux/modules/api');
+var _InvoiceForm2 = _interopRequireDefault(_InvoiceForm);
 
 var _moment = require('moment');
 
@@ -59646,20 +59642,22 @@ _moment2.default.locale('en');
 var FormItem = _form2.default.Item;
 var itemTotal = 0;
 var Option = _select2.default.Option;
-
+var hide = false;
 //let preCur;
 //let postCur;
 var uuid = 0;
 
-var CustomizedForm = function (_React$Component) {
-  _inherits(CustomizedForm, _React$Component);
+var InvoiceForm = function (_React$Component) {
+  _inherits(InvoiceForm, _React$Component);
 
-  function CustomizedForm(props) {
-    _classCallCheck(this, CustomizedForm);
+  function InvoiceForm(props) {
+    _classCallCheck(this, InvoiceForm);
 
-    var _this = _possibleConstructorReturn(this, (CustomizedForm.__proto__ || Object.getPrototypeOf(CustomizedForm)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (InvoiceForm.__proto__ || Object.getPrototypeOf(InvoiceForm)).call(this, props));
 
     _this.state = {
+      hideCur: true,
+      taxType: "flat",
       quantity: 0,
       items: { 0: { price: 0, quantity: 0 } },
       preCur: null,
@@ -59671,15 +59669,30 @@ var CustomizedForm = function (_React$Component) {
     _this.handlePrice = _this.handlePrice.bind(_this);
     _this.handleCurrencyChoice = _this.handleCurrencyChoice.bind(_this);
     _this.handleItemTotal = _this.handleItemTotal.bind(_this);
+    _this.setTaxType = _this.setTaxType.bind(_this);
     return _this;
   }
 
-  _createClass(CustomizedForm, [{
+  _createClass(InvoiceForm, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.props.form.setFieldsValue({
         keys: [0]
       });
+    }
+  }, {
+    key: 'setTaxType',
+    value: function setTaxType(value) {
+      if (value == "%") {
+        hide = true;
+        this.setState({ hideCur: true, taxType: "%" });
+      }
+      if (value == "flat") {
+        hide = false;
+        this.setState({ hideCur: false, taxType: "flat" });
+      }
+      console.log(value);
+      console.log(hide);
     }
   }, {
     key: 'handleCurrencyChoice',
@@ -59764,11 +59777,14 @@ var CustomizedForm = function (_React$Component) {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
       e.preventDefault();
-      this.props.form.validateFields(function (err, values) {
+      this.props.form.validateFields(function checker(err, values) {
         if (!err) {
           console.log('Received values of form: ', values);
         }
       });
+      /*   this.props.addInvoiceHandler({
+           newInvoiceTitle: this.state.newInvoiceTitle
+         });*/
     }
   }, {
     key: 'render',
@@ -59882,13 +59898,13 @@ var CustomizedForm = function (_React$Component) {
         console.log(JSON.stringify(totStyle));
         return _react2.default.createElement(
           _row2.default,
-          { key: k + "row", className: _App2.default.denseHeight },
+          { key: k + "row", className: _InvoiceForm2.default.denseHeight },
           _react2.default.createElement(
             FormItem,
             {
               required: false,
               key: k,
-              className: _App2.default.denseHeight
+              className: _InvoiceForm2.default.denseHeight
             },
             getFieldDecorator('names-' + k, {
               validateTrigger: ['onChange', 'onBlur'],
@@ -59902,19 +59918,19 @@ var CustomizedForm = function (_React$Component) {
               _react2.default.createElement(
                 _col2.default,
                 { key: k + "itemCol", span: 4 },
-                _react2.default.createElement(_input2.default, { key: k + "item", placeholder: 'item or service', className: _App2.default.borderless, style: { width: '95%' } })
+                _react2.default.createElement(_input2.default, { key: k + "item", placeholder: 'item or service', className: _InvoiceForm2.default.borderless, style: { width: '95%' } })
               ),
               _react2.default.createElement(
                 _col2.default,
                 { key: k + "descrCol", span: 7 },
-                _react2.default.createElement(_input2.default, { key: k + "descr", placeholder: 'description', className: _App2.default.borderless, style: { width: '98%' } })
+                _react2.default.createElement(_input2.default, { key: k + "descr", placeholder: 'description', className: _InvoiceForm2.default.borderless, style: { width: '98%' } })
               ),
               _react2.default.createElement(
                 _col2.default,
                 { key: k + "quantCol", span: 3 },
                 _react2.default.createElement(_input2.default, { key: k + "quant",
                   onChange: _this2.handleQuant.bind(_this2, k),
-                  className: _App2.default.borderless, placeholder: 0,
+                  className: _InvoiceForm2.default.borderless, placeholder: 0,
                   style: { width: '90%', textAlign: "center" } })
               ),
               _react2.default.createElement(
@@ -59922,11 +59938,11 @@ var CustomizedForm = function (_React$Component) {
                 { key: k + "priceCol", span: 4 },
                 _react2.default.createElement(
                   'div',
-                  { className: _App2.default.horizontalCentering },
+                  { className: _InvoiceForm2.default.horizontalCentering },
                   _this2.state.preCur,
                   _react2.default.createElement(_input2.default, { key: k + "price", placeholder: 0,
                     onChange: _this2.handlePrice.bind(_this2, k),
-                    className: _App2.default.borderless, style: curStyle }),
+                    className: _InvoiceForm2.default.borderless, style: curStyle }),
                   _this2.state.postCur
                 )
               ),
@@ -59935,11 +59951,11 @@ var CustomizedForm = function (_React$Component) {
                 { key: k + "totalCol", span: 5 },
                 _react2.default.createElement(
                   'div',
-                  { className: _App2.default.horizontalCentering },
+                  { className: _InvoiceForm2.default.horizontalCentering },
                   _this2.state.preCur,
                   _react2.default.createElement(_input2.default, (_React$createElement = { style: curStyle, key: k + "item total", value: itemTotal,
                     onChange: _this2.handleItemTotal.bind(_this2, k),
-                    className: _App2.default.borderless }, _defineProperty(_React$createElement, 'style', totStyle), _defineProperty(_React$createElement, 'placeholder', 0), _React$createElement)),
+                    className: _InvoiceForm2.default.borderless }, _defineProperty(_React$createElement, 'style', totStyle), _defineProperty(_React$createElement, 'placeholder', 0), _React$createElement)),
                   _this2.state.postCur
                 )
               )
@@ -59965,7 +59981,7 @@ var CustomizedForm = function (_React$Component) {
         { locale: _en_US2.default },
         _react2.default.createElement(
           _form2.default,
-          { onSubmit: this.handleSubmit, className: _App2.default.form },
+          { onSubmit: this.handleSubmit.bind(this), className: _InvoiceForm2.default.form },
           _react2.default.createElement(
             FormItem,
             {
@@ -59973,7 +59989,7 @@ var CustomizedForm = function (_React$Component) {
             },
             getFieldDecorator('invoiceName', {
               rules: [{ required: true, message: 'Please name your document' }], initialValue: "Invoice"
-            })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless + ' ' + _App2.default.header }))
+            })(_react2.default.createElement(_input2.default, { className: _InvoiceForm2.default.borderless + ' ' + _InvoiceForm2.default.header }))
           ),
           _react2.default.createElement(
             _row2.default,
@@ -59984,7 +60000,7 @@ var CustomizedForm = function (_React$Component) {
               _react2.default.createElement(
                 FormItem,
                 {
-                  className: _App2.default.formPart,
+                  className: _InvoiceForm2.default.formPart,
                   wrapperCol: { span: 8 }
                 },
                 _react2.default.createElement(
@@ -60000,7 +60016,7 @@ var CustomizedForm = function (_React$Component) {
               _react2.default.createElement(
                 FormItem,
                 {
-                  className: _App2.default.formPart,
+                  className: _InvoiceForm2.default.formPart,
                   labelCol: { span: 12 },
                   wrapperCol: { span: 12 },
                   label: 'Invoice summary'
@@ -60018,7 +60034,7 @@ var CustomizedForm = function (_React$Component) {
               _react2.default.createElement(
                 FormItem,
                 {
-                  className: _App2.default.formPart,
+                  className: _InvoiceForm2.default.formPart,
                   wrapperCol: { span: 8 }
                 },
                 getFieldDecorator('companyContacts', {})(_react2.default.createElement(
@@ -60034,7 +60050,7 @@ var CustomizedForm = function (_React$Component) {
               _react2.default.createElement(
                 FormItem,
                 {
-                  className: _App2.default.formPart,
+                  className: _InvoiceForm2.default.formPart,
                   labelCol: { span: 12 },
                   wrapperCol: { span: 12 },
                   label: 'Invoice Number'
@@ -60052,7 +60068,7 @@ var CustomizedForm = function (_React$Component) {
               _react2.default.createElement(
                 FormItem,
                 {
-                  className: _App2.default.formPart,
+                  className: _InvoiceForm2.default.formPart,
                   wrapperCol: { span: 8 }
                 },
                 _react2.default.createElement(
@@ -60068,7 +60084,7 @@ var CustomizedForm = function (_React$Component) {
               _react2.default.createElement(
                 FormItem,
                 {
-                  className: _App2.default.formPart,
+                  className: _InvoiceForm2.default.formPart,
                   labelCol: { span: 12 },
                   wrapperCol: { span: 12 },
                   label: 'Invoice Date'
@@ -60086,7 +60102,7 @@ var CustomizedForm = function (_React$Component) {
               _react2.default.createElement(
                 FormItem,
                 {
-                  className: _App2.default.formPart,
+                  className: _InvoiceForm2.default.formPart,
                   wrapperCol: { span: 8 }
                 },
                 _react2.default.createElement(
@@ -60102,7 +60118,7 @@ var CustomizedForm = function (_React$Component) {
               _react2.default.createElement(
                 FormItem,
                 {
-                  className: _App2.default.formPart,
+                  className: _InvoiceForm2.default.formPart,
                   labelCol: { span: 12 },
                   wrapperCol: { span: 12 },
                   label: 'Payment Due'
@@ -60113,60 +60129,60 @@ var CustomizedForm = function (_React$Component) {
           ),
           _react2.default.createElement(
             _row2.default,
-            { className: _App2.default.denseHeight, style: { marginTop: "40px" } },
+            { className: _InvoiceForm2.default.denseHeight, style: { marginTop: "40px" } },
             _react2.default.createElement(
               _col2.default,
-              { span: 4, className: _App2.default.denseHeight },
+              { span: 4, className: _InvoiceForm2.default.denseHeight },
               _react2.default.createElement(
                 FormItem,
                 { wrapperCol: { span: 24 } },
                 getFieldDecorator('items', {
                   rules: [{ required: true, message: 'Please classify your items/services ' }], initialValue: "Items"
-                })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless }))
+                })(_react2.default.createElement(_input2.default, { className: _InvoiceForm2.default.borderless }))
               )
             ),
             _react2.default.createElement(
               _col2.default,
-              { span: 7, className: _App2.default.denseHeight },
+              { span: 7, className: _InvoiceForm2.default.denseHeight },
               _react2.default.createElement(
                 FormItem,
                 { wrapperCol: { span: 24 } },
                 getFieldDecorator('itemsDescription', {
                   rules: [{ required: true, message: 'Please specify description way of your items/services ' }], initialValue: "Description"
-                })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless }))
+                })(_react2.default.createElement(_input2.default, { className: _InvoiceForm2.default.borderless }))
               )
             ),
             _react2.default.createElement(
               _col2.default,
-              { span: 3, className: _App2.default.denseHeight },
+              { span: 3, className: _InvoiceForm2.default.denseHeight },
               _react2.default.createElement(
                 FormItem,
                 null,
                 getFieldDecorator('itemsQuantity', {
                   rules: [{ required: true, message: 'Please specify quantity name of your items/services ' }], initialValue: "Quantity"
-                })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless, style: { textAlign: "center", width: "90%" } }))
+                })(_react2.default.createElement(_input2.default, { className: _InvoiceForm2.default.borderless, style: { textAlign: "center", width: "90%" } }))
               )
             ),
             _react2.default.createElement(
               _col2.default,
-              { span: 4, className: _App2.default.denseHeight },
+              { span: 4, className: _InvoiceForm2.default.denseHeight },
               _react2.default.createElement(
                 FormItem,
                 null,
                 getFieldDecorator('itemsPrice', {
                   rules: [{ required: true, message: 'Please specify description way of pricing items/services ' }], initialValue: "Price"
-                })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless, style: { textAlign: "center", width: "90%" } }))
+                })(_react2.default.createElement(_input2.default, { className: _InvoiceForm2.default.borderless, style: { textAlign: "center", width: "90%" } }))
               )
             ),
             _react2.default.createElement(
               _col2.default,
-              { span: 5, className: _App2.default.denseHeight },
+              { span: 5, className: _InvoiceForm2.default.denseHeight },
               _react2.default.createElement(
                 FormItem,
                 null,
                 getFieldDecorator('Amount', {
                   rules: [{ required: true, message: 'Please specify description way of total charge for an item or service ' }], initialValue: "Amount"
-                })(_react2.default.createElement(_input2.default, { className: _App2.default.borderless, style: { textAlign: "center", width: "90%" } }))
+                })(_react2.default.createElement(_input2.default, { className: _InvoiceForm2.default.borderless, style: { textAlign: "center", width: "90%" } }))
               )
             )
           ),
@@ -60181,19 +60197,177 @@ var CustomizedForm = function (_React$Component) {
           ),
           _react2.default.createElement(
             _row2.default,
-            { style: { marginTop: "20px" } },
+            null,
             _react2.default.createElement(
               _col2.default,
-              { span: 8, offset: 8 },
+              { span: 22 },
               _react2.default.createElement(
                 FormItem,
                 null,
                 _react2.default.createElement(
                   _button2.default,
-                  { type: 'dashed', onClick: this.add },
+                  { style: { width: "600px" }, type: 'dashed', onClick: this.add },
                   _react2.default.createElement(_icon2.default, { type: 'plus' }),
                   ' Add another item'
                 )
+              )
+            )
+          ),
+          _react2.default.createElement(
+            _row2.default,
+            { className: _InvoiceForm2.default.denseHeight },
+            _react2.default.createElement(
+              _col2.default,
+              { span: 3, offset: 12 },
+              _react2.default.createElement(
+                FormItem,
+                { wrapperCol: { span: 24 }
+                },
+                getFieldDecorator('tax name', {
+                  initialValue: "Tax:"
+                })(_react2.default.createElement(_input2.default, { style: { textAlign: "right", border: "none" } }))
+              )
+            ),
+            _react2.default.createElement(
+              _col2.default,
+              { span: 9 },
+              _react2.default.createElement(
+                FormItem,
+                { wrapperCol: { span: 24 }
+                },
+                getFieldDecorator('tax', {})(_react2.default.createElement(
+                  _row2.default,
+                  null,
+                  _react2.default.createElement(
+                    _col2.default,
+                    { className: this.state.hideCur ? _InvoiceForm2.default.hidden : this.state.preCur == null ? _InvoiceForm2.default.hidden : "", span: 2 },
+                    this.state.preCur
+                  ),
+                  _react2.default.createElement(
+                    _col2.default,
+                    { span: 8, offset: 1 },
+                    _react2.default.createElement(_input2.default, null)
+                  ),
+                  _react2.default.createElement(
+                    _col2.default,
+                    { className: this.state.hideCur ? _InvoiceForm2.default.hidden : this.state.postCur == null ? _InvoiceForm2.default.hidden : "", span: 2, offset: 1 },
+                    this.state.postCur
+                  ),
+                  _react2.default.createElement(
+                    _col2.default,
+                    { className: this.state.taxType == "%" ? "" : _InvoiceForm2.default.hidden, span: 1, offset: 1 },
+                    _react2.default.createElement(
+                      'p',
+                      null,
+                      '%'
+                    )
+                  ),
+                  _react2.default.createElement(
+                    _col2.default,
+                    { span: 3, offset: 1 },
+                    _react2.default.createElement(
+                      _select2.default,
+                      { onChange: this.setTaxType, dropdownMatchSelectWidth: false, value: '' },
+                      _react2.default.createElement(
+                        Option,
+                        { styles: { width: "130px" }, key: '%', value: '%' },
+                        '%'
+                      ),
+                      _react2.default.createElement(
+                        Option,
+                        { key: 'flat', value: 'flat' },
+                        'flat'
+                      )
+                    )
+                  )
+                ))
+              )
+            )
+          ),
+          _react2.default.createElement(
+            _row2.default,
+            { className: _InvoiceForm2.default.denseHeight },
+            _react2.default.createElement(
+              _col2.default,
+              { className: _InvoiceForm2.default.denseHeight, span: 3, offset: 12 },
+              _react2.default.createElement(
+                FormItem,
+                { wrapperCol: { span: 24 }
+                },
+                getFieldDecorator('discount', {
+                  initialValue: "Discount:"
+                })(_react2.default.createElement(_input2.default, { style: { textAlign: "right", border: "none" } }))
+              )
+            ),
+            _react2.default.createElement(
+              _col2.default,
+              { span: 9 },
+              _react2.default.createElement(
+                FormItem,
+                { wrapperCol: { span: 24 }
+                },
+                getFieldDecorator('discount', {})(_react2.default.createElement(
+                  _row2.default,
+                  null,
+                  _react2.default.createElement(
+                    _col2.default,
+                    { span: 8, offset: 1 },
+                    _react2.default.createElement(_input2.default, null)
+                  ),
+                  _react2.default.createElement(
+                    _col2.default,
+                    { span: 1, offset: 1 },
+                    _react2.default.createElement(
+                      'p',
+                      null,
+                      '%'
+                    )
+                  )
+                ))
+              )
+            )
+          ),
+          _react2.default.createElement(
+            _row2.default,
+            null,
+            _react2.default.createElement(
+              _col2.default,
+              { span: 3, offset: 12 },
+              _react2.default.createElement(
+                FormItem,
+                { wrapperCol: { span: 24 }
+                },
+                getFieldDecorator('add charge', {
+                  initialValue: "Another charge:"
+                })(_react2.default.createElement(_input2.default, { style: { textAlign: "right", border: "none" } }))
+              )
+            ),
+            _react2.default.createElement(
+              _col2.default,
+              { span: 9 },
+              _react2.default.createElement(
+                FormItem,
+                { wrapperCol: { span: 24 }
+                },
+                getFieldDecorator('charge', {})(_react2.default.createElement(
+                  _row2.default,
+                  null,
+                  _react2.default.createElement(
+                    _col2.default,
+                    { className: this.state.preCur == null ? _InvoiceForm2.default.hidden : "", span: 2 },
+                    this.state.preCur
+                  ),
+                  _react2.default.createElement(
+                    _col2.default,
+                    { span: 8, offset: 1 },
+                    _react2.default.createElement(_input2.default, null)
+                  ),
+                  _react2.default.createElement(
+                    _col2.default,
+                    { className: this.state.postCur == null ? _InvoiceForm2.default.hidden : "", span: 2, offset: 1 },
+                    this.state.postCur
+                  )
+                ))
               )
             )
           ),
@@ -60212,17 +60386,17 @@ var CustomizedForm = function (_React$Component) {
                 },
                 _react2.default.createElement(
                   'div',
-                  { className: _App2.default.totalElems },
+                  { className: _InvoiceForm2.default.totalElems },
                   this.state.preCur
                 ),
                 _react2.default.createElement(
                   'div',
-                  { className: _App2.default.totalElems, style: { marginLeft: "5px", marginRight: "5px" } },
+                  { className: _InvoiceForm2.default.totalElems, style: { marginLeft: "5px", marginRight: "5px" } },
                   total
                 ),
                 _react2.default.createElement(
                   'div',
-                  { className: _App2.default.totalElems },
+                  { className: _InvoiceForm2.default.totalElems },
                   this.state.postCur
                 )
               )
@@ -60301,27 +60475,71 @@ var CustomizedForm = function (_React$Component) {
     }
   }]);
 
-  return CustomizedForm;
+  return InvoiceForm;
 }(_react2.default.Component);
 
-CustomizedForm = _form2.default.create({})(CustomizedForm);
+InvoiceForm = _form2.default.create({})(InvoiceForm);
+exports.default = InvoiceForm;
 
-var App = function (_React$Component2) {
-  _inherits(App, _React$Component2);
+},{"./_InvoiceForm.css":841,"./currencies":842,"antd/lib/button":9,"antd/lib/button/style/css":10,"antd/lib/col":13,"antd/lib/col/style/css":14,"antd/lib/date-picker":18,"antd/lib/date-picker/style/css":21,"antd/lib/form":27,"antd/lib/form/style/css":28,"antd/lib/icon":35,"antd/lib/icon/style/css":36,"antd/lib/input":44,"antd/lib/input-number":37,"antd/lib/input-number/style/css":38,"antd/lib/input/style/css":45,"antd/lib/locale-provider":48,"antd/lib/locale-provider/en_US":47,"antd/lib/locale-provider/style/css":49,"antd/lib/row":57,"antd/lib/row/style/css":58,"antd/lib/select":59,"antd/lib/select/style/css":60,"components/BillFrom":838,"components/BillTo":840,"moment":546,"moment/locale/ru":544,"react":821}],844:[function(require,module,exports){
+module.exports = {"page":"_src_containers_App_App__page"}
+},{}],845:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _App = require('./_App.css');
+
+var _App2 = _interopRequireDefault(_App);
+
+var _reactRedux = require('react-redux');
+
+var _api = require('redux/modules/api');
+
+var _InvoiceForm = require('components/InvoiceForm');
+
+var _InvoiceForm2 = _interopRequireDefault(_InvoiceForm);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var App = function (_React$Component) {
+  _inherits(App, _React$Component);
 
   function App(props) {
     _classCallCheck(this, App);
 
-    var _this3 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-    _this3.state = { isModalOpen: false };
-    return _this3;
+    _this.state = { isModalOpen: false };
+    return _this;
   }
 
   _createClass(App, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.dispatch((0, _api.getInvoices)());
+    }
+  }, {
+    key: 'addInvoiceHandler',
+    value: function addInvoiceHandler(params) {
+      this.props.dispatch((0, _api.addInvoice)({
+        newInvoiceTitle: params.newInvoiceTitle
+      }));
+      console.log("helloInvoice Adder");
     }
   }, {
     key: 'render',
@@ -60333,7 +60551,10 @@ var App = function (_React$Component2) {
         _react2.default.createElement(
           'div',
           { className: _App2.default.page },
-          _react2.default.createElement(CustomizedForm, null)
+          _react2.default.createElement(_InvoiceForm2.default, {
+            invoices: this.props.invoices,
+            addInvoiceHandler: this.addInvoiceHandler.bind(this)
+          })
         )
       );
     }
@@ -60350,7 +60571,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
 
-},{"./_App.css":841,"./currencies":842,"antd/lib/button":9,"antd/lib/button/style/css":10,"antd/lib/col":13,"antd/lib/col/style/css":14,"antd/lib/date-picker":18,"antd/lib/date-picker/style/css":21,"antd/lib/form":27,"antd/lib/form/style/css":28,"antd/lib/icon":35,"antd/lib/icon/style/css":36,"antd/lib/input":44,"antd/lib/input-number":37,"antd/lib/input-number/style/css":38,"antd/lib/input/style/css":45,"antd/lib/locale-provider":48,"antd/lib/locale-provider/en_US":47,"antd/lib/locale-provider/style/css":49,"antd/lib/row":57,"antd/lib/row/style/css":58,"antd/lib/select":59,"antd/lib/select/style/css":60,"components/BillFrom":838,"components/BillTo":840,"moment":546,"moment/locale/ru":544,"react":821,"react-redux":791,"redux/modules/api":845}],844:[function(require,module,exports){
+},{"./_App.css":844,"components/InvoiceForm":843,"react":821,"react-redux":791,"redux/modules/api":847}],846:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -60391,7 +60612,7 @@ var store = (0, _redux.createStore)(invoicesState, (0, _redux.applyMiddleware)(_
   _react2.default.createElement(_App2.default, null)
 ), document.getElementById('container'));
 
-},{"./containers/App":843,"./redux/modules/api":845,"babel-polyfill":95,"react":821,"react-dom":655,"react-redux":791,"redux":828,"redux-thunk":822}],845:[function(require,module,exports){
+},{"./containers/App":845,"./redux/modules/api":847,"babel-polyfill":95,"react":821,"react-dom":655,"react-redux":791,"redux":828,"redux-thunk":822}],847:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60456,7 +60677,70 @@ function addInvoice(params) {
       mode: 'cors',
       cache: 'default',
       body: JSON.stringify({
-        invoice: {}
+        invoice: {
+          invoiceTitle: params.newInvoiceTitle,
+          invoiceSummary: params.newInvoiceSummary,
+          invoiceNumber: params.newInvoiceNumber,
+          invoiceDate: params.newInvoiceDate,
+
+          paymentdue: params.newPaymentDue,
+
+          itemsName: params.newItemsName,
+          unitPriceName: params.newUnitPriceName,
+          quantityName: params.newQuantityName,
+          totalName: params.newTotalName,
+
+          currency: params.newCurrency,
+
+          invoiceTotal: params.newInvoiceTotal,
+          taxName: params.newTaxName,
+          tax: params.newTax,
+          discountName: params.newDiscountName,
+          discount: params.newDiscount,
+          additionalChargeName: params.newAdditionalChargeName,
+          additionalCharge: params.newAdditionalCharge,
+
+          items: params.newItems,
+
+          notes: params.newItems,
+          footer: params.newFooter,
+
+          companyName: params.newCompanyName,
+          companyAddressL1: params.newCompanyAddressL1,
+          companyAddressL2: params.newCompanyAddressL2,
+          companyCity: params.newCompanyCity,
+          companyZip: params.newCompanyZip,
+          companyCountry: params.newCompanyCountry,
+          companyProvince: params.newCompanyProvince,
+          companyPhone: params.newCompanyPhone,
+          companyWebsite: params.newCompanyWebsite,
+          companyFax: params.newCompanyFax,
+          companyEmail: params.newCompanyEmail,
+          companyAccount: params.newCompanyAccount,
+          companyBankAccountHolder: params.newCompanyBankAccountHolder,
+          companyBankName: params.newCompanyBankName,
+          companyBankAddress: params.newCompanyBankAddress,
+          companySWIFT: params.newCompanySWIFT,
+          companyBIC: params.newCompanyBIC,
+          companyIBAN: params.newCompanyIBAN,
+          companyPayPalinfo: params.newCompanyPayPalinfo,
+          companyOtherBilling: params.newCompanyOtherBilling,
+
+          customerName: params.newCustomerName,
+          customerAddressL1: params.newCustomerAddressL1,
+          customerAddressL2: params.newCustomerAddressL2,
+          customerCity: params.newCustomerCity,
+          customerZip: params.newCustomerZip,
+          customerCountry: params.newCustomerCountry,
+          customerProvince: params.newCustomerProvince,
+          customerPhone: params.newCustomerPhone,
+          customerEmail: params.newCustomerEmail,
+          customerContactFirstName: params.newCustomerContactFirstName,
+          customerContactLastName: params.newCustomerContactLastName,
+          customerWebsite: params.newCustomerWebsite,
+          customerFax: params.newCustomerFax,
+          customerAccountNumber: params.newCustomerAccountNumber
+        }
       })
     }).then(function (response) {
       if (response.status >= 400) {
@@ -60483,4 +60767,4 @@ function getInvoices() {
   };
 }
 
-},{"isomorphic-fetch":529}]},{},[844]);
+},{"isomorphic-fetch":529}]},{},[846]);
