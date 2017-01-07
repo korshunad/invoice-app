@@ -173,12 +173,15 @@ class BillFrom extends React.Component{
     this.setState({ visible: false });
   }
   handleCreate() {
+    const self=this;
     const form = this.form;
     form.validateFields((err, values) => {
       if (err) {
         return;
       }
-
+      self.props.addCompanyHandler({
+        newCompanyName: values.name
+      })
       console.log('Received values of form: ', values);
       form.resetFields();
       this.setState({ visible: false });
@@ -197,6 +200,7 @@ class BillFrom extends React.Component{
           ref={this.saveFormRef}
           visible={this.state.visible}
           onCancel={this.handleCancel}
+          addCompanyHandler={this.props.addCompanyHandler}
           onCreate={this.handleCreate}
         />
       </div>

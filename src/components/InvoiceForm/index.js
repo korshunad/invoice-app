@@ -7,8 +7,9 @@ import 'moment/locale/ru';
 import BillFrom from 'components/BillFrom'
 import BillTo from 'components/BillTo'
 import {currencies} from './currencies'
+import { addInvoice, submitInvoice } from 'redux/modules/api'
 
-console.log(JSON.stringify(currencies["USD"]))
+//console.log(JSON.stringify(currencies["USD"]))
 moment.locale('en')
 const FormItem = Form.Item;
 let itemTotal = 0;
@@ -121,14 +122,16 @@ class InvoiceForm extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
+    const self=this;
     this.props.form.validateFields( function checker (err, values)  {
       if (!err) {
         console.log('Received values of form: ', values);
+    self.props.addInvoiceHandler({
+      newInvoiceTitle: values.invoiceName
+       });
       }
     })
- /*   this.props.addInvoiceHandler({
-      newInvoiceTitle: this.state.newInvoiceTitle
-    });*/
+
   }
   render() {
     const dateFormat = 'DD.MM.YYYY';
@@ -315,7 +318,7 @@ let total=0;
               {getFieldDecorator('companyContacts', {
               })(
                 <div>
-                  <BillFrom />
+                  <BillFrom addCompanyHandler={this.props.addCompanyHandler}/>
                 </div>
               )}
             </FormItem>
@@ -365,7 +368,7 @@ let total=0;
               wrapperCol={{ span: 8 }}
             >
                 <div>
-                  <BillTo />
+                  <BillTo  />
                 </div>
             </FormItem>
           </Col>

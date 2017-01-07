@@ -58467,12 +58467,15 @@ var BillFrom = function (_React$Component2) {
     value: function handleCreate() {
       var _this4 = this;
 
+      var self = this;
       var form = this.form;
       form.validateFields(function (err, values) {
         if (err) {
           return;
         }
-
+        self.props.addCompanyHandler({
+          newCompanyName: values.name
+        });
         console.log('Received values of form: ', values);
         form.resetFields();
         _this4.setState({ visible: false });
@@ -58498,6 +58501,7 @@ var BillFrom = function (_React$Component2) {
           ref: this.saveFormRef,
           visible: this.state.visible,
           onCancel: this.handleCancel,
+          addCompanyHandler: this.props.addCompanyHandler,
           onCreate: this.handleCreate
         })
       );
@@ -59627,6 +59631,8 @@ var _BillTo2 = _interopRequireDefault(_BillTo);
 
 var _currencies = require('./currencies');
 
+var _api = require('redux/modules/api');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -59637,7 +59643,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-console.log(JSON.stringify(_currencies.currencies["USD"]));
+//console.log(JSON.stringify(currencies["USD"]))
 _moment2.default.locale('en');
 var FormItem = _form2.default.Item;
 var itemTotal = 0;
@@ -59777,14 +59783,15 @@ var InvoiceForm = function (_React$Component) {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
       e.preventDefault();
+      var self = this;
       this.props.form.validateFields(function checker(err, values) {
         if (!err) {
           console.log('Received values of form: ', values);
+          self.props.addInvoiceHandler({
+            newInvoiceTitle: values.invoiceName
+          });
         }
       });
-      /*   this.props.addInvoiceHandler({
-           newInvoiceTitle: this.state.newInvoiceTitle
-         });*/
     }
   }, {
     key: 'render',
@@ -60040,7 +60047,7 @@ var InvoiceForm = function (_React$Component) {
                 getFieldDecorator('companyContacts', {})(_react2.default.createElement(
                   'div',
                   null,
-                  _react2.default.createElement(_BillFrom2.default, null)
+                  _react2.default.createElement(_BillFrom2.default, { addCompanyHandler: this.props.addCompanyHandler })
                 ))
               )
             ),
@@ -60481,7 +60488,7 @@ var InvoiceForm = function (_React$Component) {
 InvoiceForm = _form2.default.create({})(InvoiceForm);
 exports.default = InvoiceForm;
 
-},{"./_InvoiceForm.css":841,"./currencies":842,"antd/lib/button":9,"antd/lib/button/style/css":10,"antd/lib/col":13,"antd/lib/col/style/css":14,"antd/lib/date-picker":18,"antd/lib/date-picker/style/css":21,"antd/lib/form":27,"antd/lib/form/style/css":28,"antd/lib/icon":35,"antd/lib/icon/style/css":36,"antd/lib/input":44,"antd/lib/input-number":37,"antd/lib/input-number/style/css":38,"antd/lib/input/style/css":45,"antd/lib/locale-provider":48,"antd/lib/locale-provider/en_US":47,"antd/lib/locale-provider/style/css":49,"antd/lib/row":57,"antd/lib/row/style/css":58,"antd/lib/select":59,"antd/lib/select/style/css":60,"components/BillFrom":838,"components/BillTo":840,"moment":546,"moment/locale/ru":544,"react":821}],844:[function(require,module,exports){
+},{"./_InvoiceForm.css":841,"./currencies":842,"antd/lib/button":9,"antd/lib/button/style/css":10,"antd/lib/col":13,"antd/lib/col/style/css":14,"antd/lib/date-picker":18,"antd/lib/date-picker/style/css":21,"antd/lib/form":27,"antd/lib/form/style/css":28,"antd/lib/icon":35,"antd/lib/icon/style/css":36,"antd/lib/input":44,"antd/lib/input-number":37,"antd/lib/input-number/style/css":38,"antd/lib/input/style/css":45,"antd/lib/locale-provider":48,"antd/lib/locale-provider/en_US":47,"antd/lib/locale-provider/style/css":49,"antd/lib/row":57,"antd/lib/row/style/css":58,"antd/lib/select":59,"antd/lib/select/style/css":60,"components/BillFrom":838,"components/BillTo":840,"moment":546,"moment/locale/ru":544,"react":821,"redux/modules/api":847}],844:[function(require,module,exports){
 module.exports = {"page":"_src_containers_App_App__page"}
 },{}],845:[function(require,module,exports){
 'use strict';
@@ -60539,7 +60546,18 @@ var App = function (_React$Component) {
       this.props.dispatch((0, _api.addInvoice)({
         newInvoiceTitle: params.newInvoiceTitle
       }));
-      console.log("helloInvoice Adder");
+      console.log("helloInvoice Adder" + JSON.stringify(params));
+      console.log(JSON.stringify(this.props.formData) + " formdata from helloinvoice");
+      console.log(this.props.dispatch((0, _api.submitInvoice)()));
+      this.props.dispatch((0, _api.submitInvoice)());
+    }
+  }, {
+    key: 'addCompanyHandler',
+    value: function addCompanyHandler(params) {
+      this.props.dispatch((0, _api.addCompany)({
+        newCompanyName: params.newCompanyName
+      }));
+      console.log(JSON.stringify(params) + " this is adding company info");
     }
   }, {
     key: 'render',
@@ -60553,7 +60571,8 @@ var App = function (_React$Component) {
           { className: _App2.default.page },
           _react2.default.createElement(_InvoiceForm2.default, {
             invoices: this.props.invoices,
-            addInvoiceHandler: this.addInvoiceHandler.bind(this)
+            addInvoiceHandler: this.addInvoiceHandler.bind(this),
+            addCompanyHandler: this.addCompanyHandler.bind(this)
           })
         )
       );
@@ -60565,7 +60584,8 @@ var App = function (_React$Component) {
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    invoices: state.api.invoices
+    invoices: state.api.invoices,
+    formData: state.api.formData
   };
 };
 
@@ -60622,23 +60642,100 @@ Object.defineProperty(exports, "__esModule", {
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.default = api;
+exports.submitInvoice = submitInvoice;
 exports.addInvoice = addInvoice;
+exports.addCompany = addCompany;
 exports.getInvoices = getInvoices;
 
 var _isomorphicFetch = require('isomorphic-fetch');
 
 var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ADD_INVOICE = 'ADD_INVOICE';
 var ADD_INVOICE_SUCCESS = 'ADD_INVOICE_SUCCESS';
 
+var SUBMIT_INVOICE = 'SUBMIT_INVOICE';
+var SUBMIT_INVOICE_SUCCESS = 'SUBMIT_INVOICE_SUCCESS';
+
+var ADD_COMPANY = 'ADD_COMPANY';
+var ADD_COMPANY_SUCCESS = 'ADD_COMPANY_SUCCESS';
+
 var GET_INVOICES = 'GET_INVOICES';
 var GET_INVOICES_SUCCESS = 'GET_INVOICES_SUCCESS';
 
 var initialState = {
-  invoices: []
+  invoices: [],
+  formData: {
+    invoiceTitle: null,
+    invoiceSummary: null,
+    invoiceNumber: null,
+    invoiceDate: null,
+
+    paymentdue: null,
+
+    itemsName: null,
+    unitPriceName: null,
+    quantityName: null,
+    totalName: null,
+
+    currency: null,
+
+    invoiceTotal: null,
+    taxName: null,
+    tax: null,
+    discountName: null,
+    discount: null,
+    additionalChargeName: null,
+    additionalCharge: null,
+
+    items: null,
+
+    notes: null,
+    footer: null,
+
+    companyName: null,
+    companyAddressL1: null,
+    companyAddressL2: null,
+    companyCity: null,
+    companyZip: null,
+    companyCountry: null,
+    companyProvince: null,
+    companyPhone: null,
+    companyWebsite: null,
+    companyFax: null,
+    companyEmail: null,
+    companyAccount: null,
+    companyBankAccountHolder: null,
+    companyBankName: null,
+    companyBankAddress: null,
+    companySWIFT: null,
+    companyBIC: null,
+    companyIBAN: null,
+    companyPayPalinfo: null,
+    companyOtherBilling: null,
+
+    customerName: null,
+    customerAddressL1: null,
+    customerAddressL2: null,
+    customerCity: null,
+    customerZip: null,
+    customerCountry: null,
+    customerProvince: null,
+    customerPhone: null,
+    customerEmail: null,
+    customerContactFirstName: null,
+    customerContactLastName: null,
+    customerWebsite: null,
+    customerFax: null,
+    customerAccountNumber: null
+
+  }
 };
 
 function api() {
@@ -60654,105 +60751,117 @@ function api() {
       return _extends({}, state, {
         invoices: action.invoices
       });
-    case ADD_INVOICE_SUCCESS:
+    case SUBMIT_INVOICE_SUCCESS:
       var newInvoices = state.invoices.slice(0);
       newInvoices.push(action.invoice);
       return _extends({}, state, {
         invoices: newInvoices
       });
-
+    case ADD_INVOICE:
+      return Object.assign({}, state, {
+        formData: action.formData
+      });
+    case ADD_COMPANY_SUCCESS:
+      return Object.assign({}, state, {
+        formData: action.company
+      });
     default:
       return state;
   }
 }
 
-function addInvoice(params) {
+function submitInvoice() {
   return function (dispatch, getState) {
-    dispatch({ type: ADD_INVOICE });
+    dispatch({ type: SUBMIT_INVOICE });
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
-    (0, _isomorphicFetch2.default)('/api/goods', {
+    console.log(JSON.stringify(getState().api.formData) + "getState");
+    (0, _isomorphicFetch2.default)('/invoices/invoices', {
       method: 'post',
       headers: myHeaders,
       mode: 'cors',
       cache: 'default',
       body: JSON.stringify({
-        invoice: {
-          invoiceTitle: params.newInvoiceTitle,
-          invoiceSummary: params.newInvoiceSummary,
-          invoiceNumber: params.newInvoiceNumber,
-          invoiceDate: params.newInvoiceDate,
+        invoice: getState().api.formData
 
-          paymentdue: params.newPaymentDue,
-
-          itemsName: params.newItemsName,
-          unitPriceName: params.newUnitPriceName,
-          quantityName: params.newQuantityName,
-          totalName: params.newTotalName,
-
-          currency: params.newCurrency,
-
-          invoiceTotal: params.newInvoiceTotal,
-          taxName: params.newTaxName,
-          tax: params.newTax,
-          discountName: params.newDiscountName,
-          discount: params.newDiscount,
-          additionalChargeName: params.newAdditionalChargeName,
-          additionalCharge: params.newAdditionalCharge,
-
-          items: params.newItems,
-
-          notes: params.newItems,
-          footer: params.newFooter,
-
-          companyName: params.newCompanyName,
-          companyAddressL1: params.newCompanyAddressL1,
-          companyAddressL2: params.newCompanyAddressL2,
-          companyCity: params.newCompanyCity,
-          companyZip: params.newCompanyZip,
-          companyCountry: params.newCompanyCountry,
-          companyProvince: params.newCompanyProvince,
-          companyPhone: params.newCompanyPhone,
-          companyWebsite: params.newCompanyWebsite,
-          companyFax: params.newCompanyFax,
-          companyEmail: params.newCompanyEmail,
-          companyAccount: params.newCompanyAccount,
-          companyBankAccountHolder: params.newCompanyBankAccountHolder,
-          companyBankName: params.newCompanyBankName,
-          companyBankAddress: params.newCompanyBankAddress,
-          companySWIFT: params.newCompanySWIFT,
-          companyBIC: params.newCompanyBIC,
-          companyIBAN: params.newCompanyIBAN,
-          companyPayPalinfo: params.newCompanyPayPalinfo,
-          companyOtherBilling: params.newCompanyOtherBilling,
-
-          customerName: params.newCustomerName,
-          customerAddressL1: params.newCustomerAddressL1,
-          customerAddressL2: params.newCustomerAddressL2,
-          customerCity: params.newCustomerCity,
-          customerZip: params.newCustomerZip,
-          customerCountry: params.newCustomerCountry,
-          customerProvince: params.newCustomerProvince,
-          customerPhone: params.newCustomerPhone,
-          customerEmail: params.newCustomerEmail,
-          customerContactFirstName: params.newCustomerContactFirstName,
-          customerContactLastName: params.newCustomerContactLastName,
-          customerWebsite: params.newCustomerWebsite,
-          customerFax: params.newCustomerFax,
-          customerAccountNumber: params.newCustomerAccountNumber
-        }
       })
     }).then(function (response) {
       if (response.status >= 400) {
+        console.log(JSON.stringify(response) + "response");
         throw new Error("Bad response from server");
       };
       return response.json();
     }).then(function (invoiceResponse) {
-      dispatch({ type: ADD_INVOICE_SUCCESS, invoice: invoiceResponse.invoice });
+      dispatch({ type: SUBMIT_INVOICE_SUCCESS, invoice: invoiceResponse.invoice });
     });
   };
 }
+function addInvoice(params) {
+  return function (dispatch, getState) {
+    dispatch({
+      type: ADD_INVOICE,
+      formData: {
 
+        invoiceTitle: params.newInvoiceTitle,
+        invoiceSummary: params.newInvoiceSummary,
+        invoiceNumber: params.newInvoiceNumber,
+        invoiceDate: params.newInvoiceDate,
+
+        paymentdue: params.newPaymentDue,
+
+        itemsName: params.newItemsName,
+        unitPriceName: params.newUnitPriceName,
+        quantityName: params.newQuantityName,
+        totalName: params.newTotalName,
+
+        currency: params.newCurrency,
+
+        invoiceTotal: params.newInvoiceTotal,
+        taxName: params.newTaxName,
+        tax: params.newTax,
+        discountName: params.newDiscountName,
+        discount: params.newDiscount,
+        additionalChargeName: params.newAdditionalChargeName,
+        additionalCharge: params.newAdditionalCharge,
+
+        items: params.newItems,
+
+        notes: params.newItems,
+        footer: params.newFooter
+      }
+    });
+  };
+}
+function addCompany(params) {
+  return function (dispatch, getState) {
+    dispatch({
+      type: ADD_COMPANY,
+      company: {
+
+        companyName: params.newCompanyName,
+        companyAddressL1: params.newCompanyAddressL1,
+        companyAddressL2: params.newCompanyAddressL2,
+        companyCity: params.newCompanyCity,
+        companyZip: params.newCompanyZip,
+        companyCountry: params.newCompanyCountry,
+        companyProvince: params.newCompanyProvince,
+        companyPhone: params.newCompanyPhone,
+        companyWebsite: params.newCompanyWebsite,
+        companyFax: params.newCompanyFax,
+        companyEmail: params.newCompanyEmail,
+        companyAccount: params.newCompanyAccount,
+        companyBankAccountHolder: params.newCompanyBankAccountHolder,
+        companyBankName: params.newCompanyBankName,
+        companyBankAddress: params.newCompanyBankAddress,
+        companySWIFT: params.newCompanySWIFT,
+        companyBIC: params.newCompanyBIC,
+        companyIBAN: params.newCompanyIBAN,
+        companyPayPalinfo: params.newCompanyPayPalinfo,
+        companyOtherBilling: params.newCompanyOtherBilling
+      }
+    });
+  };
+}
 function getInvoices() {
   return function (dispatch, getState) {
     dispatch({ type: GET_INVOICES });
@@ -60767,4 +60876,6 @@ function getInvoices() {
   };
 }
 
-},{"isomorphic-fetch":529}]},{},[846]);
+var someinvoice = void 0;
+
+},{"isomorphic-fetch":529,"object-assign":547}]},{},[846]);

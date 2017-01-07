@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './_App.css'
 import { connect } from 'react-redux'
-import {getInvoices, addInvoice} from 'redux/modules/api'
+import {getInvoices, addInvoice, submitInvoice, addCompany} from 'redux/modules/api'
 import InvoiceForm from 'components/InvoiceForm'
 
 
@@ -16,9 +16,18 @@ class App extends React.Component {
   }
   addInvoiceHandler(params) {
     this.props.dispatch(addInvoice({
-      newInvoiceTitle: params.newInvoiceTitle,
+      newInvoiceTitle: params.newInvoiceTitle
     }))
-    console.log("helloInvoice Adder")
+    console.log("helloInvoice Adder"+JSON.stringify(params))
+    console.log(JSON.stringify(this.props.formData)+" formdata from helloinvoice")
+    console.log(this.props.dispatch(submitInvoice()))
+    this.props.dispatch(submitInvoice())
+  }
+  addCompanyHandler(params) {
+    this.props.dispatch(addCompany({
+      newCompanyName: params.newCompanyName
+    }))
+    console.log(JSON.stringify(params)+" this is adding company info")
   }
 
   render() {
@@ -29,6 +38,7 @@ class App extends React.Component {
           <InvoiceForm  
             invoices={this.props.invoices}
             addInvoiceHandler={this.addInvoiceHandler.bind(this)}
+            addCompanyHandler={this.addCompanyHandler.bind(this)}
            />
         </div>
       </div>
@@ -39,7 +49,8 @@ class App extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    invoices: state.api.invoices 
+    invoices: state.api.invoices,
+    formData: state.api.formData 
   };
 };
 

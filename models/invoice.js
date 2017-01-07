@@ -12,10 +12,10 @@ const itemSchema = new mongoose.Schema({
 
 const invoiceSchema = new mongoose.Schema( {
 
-  invoiceTitle: {type: String, default: 'Invoice', required: true},
+  invoiceTitle: {type: String/*, default: 'Invoice', required: true*/},
   invoiceSummary: {type: String},
   invoiceNumber: {type: Number},
-  invoiceDate: {type: Date, required: true},
+  invoiceDate: {type: Date/*, required: true*/},
   paymentdue: {type: Date},
 
   itemsName: {type: String, default: 'ITEMS'},
@@ -25,7 +25,7 @@ const invoiceSchema = new mongoose.Schema( {
 
   currency: {type: String},
 
-  invoiceTotal: {type: Number, required: true},
+  invoiceTotal: {type: Number/*, required: true*/},
   taxName: {type: String},
   tax: {type: Number},
   discountName: {type: String},
@@ -38,7 +38,7 @@ const invoiceSchema = new mongoose.Schema( {
   notes: {type: String},
   footer: {type: String},
 
-  companyName: {type: String, required: true},
+  companyName: {type: String/*, required: true*/},
   companyAddressL1: {type: String},
   companyAddressL2: {type: String},
   companyCity: {type: String},
@@ -59,7 +59,7 @@ const invoiceSchema = new mongoose.Schema( {
   companyPayPalinfo: {type: String},  
   companyOtherBilling: {type: String},  
 
-  customerName: {type: String, required: true},
+  customerName: {type: String/*, required: true*/},
   customerAccount: {type: String},
   customerAddressL1: {type: String},
   customerAddressL2: {type: String},
