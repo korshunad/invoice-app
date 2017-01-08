@@ -10,21 +10,31 @@ class BillFromForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={country: '', region: ''};
+    this.state={regionData:{country: '', region: ''}};
     this.selectCountry=this.selectCountry.bind(this);
     this.selectRegion=this.selectRegion.bind(this);
   }
   selectCountry (val) {
-    this.setState({ country: val });
+    var self = this;
+    let copyRegion=this.state.regionData
+    copyRegion["country"]=val
+    this.setState({ regionData: copyRegion }, function(){
+                   self.props.onValueChange(self.state.regionData); 
+                });
   }
  
   selectRegion (val) {
-    this.setState({ region: val });
+    var self=this;
+    let copyRegion=this.state.regionData
+    copyRegion["region"]=val
+    this.setState({ regionData: copyRegion }, function(){
+      self.props.onValueChange(self.state.regionData);
+    });
   } 
   render() { 
     const { visible, onCancel, onCreate, form } = this.props;
     const { getFieldDecorator } = this.props.form;
-    const { country, region } = this.state;
+//    const { country, region } = this.state;
     return (
       <Modal
         visible={visible}
@@ -51,7 +61,7 @@ class BillFromForm extends React.Component {
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="E-mail">
-                {getFieldDecorator('E-mail')(
+                {getFieldDecorator('Email')(
                   <Input />
                 )}
               </FormItem>
@@ -90,20 +100,20 @@ class BillFromForm extends React.Component {
               </FormItem>
               <FormItem className={styles.formPart}  label="Country">
                   <CountryDropdown className={styles.antd}
-                    value={country}
+                    value={this.state.regionData["country"]}
                     onChange={(val) => this.selectCountry(val)} />
               </FormItem>
               <FormItem className={styles.formPart}  label="Province">
                 <RegionDropdown className={styles.antd}
-                  country={country}
-                  value={region}
+                  country={this.state.regionData["country"]}
+                  value={this.state.regionData["region"]}
                   onChange={(val) => this.selectRegion(val)} />
               </FormItem>
 
             < /TabPane>
             <TabPane tab="Billing" key="3">
               <FormItem className={styles.formPart}  label="Bank account holder name">
-                {getFieldDecorator('holder name')(
+                {getFieldDecorator('holderName')(
                   <Input />
                 )}
               </FormItem>
@@ -123,12 +133,12 @@ class BillFromForm extends React.Component {
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="Bank name">
-                {getFieldDecorator('Bank name')(
+                {getFieldDecorator('bankName')(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="Bank address">
-                {getFieldDecorator('bank address')(
+                {getFieldDecorator('bankAddress')(
                   <Input />
                 )}
               </FormItem>
@@ -143,7 +153,7 @@ class BillFromForm extends React.Component {
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="Other billing information">
-                {getFieldDecorator('other bill')(
+                {getFieldDecorator('otherBill')(
                   <Input />
                 )}
               </FormItem>
@@ -160,12 +170,16 @@ BillFromForm=Form.create({})(BillFromForm)
 class BillFrom extends React.Component{
   constructor(props) {
     super(props);
-    this.state={visible: false};
+    this.state={visible: false, regionData:{country: '', region: ''}};
     this.showModal=this.showModal.bind(this);
     this.handleCancel=this.handleCancel.bind(this);
     this.handleCreate=this.handleCreate.bind(this);
     this.saveFormRef=this.saveFormRef.bind(this);
+    this._updateOnChange=this._updateOnChange.bind(this);
   }
+  _updateOnChange(value) {
+    this.setState({regionData: value})
+            }
   showModal() {
     this.setState({ visible: true });
   }
@@ -180,7 +194,27 @@ class BillFrom extends React.Component{
         return;
       }
       self.props.addCompanyHandler({
-        newCompanyName: values.name
+        newCompanyName: values.name,
+        
+        newCompanyAddressL1: values.address1,
+        newCompanyAddressL2: values.address2,
+        newCompanyCity: values.city,
+        newCompanyZip: values.ZIP,
+        newCompanyCountry: self.state.regionData["country"],
+        newCompanyProvince: self.state.regionData["region"],
+        newCompanyPhone: values.Phone,
+        newCompanyWebsite: values.Website,
+        newCompanyFax: values.Fax,
+        newCompanyEmail: values.Email,
+        newCompanyAccount: values.account,
+        newCompanyBankAccountHolder: values.holderName,
+        newCompanyBankName: values.bankName,
+        newCompanyBankAddress: values.bankAddress,
+        newCompanySWIFT: values.SWIFT,  
+        newCompanyBIC:  values.BIC,  
+        newCompanyIBAN:  values.IBAN,  
+        newCompanyPayPalinfo:  values.PayPal,  
+        newCompanyOtherBilling:  values.otherBill,  
       })
       console.log('Received values of form: ', values);
       form.resetFields();
@@ -201,6 +235,7 @@ class BillFrom extends React.Component{
           visible={this.state.visible}
           onCancel={this.handleCancel}
           addCompanyHandler={this.props.addCompanyHandler}
+          onValueChange={this._updateOnChange}
           onCreate={this.handleCreate}
         />
       </div>

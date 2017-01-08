@@ -10,21 +10,30 @@ class BillToForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={country: '', region: ''};
+    this.state={regionData:{country: '', region: ''}};
     this.selectCountry=this.selectCountry.bind(this);
     this.selectRegion=this.selectRegion.bind(this);
   }
   selectCountry (val) {
-    this.setState({ country: val });
+    var self = this;
+    let copyRegion=this.state.regionData
+    copyRegion["country"]=val
+    this.setState({ regionData: copyRegion }, function(){
+                   self.props.onValueChange(self.state.regionData); 
+                });
   }
  
   selectRegion (val) {
-    this.setState({ region: val });
+    var self=this;
+    let copyRegion=this.state.regionData
+    copyRegion["region"]=val
+    this.setState({ regionData: copyRegion }, function(){
+      self.props.onValueChange(self.state.regionData);
+    });
   } 
   render() { 
     const { visible, onCancel, onCreate, form } = this.props;
     const { getFieldDecorator } = this.props.form;
-    const { country, region } = this.state;
     return (
       <Modal
         visible={visible}
@@ -46,12 +55,12 @@ class BillToForm extends React.Component {
                 )}
               </FormItem>
               <FormItem  className={styles.formPart} label="Contact first name"> 
-                {getFieldDecorator('first name')(
+                {getFieldDecorator('firstName')(
                   <Input />
                 )}
               </FormItem>
               <FormItem  className={styles.formPart} label="Contact last name">
-                {getFieldDecorator('last name')(
+                {getFieldDecorator('lastName')(
                   <Input />
                 )}
               </FormItem>
@@ -86,13 +95,13 @@ class BillToForm extends React.Component {
               </FormItem>
               <FormItem className={styles.formPart}  label="Country">
                   <CountryDropdown className={styles.antd}
-                    value={country}
+                    value={this.state.regionData["country"]}
                     onChange={(val) => this.selectCountry(val)} />
               </FormItem>
               <FormItem className={styles.formPart}  label="Province">
                 <RegionDropdown className={styles.antd}
-                  country={country}
-                  value={region}
+                  country={this.state.regionData["country"]}
+                  value={this.state.regionData["region"]}
                   onChange={(val) => this.selectRegion(val)} />
               </FormItem>
 
@@ -104,7 +113,7 @@ class BillToForm extends React.Component {
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="E-mail">
-                {getFieldDecorator('E-mail')(
+                {getFieldDecorator('Email')(
                   <Input />
                 )}
               </FormItem>
@@ -136,6 +145,10 @@ class BillTo extends React.Component{
     this.handleCancel=this.handleCancel.bind(this);
     this.handleCreate=this.handleCreate.bind(this);
     this.saveFormRef=this.saveFormRef.bind(this);
+    this._updateOnChange=this._updateOnChange.bind(this);
+  }
+  _updateOnChange(value) {
+    this.setState({regionData: value})
   }
   showModal() {
     this.setState({ visible: true });
@@ -144,12 +157,30 @@ class BillTo extends React.Component{
     this.setState({ visible: false });
   }
   handleCreate() {
+    const self=this;
     const form = this.form;
     form.validateFields((err, values) => {
       if (err) {
         return;
       }
-
+      self.props.addCustomerHandler({
+        
+        newCustomerName: values.name,
+        newCustomerAddressL1: values.address1,
+        newCustomerAddressL2: values.address2,
+        newCustomerCity: values.city,
+        newCustomerZip: values.ZIP,
+        newCustomerCountry: self.state.regionData["country"],
+        newCustomerProvince: self.state.regionData["region"],
+        newCustomerPhone: values.Phone,
+        newCustomerEmail: values.Email,
+        newCustomerContactFirstName: values.firstName,
+        newCustomerContactLastName: values.lastName,
+        newCustomerWebsite: values.Website,
+        newCustomerFax: values.Fax,
+        newCustomerAccountNumber: values.Account,
+        
+      })
       console.log('Received values of form: ', values);
       form.resetFields();
       this.setState({ visible: false });
@@ -168,6 +199,8 @@ class BillTo extends React.Component{
           ref={this.saveFormRef}
           visible={this.state.visible}
           onCancel={this.handleCancel}
+          addCustomerHandler={this.props.addCustomerHandler}
+          onValueChange={this._updateOnChange}
           onCreate={this.handleCreate}
         />
       </div>

@@ -24,6 +24,9 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/pdf', (req, res) => {
+res.render('pdf', { message: 'Hello there!' })
+});
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)
 });

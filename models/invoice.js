@@ -18,16 +18,18 @@ const invoiceSchema = new mongoose.Schema( {
   invoiceDate: {type: Date/*, required: true*/},
   paymentdue: {type: Date},
 
-  itemsName: {type: String, default: 'ITEMS'},
-  unitPriceName: {type: String, default: 'UNIT PRICE'},
-  quantityName: {type: String, default: 'QUANTITY'},
-  totalName: {type: String, default: 'TOTAL'},
+  itemsName: {type: String/*, default: 'ITEMS'*/},
+  itemsDescriptionName: {type:String/*, default: 'DESCRIPTION'*/},
+  unitPriceName: {type: String/*, default: 'UNIT PRICE'*/},
+  quantityName: {type: String/*, default: 'QUANTITY'*/},
+  totalName: {type: String/*, default: 'TOTAL'*/},
 
   currency: {type: String},
 
   invoiceTotal: {type: Number/*, required: true*/},
   taxName: {type: String},
   tax: {type: Number},
+  taxType: {type: String},
   discountName: {type: String},
   discount: {type: Number},
   additionalChargeName: {type: String},

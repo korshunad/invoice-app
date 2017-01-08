@@ -10,13 +10,16 @@ const SUBMIT_INVOICE_SUCCESS = 'SUBMIT_INVOICE_SUCCESS'
 const ADD_COMPANY = 'ADD_COMPANY'
 const ADD_COMPANY_SUCCESS = 'ADD_COMPANY_SUCCESS'
 
+const ADD_CUSTOMER= 'ADD_CUSTOMER'
+const ADD_CUSTOMER_SUCCESS = 'ADD_CUSTOMER_SUCCESS'
+
 const GET_INVOICES = 'GET_INVOICES'
 const GET_INVOICES_SUCCESS = 'GET_INVOICES_SUCCESS'
 
 const initialState = {
   invoices: [],
   formData: {
-          invoiceTitle: null, 
+/*          invoiceTitle: null, 
           invoiceSummary: null, 
           invoiceNumber: null, 
           invoiceDate: null, 
@@ -78,7 +81,7 @@ const initialState = {
           customerWebsite: null, 
           customerFax: null, 
           customerAccountNumber: null, 
-    
+  */  
   }
 }
 
@@ -98,18 +101,29 @@ export default function api (state = initialState, action = {}) {
     case SUBMIT_INVOICE_SUCCESS:
       let newInvoices = state.invoices.slice(0);
       newInvoices.push(action.invoice);
+      console.log("SUBMIT_INVOICE "+JSON.stringify(newInvoices))
       return {
         ...state,
         invoices: newInvoices
       };
     case ADD_INVOICE:
-      return Object.assign({}, state, {
-        formData: action.formData
-      })
-    case ADD_COMPANY_SUCCESS:
-      return Object.assign({}, state, {
-        formData: action.company
-      })
+    let overallInfo=Object.assign({}, state.formData, action.formData)
+
+      return Object.assign({}, state,
+       {formData: overallInfo}
+      )
+    case ADD_COMPANY:
+    let companyData=Object.assign({}, state.formData, 
+      action.formData)
+    console.log("ADD_COMPANY "+JSON.stringify(companyData))
+      return Object.assign({}, state, {formData:companyData}) 
+
+    case ADD_CUSTOMER:
+    let customerData=Object.assign({}, state.formData, 
+      action.formData)
+    console.log("ADD_CUSTOMER "+JSON.stringify(customerData))
+      return Object.assign({}, state, {formData:customerData}) 
+
     default:
       return state;
   }
@@ -159,6 +173,7 @@ export function addInvoice(params) {
           paymentdue: params.newPaymentDue,
 
           itemsName: params.newItemsName,
+          itemsDescriptionName: params.newItemsDescriptionName,
           unitPriceName: params.newUnitPriceName,
           quantityName: params.newQuantityName,
           totalName: params.newTotalName,
@@ -168,6 +183,7 @@ export function addInvoice(params) {
           invoiceTotal: params.newInvoiceTotal,
           taxName: params.newTaxName,
           tax: params.newTax,
+          taxType: params.newTaxType,
           discountName: params.newDiscountName,
           discount: params.newDiscount,
           additionalChargeName: params.newAdditionalChargeName,
@@ -175,7 +191,7 @@ export function addInvoice(params) {
 
           items: params.newItems,  
 
-          notes: params.newItems,
+          notes: params.newNotes,
           footer: params.newFooter,
       } 
     });
@@ -185,7 +201,7 @@ export function addCompany(params) {
   return (dispatch, getState) => {
     dispatch({
       type:ADD_COMPANY, 
-      company: {
+      formData: {
                 
           companyName: params.newCompanyName,
           companyAddressL1: params.newCompanyAddressL1,
@@ -207,6 +223,32 @@ export function addCompany(params) {
           companyIBAN:  params.newCompanyIBAN,  
           companyPayPalinfo:  params.newCompanyPayPalinfo,  
           companyOtherBilling:  params.newCompanyOtherBilling,  
+      }
+    })
+  }
+}
+export function addCustomer(params) {
+  return (dispatch, getState) => {
+    dispatch({
+      type:ADD_CUSTOMER,
+
+      formData: {
+
+          customerName: params.newCustomerName,
+          customerAddressL1: params.newCustomerAddressL1,
+          customerAddressL2: params.newCustomerAddressL2,
+          customerCity: params.newCustomerCity,
+          customerZip: params.newCustomerZip,
+          customerCountry: params.newCustomerCountry,
+          customerProvince: params.newCustomerProvince,
+          customerPhone: params.newCustomerPhone,
+          customerEmail: params.newCustomerEmail,
+          customerContactFirstName: params.newCustomerContactFirstName,
+          customerContactLastName: params.newCustomerContactLastName,
+          customerWebsite: params.newCustomerWebsite,
+          customerFax: params.newCustomerFax,
+          customerAccountNumber: params.newCustomerAccountNumber,
+                
       }
     })
   }
