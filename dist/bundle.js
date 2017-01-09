@@ -59887,7 +59887,7 @@ var InvoiceForm = function (_React$Component) {
           newInvoiceNumber: values.invoiceNumber,
           newInvoiceDate: values.invoiceDate,
 
-          newPaymentdue: values.paymentDue,
+          newPaymentDue: values.paymentDue,
 
           newItemsName: values.items,
           newItemsDescriptionName: values.itemsDescription,
@@ -60695,7 +60695,7 @@ var App = function (_React$Component) {
         newInvoiceNumber: params.newInvoiceNumber,
         newInvoiceDate: params.newInvoiceDate,
 
-        newPaymentdue: params.newPaymentDue,
+        newPaymentDue: params.newPaymentDue,
 
         newItemsName: params.newItemsName,
         newItemsDescriptionName: params.newItemsDescriptionName,
@@ -61002,7 +61002,7 @@ function submitInvoice() {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     console.log(JSON.stringify(getState().api.formData) + "getState");
-    (0, _isomorphicFetch2.default)('/invoices/invoices', {
+    (0, _isomorphicFetch2.default)('/invoices', {
       method: 'post',
       headers: myHeaders,
       mode: 'cors',
@@ -61033,7 +61033,7 @@ function addInvoice(params) {
         invoiceNumber: params.newInvoiceNumber,
         invoiceDate: params.newInvoiceDate,
 
-        paymentdue: params.newPaymentDue,
+        paymentDue: params.newPaymentDue,
 
         itemsName: params.newItemsName,
         itemsDescriptionName: params.newItemsDescriptionName,
@@ -61119,7 +61119,7 @@ function addCustomer(params) {
 function getInvoices() {
   return function (dispatch, getState) {
     dispatch({ type: GET_INVOICES });
-    (0, _isomorphicFetch2.default)('/invoices/invoices', { method: 'get' }).then(function (response) {
+    (0, _isomorphicFetch2.default)('/invoices', { method: 'get' }).then(function (response) {
       if (response.status >= 400) {
         throw new Error("Bad response from server");
       };

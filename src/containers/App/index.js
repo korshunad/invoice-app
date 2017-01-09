@@ -22,7 +22,7 @@ class App extends React.Component {
       newInvoiceNumber: params.newInvoiceNumber,
       newInvoiceDate: params.newInvoiceDate,
 
-      newPaymentdue: params.newPaymentDue,
+      newPaymentDue: params.newPaymentDue,
 
       newItemsName: params.newItemsName,
       newItemsDescriptionName: params.newItemsDescriptionName,

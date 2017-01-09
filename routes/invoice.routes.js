@@ -10,6 +10,9 @@ router.route('/invoices').post(InvoiceController.addInvoice);
 // Get all invoices
 router.route('/invoices').get(InvoiceController.getInvoices);
 
+router.route('/pdf').get(InvoiceController.getPdf);
+
+router.route('/pdfs/:id').get(InvoiceController.generatePdf);
 
 export default router;
 

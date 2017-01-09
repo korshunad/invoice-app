@@ -135,7 +135,7 @@ export function submitInvoice() {
     let myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     console.log(JSON.stringify(getState().api.formData)+"getState")
-    fetch('/invoices/invoices', {
+    fetch('/invoices', {
       method: 'post',
       headers: myHeaders,
       mode: 'cors',
@@ -170,7 +170,7 @@ export function addInvoice(params) {
           invoiceNumber: params.newInvoiceNumber,
           invoiceDate: params.newInvoiceDate,
 
-          paymentdue: params.newPaymentDue,
+          paymentDue: params.newPaymentDue,
 
           itemsName: params.newItemsName,
           itemsDescriptionName: params.newItemsDescriptionName,
@@ -256,7 +256,7 @@ export function addCustomer(params) {
 export function getInvoices() {
   return (dispatch, getState) => {
     dispatch({type: GET_INVOICES});
-    fetch('/invoices/invoices', {method: 'get' })
+    fetch('/invoices', {method: 'get' })
       .then((response) =>  {
         if (response.status >= 400) {
         throw new Error("Bad response from server");

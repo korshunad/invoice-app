@@ -16,7 +16,7 @@ const invoiceSchema = new mongoose.Schema( {
   invoiceSummary: {type: String},
   invoiceNumber: {type: Number},
   invoiceDate: {type: Date/*, required: true*/},
-  paymentdue: {type: Date},
+  paymentDue: {type: Date},
 
   itemsName: {type: String/*, default: 'ITEMS'*/},
   itemsDescriptionName: {type:String/*, default: 'DESCRIPTION'*/},

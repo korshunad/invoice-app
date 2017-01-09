@@ -152,7 +152,7 @@ class InvoiceForm extends React.Component {
       newInvoiceNumber: values.invoiceNumber,
       newInvoiceDate: values.invoiceDate,
 
-      newPaymentdue: values.paymentDue,
+      newPaymentDue: values.paymentDue,
 
       newItemsName: values.items,
       newItemsDescriptionName: values.itemsDescription,
