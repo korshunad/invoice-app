@@ -58610,6 +58610,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var FormItem = _form2.default.Item;
+
 var TabPane = _tabs2.default.TabPane;
 
 var BillToForm = function (_React$Component) {
@@ -59734,8 +59735,8 @@ var InvoiceForm = function (_React$Component) {
       taxType: "",
       quantity: 0,
       items: { 0: { name: '', description: '', price: 0, quantity: 0 } },
-      preCur: null,
-      postCur: null
+      preCur: '',
+      postCur: ''
     };
     _this.remove = _this.remove.bind(_this);
     _this.add = _this.add.bind(_this);
@@ -59893,9 +59894,10 @@ var InvoiceForm = function (_React$Component) {
           newItemsDescriptionName: values.itemsDescription,
           newUnitPriceName: values.itemsPrice,
           newQuantityName: values.itemsQuantity,
-          newTotalName: values.amount,
+          newTotalName: values.Amount,
 
-          newCurrency: self.state.currency,
+          newCurrencySymbol: self.state.preCur,
+          newCurrencyCode: self.state.postCur,
 
           newInvoiceTotal: values.total,
           newTaxName: values.taxName,
@@ -59916,8 +59918,7 @@ var InvoiceForm = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this,
-          _React$createElement2;
+      var _this3 = this;
 
       var dateFormat = 'DD.MM.YYYY';
       var _props$form = this.props.form,
@@ -59989,9 +59990,10 @@ var InvoiceForm = function (_React$Component) {
           {
             onChange: this.handleCurrencyChoice,
             showSearch: true,
+            dropdownMatchSelectWidth: false,
             placeholder: 'Select currency',
-            optionFilterProp: 'children',
-            style: { width: 200 } },
+            optionFilterProp: 'children'
+          },
           some
         )
       );
@@ -60057,7 +60059,7 @@ var InvoiceForm = function (_React$Component) {
               _react2.default.createElement(
                 _col2.default,
                 { key: k + "descrCol", span: 7 },
-                _react2.default.createElement(_input2.default, { key: k + "descr", onChange: _this3.handleItemDescription.bind(_this3, k), placeholder: 'description', className: _InvoiceForm2.default.borderless, style: { width: '98%' } })
+                _react2.default.createElement(_input2.default, { type: 'textarea', key: k + "descr", onChange: _this3.handleItemDescription.bind(_this3, k), placeholder: 'description', className: _InvoiceForm2.default.borderless, style: { width: '98%' } })
               ),
               _react2.default.createElement(
                 _col2.default,
@@ -60118,7 +60120,7 @@ var InvoiceForm = function (_React$Component) {
           _react2.default.createElement(
             FormItem,
             {
-              wrapperCol: { span: 4, offset: 18 }
+              wrapperCol: { span: 6, offset: 16 }
             },
             getFieldDecorator('invoiceName', {
               rules: [{ required: true, message: 'Please name your document' }], initialValue: "Invoice"
@@ -60150,8 +60152,8 @@ var InvoiceForm = function (_React$Component) {
                 FormItem,
                 {
                   className: _InvoiceForm2.default.formPart,
-                  labelCol: { span: 12 },
-                  wrapperCol: { span: 12 },
+                  labelCol: { span: 9 },
+                  wrapperCol: { span: 15 },
                   label: 'Invoice summary'
                 },
                 getFieldDecorator('invoiceSummary', {})(_react2.default.createElement(_input2.default, { type: 'textarea', rows: 1, placeholder: 'Invoice summary' }))
@@ -60184,8 +60186,8 @@ var InvoiceForm = function (_React$Component) {
                 FormItem,
                 {
                   className: _InvoiceForm2.default.formPart,
-                  labelCol: { span: 12 },
-                  wrapperCol: { span: 12 },
+                  labelCol: { span: 9 },
+                  wrapperCol: { span: 15 },
                   label: 'Invoice Number'
                 },
                 getFieldDecorator('invoiceNumber', { initialValue: 1 })(_react2.default.createElement(_inputNumber2.default, { min: 1 }))
@@ -60218,8 +60220,8 @@ var InvoiceForm = function (_React$Component) {
                 FormItem,
                 {
                   className: _InvoiceForm2.default.formPart,
-                  labelCol: { span: 12 },
-                  wrapperCol: { span: 12 },
+                  labelCol: { span: 9 },
+                  wrapperCol: { span: 15 },
                   label: 'Invoice Date'
                 },
                 getFieldDecorator('invoiceDate')(_react2.default.createElement(_datePicker2.default, { format: dateFormat }))
@@ -60252,8 +60254,8 @@ var InvoiceForm = function (_React$Component) {
                 FormItem,
                 {
                   className: _InvoiceForm2.default.formPart,
-                  labelCol: { span: 12 },
-                  wrapperCol: { span: 12 },
+                  labelCol: { span: 9 },
+                  wrapperCol: { span: 15 },
                   label: 'Payment Due'
                 },
                 getFieldDecorator('paymentDue')(_react2.default.createElement(_datePicker2.default, { format: dateFormat }))
@@ -60333,15 +60335,32 @@ var InvoiceForm = function (_React$Component) {
             null,
             _react2.default.createElement(
               _col2.default,
-              { span: 22 },
+              { span: 24 },
               _react2.default.createElement(
                 FormItem,
                 null,
                 _react2.default.createElement(
                   _button2.default,
-                  { style: { width: "600px" }, type: 'dashed', onClick: this.add },
+                  { style: { width: "700px" }, type: 'dashed', onClick: this.add },
                   _react2.default.createElement(_icon2.default, { type: 'plus' }),
                   ' Add another item'
+                )
+              )
+            )
+          ),
+          _react2.default.createElement(
+            _row2.default,
+            null,
+            _react2.default.createElement(
+              _col2.default,
+              { span: 10 },
+              _react2.default.createElement(
+                _col2.default,
+                { span: 8, offset: 1 },
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  'Choose currency:'
                 )
               )
             )
@@ -60351,7 +60370,21 @@ var InvoiceForm = function (_React$Component) {
             { className: _InvoiceForm2.default.denseHeight },
             _react2.default.createElement(
               _col2.default,
-              { span: 3, offset: 12 },
+              { span: 8 },
+              _react2.default.createElement(
+                FormItem,
+                { wrapperCol: { span: 13 }
+                },
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  currencyOptions
+                )
+              )
+            ),
+            _react2.default.createElement(
+              _col2.default,
+              { span: 5, offset: 2 },
               _react2.default.createElement(
                 FormItem,
                 { wrapperCol: { span: 24 }
@@ -60433,7 +60466,7 @@ var InvoiceForm = function (_React$Component) {
             { className: _InvoiceForm2.default.denseHeight },
             _react2.default.createElement(
               _col2.default,
-              { className: _InvoiceForm2.default.denseHeight, span: 3, offset: 12 },
+              { className: _InvoiceForm2.default.denseHeight, span: 5, offset: 10 },
               _react2.default.createElement(
                 FormItem,
                 { wrapperCol: { span: 24 }
@@ -60527,10 +60560,10 @@ var InvoiceForm = function (_React$Component) {
               { span: 14, offset: 10 },
               _react2.default.createElement(
                 FormItem,
-                { wrapperCol: { span: 16 },
+                { wrapperCol: { span: 15 },
                   value: total,
                   label: 'Total:',
-                  labelCol: { span: 8 }
+                  labelCol: { span: 9 }
                 },
                 getFieldDecorator('total', { initialValue: total })(_react2.default.createElement(
                   'div',
@@ -60551,25 +60584,6 @@ var InvoiceForm = function (_React$Component) {
                     this.state.postCur
                   )
                 ))
-              )
-            )
-          ),
-          _react2.default.createElement(
-            _row2.default,
-            null,
-            _react2.default.createElement(
-              _col2.default,
-              { span: 24 },
-              _react2.default.createElement(
-                FormItem,
-                (_React$createElement2 = { wrapperCol: { span: 8, offset: 10 },
-                  labelCol: { span: 12 }
-                }, _defineProperty(_React$createElement2, 'wrapperCol', { span: 12 }), _defineProperty(_React$createElement2, 'label', 'Choose currency'), _React$createElement2),
-                _react2.default.createElement(
-                  'div',
-                  null,
-                  currencyOptions
-                )
               )
             )
           ),
@@ -60616,7 +60630,7 @@ var InvoiceForm = function (_React$Component) {
                 { wrapperCol: { span: 20 } },
                 _react2.default.createElement(
                   _button2.default,
-                  { type: 'primary', htmlType: 'submit', style: { width: "600px" } },
+                  { type: 'primary', htmlType: 'submit', style: { width: "700px" } },
                   'Save the invoice'
                 )
               )
@@ -60703,7 +60717,8 @@ var App = function (_React$Component) {
         newQuantityName: params.newQuantityName,
         newTotalName: params.newTotalName,
 
-        newCurrency: params.newCurrency,
+        newCurrencySymbol: params.newCurrencySymbol,
+        newCurrencyCode: params.newCurrencyCode,
 
         newInvoiceTotal: params.newInvoiceTotal,
         newTaxType: params.newTaxType,
@@ -61041,7 +61056,8 @@ function addInvoice(params) {
         quantityName: params.newQuantityName,
         totalName: params.newTotalName,
 
-        currency: params.newCurrency,
+        currencySymbol: params.newCurrencySymbol,
+        currencyCode: params.newCurrencyCode,
 
         invoiceTotal: params.newInvoiceTotal,
         taxName: params.newTaxName,

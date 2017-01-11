@@ -178,7 +178,8 @@ export function addInvoice(params) {
           quantityName: params.newQuantityName,
           totalName: params.newTotalName,
 
-          currency: params.newCurrency,
+          currencySymbol: params.newCurrencySymbol,
+          currencyCode: params.newCurrencyCode,
 
           invoiceTotal: params.newInvoiceTotal,
           taxName: params.newTaxName,

@@ -27,8 +27,8 @@ class InvoiceForm extends React.Component {
       taxType:"",
       quantity:0,
       items:{0:{name:'', description:'', price:0, quantity:0}},
-      preCur:null,
-      postCur:null,
+      preCur:'',
+      postCur:'',
     };
     this.remove=this.remove.bind(this);
     this.add=this.add.bind(this);
@@ -158,9 +158,10 @@ class InvoiceForm extends React.Component {
       newItemsDescriptionName: values.itemsDescription,
       newUnitPriceName: values.itemsPrice,
       newQuantityName: values.itemsQuantity,
-      newTotalName: values.amount,
+      newTotalName: values.Amount,
 
-      newCurrency: self.state.currency,
+      newCurrencySymbol: self.state.preCur,
+      newCurrencyCode: self.state.postCur,
 
       newInvoiceTotal: values.total,
       newTaxName: values.taxName,
@@ -218,9 +219,10 @@ for (const [key,value] of objectEntries(currencies)) {
         <Select  
           onChange={this.handleCurrencyChoice}
           showSearch 
+          dropdownMatchSelectWidth={false}
           placeholder="Select currency"
           optionFilterProp="children"
-          style={{ width: 200 }} >
+          >
 
           {some}
         </Select>
@@ -278,7 +280,7 @@ let total=0;
                 <Input key={k+"item"} onChange={this.handleItemName.bind(this, k)} placeholder="item or service" className={styles.borderless} style={{ width: '95%' }}  />
               </Col>
               <Col key={k+"descrCol"} span={7}>
-                <Input key={k+"descr"} onChange={this.handleItemDescription.bind(this, k)} placeholder="description" className={styles.borderless} style={{ width: '98%' }}  />
+                <Input type="textarea" key={k+"descr"} onChange={this.handleItemDescription.bind(this, k)} placeholder="description" className={styles.borderless} style={{ width: '98%' }}  />
               </Col>
               <Col key={k+"quantCol"} span={3}>
                 <Input key={k+"quant"}  
@@ -325,7 +327,7 @@ let total=0;
     <LocaleProvider locale={enUS}>
       <Form onSubmit={this.handleSubmit.bind(this)} className={styles.form}>
         <FormItem
-          wrapperCol={{ span: 4, offset: 18 }}
+          wrapperCol={{ span: 6, offset: 16 }}
         >
           {getFieldDecorator('invoiceName', {
             rules: [{ required: true, message: 'Please name your document' }], initialValue:"Invoice"
@@ -346,8 +348,8 @@ let total=0;
           <Col span={12} style={{marginBottom:"10px"}}>
             <FormItem
               className={styles.formPart}
-              labelCol={{ span: 12 }}
-              wrapperCol={{ span: 12 }}
+              labelCol={{ span: 9 }}
+              wrapperCol={{ span: 15 }}
               label="Invoice summary"
             >
               {getFieldDecorator('invoiceSummary', {
@@ -372,8 +374,8 @@ let total=0;
           <Col span={12}>
             <FormItem
               className={styles.formPart}
-              labelCol={{ span: 12 }}
-              wrapperCol={{ span: 12 }}
+              labelCol={{ span: 9 }}
+              wrapperCol={{ span: 15 }}
               label="Invoice Number"
             >
               {getFieldDecorator('invoiceNumber', { initialValue: 1 })(
@@ -396,8 +398,8 @@ let total=0;
           <Col span={12}>
             <FormItem
               className={styles.formPart}
-              labelCol={{ span: 12 }}
-              wrapperCol={{ span: 12 }}
+              labelCol={{ span: 9 }}
+              wrapperCol={{ span: 15 }}
               label="Invoice Date"
             >
               {getFieldDecorator('invoiceDate')(
@@ -421,8 +423,8 @@ let total=0;
           <Col span={12}>
             <FormItem
               className={styles.formPart}
-              labelCol={{ span: 12 }}
-              wrapperCol={{ span: 12 }}
+              labelCol={{ span: 9 }}
+              wrapperCol={{ span: 15 }}
               label="Payment Due"
             >
               {getFieldDecorator('paymentDue')(
@@ -489,17 +491,33 @@ let total=0;
           </Col>
         </Row>
         <Row> 
-          <Col span={22} >
+          <Col span={24} >
             <FormItem >
-              <Button style={{width:"600px"}} type="dashed" onClick={this.add} >
+              <Button style={{width:"700px"}} type="dashed" onClick={this.add} >
                 <Icon type="plus" /> Add another item
               </Button>
             </FormItem>
           </Col>
         </Row>
+        <Row>
+          <Col span={10} >
+            <Col span={8} offset={1}>
+            <p>Choose currency:</p>
+            </Col>
+          </Col>
+
+        </Row>
         
-        <Row className={styles.denseHeight} >
-          <Col span={3} offset={12} >
+        <Row className={styles.denseHeight}>
+          <Col span={8}>
+            <FormItem wrapperCol={{ span: 13}}
+             >
+              <div>
+                  {currencyOptions}
+              </div>              
+            </FormItem>
+          </Col>
+          <Col span={5} offset={2} >
             <FormItem wrapperCol={{ span: 24 }}
             >
               {getFieldDecorator('taxName', {
@@ -543,7 +561,7 @@ let total=0;
           </Col>
         </Row>
         <Row className={styles.denseHeight} >
-          <Col className={styles.denseHeight} span={3} offset={12}>
+          <Col className={styles.denseHeight} span={5} offset={10}>
             <FormItem wrapperCol={{ span: 24 }}
             >
               {getFieldDecorator('discountName', {
@@ -605,10 +623,10 @@ let total=0;
         </Row>
         <Row>
           <Col span={14} offset={10}>
-            <FormItem wrapperCol={{ span: 16 }}
+            <FormItem wrapperCol={{ span: 15 }}
               value={total}
               label="Total:"
-              labelCol={{ span:8 }}
+              labelCol={{ span:9 }}
             >
               {getFieldDecorator('total', {initialValue:total})(
               <div>
@@ -627,20 +645,7 @@ let total=0;
           </Col>
         </Row>
         
-        <Row>
 
-          <Col span={24}>
-            <FormItem wrapperCol={{ span: 8, offset: 10 }}
-              labelCol={{ span: 12 }}
-              wrapperCol={{ span: 12 }}
-              label="Choose currency"
-             >
-              <div>
-                  {currencyOptions}
-              </div>              
-            </FormItem>
-          </Col>
-        </Row>
         <Row>
           <Col span={24}>
             <FormItem labelCol={{ span: 2 }}
@@ -669,7 +674,7 @@ let total=0;
         <Row>
           <Col span={24}>
             <FormItem wrapperCol={{ span: 20}}>
-              <Button type="primary" htmlType="submit" style={{width:"600px"}}>
+              <Button type="primary" htmlType="submit" style={{width:"700px"}}>
                 Save the invoice
               </Button>
             </FormItem>

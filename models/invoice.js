@@ -24,7 +24,8 @@ const invoiceSchema = new mongoose.Schema( {
   quantityName: {type: String/*, default: 'QUANTITY'*/},
   totalName: {type: String/*, default: 'TOTAL'*/},
 
-  currency: {type: String},
+  currencySymbol: {type: String},
+  currencyCode: {type: String},
 
   invoiceTotal: {type: Number/*, required: true*/},
   taxName: {type: String},

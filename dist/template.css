@@ -1,3 +1,131 @@
-.invoiceTitle {
-  text-align:right;
+.page {
+  width:595px;
+  height: 842px;
+  padding:10px;
+  margin-left:auto;
+  margin-right:auto;
+  border-color:red;
+  border-style:solid;
+  font-size:9px;
+}
+.top {
+      height: 130px;
+  position:relative;
+}
+.title {
+  font-size: 14px;
+  font-family: 'Cormorant SC', serif;
+  margin-bottom:5px;
+  margin-left:10px;
+  width:auto;
+}
+.body {
+  font-family: Segoe UI;
+}
+.invoiceheader {
+  word-wrap:break-word;
+  display:inline-block;
+  font-family: 'Cormorant SC', serif;
+  position:absolute;
+  width:35%;
+  padding:1%;
+  text-align:left;
+  height:auto;
+  bottom:0px;
+}
+.companyAddress{
+  margin:1px;
+}
+.companyDetails {
+  position:relative;
+  padding:1%;
+  margin:0;
+   display:block;
+  font-size:8px;
+  line-height: 100%;
+  width:27%;
+  float:left;
+}
+.companyName {
+  position:relative;
+  display:inline-block;
+  font-family: 'Cormorant SC', serif;
+  font-size: 18px;
+  width:35%;
+  padding:1%;
+  float:left;
+  height:70%; 
+}
+.companyName p {
+  position:absolute;
+  top:30%;
+  margin:0px;
+}
+.line {
+  clear:both;
+  border-top:none;
+  border-style:solid;
+  border-width:0.5px;
+  border-color:lightgrey;
+  position:absolute;
+  z-index:5;
+  width:588px;
+  top:151px;
+}
+.invoiceDetail {
+ display:inline-block;
+float:right;
+padding-right:1%;
+width:auto;
+}
+.invoiceDate {
+  border-top:none;
+  display: inline-block;
+  text-align:center;
+  border-style:solid;
+  border-width:1px;
+  padding:10px;
+  border-color:lightgrey;
+  
+}
+.paymentDate {
+  border-top:none;
+  border-top-width:5px;
+  display: inline-block;
+  text-align:center;
+  border-style:solid;
+  border-width:1px;
+  padding:10px;
+  border-color: lightgrey;
+}
+.invoiceTotal {
+  border-top:none;
+  border-style:solid;
+  border-width:1px;
+  border-color:#DE5622;
+  display: inline-block;
+  text-align:center;
+  padding:10px;
+  background-color:#DE5622;
+  color:white;
+}
+.customer {
+  margin:10px;
+ font-size:9px; 
+}
+.itemsHeader {
+  width:100%;
+  position: relative;
+}
+.header {
+  display: inline-block;
+}
+.item {
+  display: inline;
+}
+.itemsubvalue {
+  display: inline;
+}
+.items {
+  display: block;
 }

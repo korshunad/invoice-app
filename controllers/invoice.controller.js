@@ -36,7 +36,7 @@ export function getPdf(req, res) {
     if (err) {
       return res.status(500).send(err);
     }
-  res.render('pdf', { invoice: invoices[invoices.length-1]})
+  res.render('pdf', { invoice: invoices[1]})
   });
 }
 

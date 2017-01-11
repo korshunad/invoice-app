@@ -30,7 +30,8 @@ class App extends React.Component {
       newQuantityName: params.newQuantityName,
       newTotalName: params.newTotalName,
 
-      newCurrency: params.newCurrency,
+      newCurrencySymbol: params.newCurrencySymbol,
+      newCurrencyCode: params.newCurrencyCode,
 
       newInvoiceTotal: params.newInvoiceTotal,
       newTaxType: params.newTaxType,
