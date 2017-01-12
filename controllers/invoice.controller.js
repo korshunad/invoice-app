@@ -49,7 +49,7 @@ export function generatePdf(req, res) {
       }
       console.log(invoice)
       fs.createReadStream('views/test.pug')
-        .pipe(jadepdf({locals: {invoice: invoice}}))
+        .pipe(jadepdf({ locals: {invoice: invoice}}))
         .pipe(fs.createWriteStream('dist/invoices/document.pdf'))
         .on('finish', function(){
             res.redirect('/invoices/document.pdf')

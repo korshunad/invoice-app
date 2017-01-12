@@ -33,7 +33,9 @@ html
             p Payment Due
             p= invoice.paymentDue.getDate()+"."+invoice.invoiceDate.getMonth()+1+"."+invoice.invoiceDate.getFullYear()
         div.customer
-          p.companyAddress(style="margin-bottom:5px")= "To: "+invoice.customerName
+          
+          p.companyAddress(style="font-size:10px; font-weight:600; color:#DE5622;margin-bottom:5px; font-family: 'Cormorant SC', serif; display: inline;") To  
+          p.companyAddress(style="margin-bottom:5px; display: inline")= invoice.customerName
           p.companyAddress= invoice.customerContactFirstName+" "+invoice.customerContactLastName
           p.companyAddress(style="margin-bottom:5px")= "Account: "+invoice.customerAccountNumber
           p.companyAddress= invoice.customerAddressL1+" "+invoice.customerAddressL2
@@ -41,23 +43,75 @@ html
           p.companyAddress= invoice.customerPhone+", fax: "+invoice.customerFax
           p.companyAddress= invoice.customerWebsite
           p.companyAddress= invoice.customerEmail
-        div.itemsHeader
-          div.header(style='width:20%')= invoice.itemsName
-          div.header(style='width:40%')= invoice.itemsDescriptionName
-          div.header(style='width:12%')= invoice.quantityName
-          div.header(style='width:12%')= invoice.unitPriceName
-          div.header(style='width:15%')= invoice.totalName+" " 
-        div.items 
-          each val in invoice.items.length ? invoice.items : ['There are no values']
-            div.item
-              div.itemsubvalue(style='width:20%')= val.name
-              div.itemsubvalue(style='width:40%')= val.description
-              div.itemsubvalue(style='width:12%')= val.quantity
-              div.itemsubvalue(style='width:12%')= val.price
-              div.itemsubvalue(style='width:15%')= val.quantity*val.price
-
-
-
+        div
+          table.itemsTable
+            thead
+              tr.itemsHeader: th.itemValueName(class='itemName')= invoice.itemsName
+                  th.itemValueName(class='itemDescription')= invoice.itemsDescriptionName
+                  th.itemValueName(class='itemQuantity')= invoice.quantityName
+                  th.itemValueName(class='itemPrice')= invoice.unitPriceName
+                  th.itemValueName(class='itemTotal')= invoice.totalName
+                  tbody
+                    each val in invoice.items 
+                      tr.item 
+                        td.itemValue(class='itemName')= val.name
+                        td.itemValue(class='itemDescription')= val.description
+                        td.itemValue(class='itemQuantity')= val.quantity
+                        td.itemValue(class='itemPrice')= (invoice.currencySymbol==null?"":invoice.currencySymbol)+" "+val.price+" "+(invoice.currencyCode==null? "":invoice.currencyCode)
+                        td.itemValue(class='itemTotal')= (invoice.currencySymbol==null?"":invoice.currencySymbol)+" "+val.quantity*val.price+" "+(invoice.currencyCode==null? "":invoice.currencyCode)
+                    tr
+                      td(colspan='2' style='')
+                      td.itemValue(colspan='2', style='text-align: left;padding-top:30px; font-family: Cormorant SC, serif; font-weight: 600')= invoice.taxName
+                      td.itemValue(style='padding-top:30px;')= ((invoice.taxType=='flat' && invoice.currencySymbol!=null) ? invoice.currencySymbol : '' )+" "+invoice.tax+" "+((invoice.taxType=='flat' && invoicecurrencyCode!=null) ? invoice.currencyCode : invoice.taxType) 
+                    tr
+                      td(colspan='2')
+                      td.itemValue(colspan='2', style='text-align: left;font-family: Cormorant SC, serif;font-weight: 600')= invoice.discountName
+                      td.itemValue= invoice.discount+"%" 
+                    tr
+                      td(colspan='2')
+                      td.itemValue(colspan='2', style='text-align: left;font-family: Cormorant SC, serif;font-weight: 600')= invoice.additionalChargeName+":"
+                      td.itemValue= (invoice.currencySymbol!=null ? invoice.currencySymbol : '' )+" "+invoice.additionalCharge+" "+(invoicecurrencyCode!=null ? invoice.currencyCode : '') 
+                    tr
+                      td(colspan='2')
+                      td.itemValue(colspan='2', style='text-align: left;font-family: Cormorant SC, serif;font-weight: 600')= "Total Due: " 
+                      td.itemValue= (invoice.currencySymbol!=null ? invoice.currencySymbol : '' )+" "+Math.round((invoice.invoiceTotal + 0.00001) * 100) / 100 +" "+(invoicecurrencyCode!=null ? invoice.currencyCode : '')
+        div.payment
+          div.p1
+            div.docHeader Payment
+            div
+              div.paymentHeader(style="display: inline") Account 
+              div(style="display: inline")= invoice.companyAccount
+            div
+              div.paymentHeader(style="display: inline") Account holder 
+              div(style="display: inline")= invoice.companyBankAccountHolder
+            div
+              div.paymentHeader(style="display: inline") IBAN 
+              div(style="display: inline")= invoice.companyIBAN  
+            div
+              div.paymentHeader(style="display: inline") PayPal  
+              div(style="display: inline")= invoice.companyPayPalinfo  
+            div
+              div.paymentHeader(style="display: inline") Else 
+              div(style="display: inline")= invoice.companyOtherBilling  
+          div.p2
+            div
+              div.paymentHeader(style="display: inline") Bank name 
+              div(style="display: inline")= invoice.companyBankName
+            div
+              div.paymentHeader(style="display: inline") Bank address 
+              div(style="display: inline")= invoice.companyBankAddress
+            div
+              div.paymentHeader(style="display: inline") SWIFT 
+              div(style="display: inline")= invoice.companySWIFT  
+            div
+              div.paymentHeader(style="display: inline") BIC 
+              div(style="display: inline")= invoice.companyBIC  
+ 
+            div.terms
+              div.docHeader(style="display: inline") Terms 
+              div(style="display: inline")= invoice.footer
+        div.notes
+          div= invoice.notes
 
 
 
