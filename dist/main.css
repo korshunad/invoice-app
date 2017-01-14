@@ -5170,6 +5170,182 @@ textarea._node_modules_antd_lib_input_style_index__ant-input {
   height: 22px;
   border-radius: 2px;
 }
+._node_modules_antd_lib_notification_style_index__ant-notification {
+  position: fixed;
+  z-index: 1010;
+  width: 335px;
+  margin-right: 24px;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice {
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  line-height: 1.5;
+  position: relative;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-message {
+  font-size: 14px;
+  color: #404040;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 20px;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-description {
+  font-size: 12px;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-closable ._node_modules_antd_lib_notification_style_index__ant-notification-notice-message {
+  padding-right: 24px;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-with-icon ._node_modules_antd_lib_notification_style_index__ant-notification-notice-message {
+  font-size: 14px;
+  margin-left: 48px;
+  margin-bottom: 4px;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-with-icon ._node_modules_antd_lib_notification_style_index__ant-notification-notice-description {
+  margin-left: 48px;
+  font-size: 12px;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-icon {
+  position: absolute;
+  left: 16px;
+  top: 17px;
+  font-size: 32px;
+  line-height: 32px;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-icon-success {
+  color: #87d068;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-icon-info {
+  color: #108ee9;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-icon-warning {
+  color: #fa0;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-icon-error {
+  color: #f50;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-close-x:after {
+  font-size: 12px;
+  content: "\E633";
+  font-family: "anticon";
+  cursor: pointer;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-close {
+  position: absolute;
+  right: 16px;
+  top: 10px;
+  color: #999;
+  outline: none;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-close:hover {
+  color: #404040;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-notice-btn {
+  float: right;
+  margin-top: 16px;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification ._node_modules_antd_lib_notification_style_index__notification-fade-effect {
+  -webkit-animation-duration: 0.24s;
+          animation-duration: 0.24s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+          animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-fade-enter,
+._node_modules_antd_lib_notification_style_index__ant-notification-fade-appear {
+  opacity: 0;
+  -webkit-animation-duration: 0.24s;
+          animation-duration: 0.24s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+          animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-fade-leave {
+  -webkit-animation-duration: 0.24s;
+          animation-duration: 0.24s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+          animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+  -webkit-animation-duration: 0.2s;
+          animation-duration: 0.2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-fade-enter._node_modules_antd_lib_notification_style_index__ant-notification-fade-enter-active,
+._node_modules_antd_lib_notification_style_index__ant-notification-fade-appear._node_modules_antd_lib_notification_style_index__ant-notification-fade-appear-active {
+  -webkit-animation-name: _node_modules_antd_lib_notification_style_index__NotificationFadeIn;
+          animation-name: _node_modules_antd_lib_notification_style_index__NotificationFadeIn;
+  -webkit-animation-play-state: running;
+          animation-play-state: running;
+}
+._node_modules_antd_lib_notification_style_index__ant-notification-fade-leave._node_modules_antd_lib_notification_style_index__ant-notification-fade-leave-active {
+  -webkit-animation-name: _node_modules_antd_lib_notification_style_index__NotificationFadeOut;
+          animation-name: _node_modules_antd_lib_notification_style_index__NotificationFadeOut;
+  -webkit-animation-play-state: running;
+          animation-play-state: running;
+}
+@-webkit-keyframes _node_modules_antd_lib_notification_style_index__NotificationFadeIn {
+  0% {
+    opacity: 0;
+    left: 335px;
+  }
+  100% {
+    left: 0;
+    opacity: 1;
+  }
+}
+@keyframes _node_modules_antd_lib_notification_style_index__NotificationFadeIn {
+  0% {
+    opacity: 0;
+    left: 335px;
+  }
+  100% {
+    left: 0;
+    opacity: 1;
+  }
+}
+@-webkit-keyframes _node_modules_antd_lib_notification_style_index__NotificationFadeOut {
+  0% {
+    opacity: 1;
+    margin-bottom: 10px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    max-height: 150px;
+  }
+  100% {
+    opacity: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    max-height: 0;
+  }
+}
+@keyframes _node_modules_antd_lib_notification_style_index__NotificationFadeOut {
+  0% {
+    opacity: 1;
+    margin-bottom: 10px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    max-height: 150px;
+  }
+  100% {
+    opacity: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    max-height: 0;
+  }
+}
 ._node_modules_antd_lib_select_style_index__ant-select {
   box-sizing: border-box;
   display: inline-block;

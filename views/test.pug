@@ -2,27 +2,228 @@
 doctype html
 html
   head
+    style(type='text/css')
+      | .page {
+      |   width:505px;
+      |   height: 732px;
+      |   padding:20px;
+      |   margin-top: -20px;
+      |   margin-left:-10px;
+      |   font-size:8px;
+      | }
+      | .top {
+      |       height: 131px;
+      |   width:500px;
+      |   position:relative;
+      |   border-bottom: solid 1px lightgrey;
+      | }
+      | .title {
+      |   font-size: 14px;
+      |   font-family: 'Cormorant SC', serif;
+      |   text-align:center;
+      |   margin-bottom:5px;
+      |   width:auto;
+      | }
+      | .body {
+      |   font-family: Segoe UI;
+      | }
+      | .invoiceheader {
+      |   word-wrap:break-word;
+      |   display:inline-block;
+      |   font-family: 'Cormorant SC', serif;
+      |   position:absolute;
+      |   width:25%;
+      |   padding:1%;
+      |   text-align:center;
+      |   height:auto;
+      |   bottom:0px;
+      | }
+      | .companyAddress{
+      |   margin:2px;
+      | }
+      | .companyDetails {
+      |   position:relative;
+      |   padding:1%;
+      |   margin:0;
+      |    display:block;
+      |   font-size:7px;
+      |   line-height: 100%;
+      |   width:27%;
+      |   float:left;
+      | }
+      | .companyName {
+      |   position:relative;
+      |   display:inline-block;
+      |   font-family: 'Cormorant SC', serif;
+      |   font-size: 16px;
+      |   width:35%;
+      |   padding:1%;
+      |   float:left;
+      |   height:70%; 
+      | }
+      | .companyName p {
+      |   position:absolute;
+      |   top:30%;
+      |   margin:0px;
+      | }
+      | .invoiceDetail {
+      |  display:inline-block;
+      | float:right;
+      | padding-right:1%;
+      | width:auto;
+      |   margin-bottom:30px;
+      | }
+      | .invoiceDate {
+      |   border-top:none !important;
+      |   border-top-width:5px;
+      |   display: inline-block;
+      |   text-align:center;
+      |   border-style:solid;
+      |   border-width:1px;
+      |   padding:10px;
+      |   padding-top:5px;
+      |   padding-bottom:5px;
+      |   border-color:lightgrey;
+      |   
+      | }
+      | .paymentDate {
+      |   border-top:none !important;
+      |   border-top-width:5px;
+      |   display: inline-block;
+      |   text-align:center;
+      |   border-style:solid;
+      |   border-width:1px;
+      |   padding:10px;
+      |   padding-top:5px;
+      |   padding-bottom:5px;
+      |   border-color: lightgrey;
+      | }
+      | .invoiceTotal {
+      |   border-top:none !important;
+      |   border-style:solid;
+      |   border-width:1px;
+      |   border-color:#DE5622;
+      |   display: inline-block;
+      |   text-align:center;
+      |   min-width:50px;
+      |   padding-left:10px !important;
+      |   padding-right:10px !important;
+      |   padding-top:5px !important;
+      |   padding-bottom:5px !important;
+      |   background-color:#DE5622;
+      |   color:white;
+      | }
+      | .customer {
+      |   margin:10px;
+      |  font-size:8px; 
+      | }
+      | .itemsHeader {
+      |   font-family: 'Cormorant SC', serif;
+      |   font-size:12px;
+      |   color:#DE5622;
+      | }
+      | .itemsTable {
+      |   margin-top:30px;
+      |   width:100%; 
+      |   border-collapse:collapse;
+      | 
+      | } 
+      | .itemValueName {
+      |   padding:5px;
+      |   border-bottom: 2px solid lightgrey;
+      | }
+      | .itemName {
+      |   width:20%;
+      |   text-align: left;
+      | }
+      | .itemDescription {
+      |   width:40%; 
+      |   text-align: left;
+      | }
+      | .itemQuantity {
+      |   width:12%;
+      |   text-align: center;
+      | }
+      | .itemPrice {
+      |   width:12%;
+      |   text-align: center;
+      | }
+      | .itemTotal {
+      |   width:15%;
+      |   text-align: center;
+      | }
+      | .itemCharge {
+      |   text-align: left;
+      |   padding:5px;
+      |   font-family: 'Cormorant SC', serif; 
+      |   vertical-align:middle; 
+      |   border-bottom: 1px solid lightgrey;
+      | }
+      | .itemValue {
+      |   padding:5px;
+      |   vertical-align:middle; 
+      |   border-bottom: 1px solid lightgrey;
+      | }
+      | .p1, .p2 {
+      |   height:15%;
+      |   width:50%;
+      |   display: inline-block;
+      | }
+      | .footer {
+      |   position:absolute;
+      |   bottom:0px;
+      |   margin-left:auto;
+      |   margin-right:auto;
+      | }
+      | .payment {
+      |   position:relative;
+      |   width: 475px;
+      |   background: lightgrey;
+      |   padding:10px;
+      | }
+      | .docHeader{
+      |   font-size: 12px;
+      |   font-family: 'Cormorant SC', serif;
+      |   color:#DE5622;
+      |   margin:0px;
+      | }
+      | .notes {
+      |   margin-top:20px;
+      |   text-align:center;
+      |   width: 475px;
+      |   font-size: 12px;
+      |   font-family: 'Cormorant SC', serif;
+      |   color:#DE5622;
+      | 
+      | }
+      | 
+      | .terms {
+      | display: inline-block;
+      | }
+      | .paymentHeader {
+      |   font-family: 'Cormorant SC', serif;
+      |   font-weight:600;
+      |   font-size: 12px;
+      | }
     title='Invoice PDF template' 
     meta(http-equiv="content-type", content="text/html; charset=UTF-8")
-    link(rel='stylesheet',type='text/css',href='https://raw.githubusercontent.com/korshunad/invoice-app/master/dist/template.css')
-    link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Cormorant+SC") 
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Cormorant+SC:400,700") 
   body
     div
       div.page
         div.top
           div.companyName
-            p= invoice.companyName
+            p= invoice.companyName 
           div.companyDetails
-            p.companyAddress= invoice.companyAddressL1+ " "+invoice.companyAddressL2
-            p.companyAddress= invoice.companyCity+" "+invoice.companyZip
-            p.companyAddress= invoice.companyCountry+", "+invoice.companyProvince
-            p.companyAddress(style='margin-top:10px')= invoice.companyPhone
-            p.companyAddress= "Fax: "+invoice.companyFax
-            p.companyAddress(style='margin-bottom:20px')=invoice.companyWebsite+" "+invoice.companyEmail
+            p.companyAddress= (invoice.companyAddressL1 ? invoice.companyAddressL1 : '') + " "+(invoice.companyAddressL2 ? invoice.companyAddressL2 : '')
+            p.companyAddress= (invoice.companyCity ? invoice.companyCity : '')+" "+(invoice.companyZip ? invoice.companyZip : '')
+            p.companyAddress= (invoice.companyCountry ? invoice.companyCountry : '')+(invoice.companyProvince ? ", "+invoice.companyProvince : '')
+            p.companyAddress(style='margin-top:10px')= invoice.companyPhone ? invoice.companyPhone : ''
+            p.companyAddress= invoice.companyFax ? "Fax: "+invoice.companyFax : ''
+            p.companyAddress(style='margin-bottom:20px')=(invoice.companyWebsite ? invoice.companyWebsite : '')+" "+(invoice.companyEmail ? invoice.companyEmail : '')
           div.invoiceheader
             p.title= invoice.invoiceTitle+" #"+invoice.invoiceNumber
             p= invoice.invoiceSummary
-        div.line
         div.invoiceDetail
           div.invoiceDate
             p Invoice Date
@@ -35,15 +236,15 @@ html
             p= invoice.paymentDue.getDate()+"."+invoice.invoiceDate.getMonth()+1+"."+invoice.invoiceDate.getFullYear()
         div.customer
           
-          p.companyAddress(style="font-size:10px; font-weight:600; color:#DE5622;margin-bottom:5px; font-family: 'Cormorant SC', serif; display: inline;") To  
+          p.companyAddress(style="font-size:10px; font-weight:700; color:#DE5622;margin-bottom:5px; font-family: 'Cormorant SC', serif; display: inline;") To  
           p.companyAddress(style="margin-bottom:5px; display: inline")= invoice.customerName
-          p.companyAddress= invoice.customerContactFirstName+" "+invoice.customerContactLastName
-          p.companyAddress(style="margin-bottom:5px")= "Account: "+invoice.customerAccountNumber
-          p.companyAddress= invoice.customerAddressL1+" "+invoice.customerAddressL2
-          p.companyAddress= invoice.customerCity+" "+invoice.customerProvince+" "+invoice.customerCountry
-          p.companyAddress= invoice.customerPhone+", fax: "+invoice.customerFax
-          p.companyAddress= invoice.customerWebsite
-          p.companyAddress= invoice.customerEmail
+          p.companyAddress= (invoice.customerContactFirstName ? invoice.customerContactFirstName : '')+" "+(invoice.customerContactLastName ? invoice.customerContactLastName : '')
+          p.companyAddress(style="margin-bottom:5px")= (invoice.customerAccountNumber ? "Account: "+invoice.customerAccountNumber : '')
+          p.companyAddress= (invoice.customerAddressL1 ? invoice.customerAddressL1 : '')+" "+(invoice.customerAddressL2 ? invoice.customerAddressL2 : '')
+          p.companyAddress= (invoice.customerCity ? invoice.customerCity : '')+" "+(invoice.customerProvince ? invoice.customerProvince : '')+" "+(invoice.customerCountry ? invoice.customerCountry : '')
+          p.companyAddress= (invoice.customerPhone ? invoice.customerPhone : '')+(invoice.customerFax ? ", fax: "+invoice.customerFax : '')
+          p.companyAddress= (invoice.customerWebsite ? invoice.customerWebsite : '')
+          p.companyAddress= (invoice.customerEmail ? invoice.customerEmail : '')
         div
           table.itemsTable
             thead
@@ -62,58 +263,64 @@ html
                         td.itemValue(class='itemTotal')= (invoice.currencySymbol==null?"":invoice.currencySymbol)+" "+val.quantity*val.price+" "+(invoice.currencyCode==null? "":invoice.currencyCode)
                     tr
                       td(colspan='2' style='')
-                      td.itemValue(colspan='2', style='text-align: left;padding-top:30px; font-family: Cormorant SC, serif; font-weight: 600')= invoice.taxName
-                      td.itemValue(style='padding-top:30px;')= ((invoice.taxType=='flat' && invoice.currencySymbol!=null) ? invoice.currencySymbol : '' )+" "+invoice.tax+" "+((invoice.taxType=='flat' && invoicecurrencyCode!=null) ? invoice.currencyCode : invoice.taxType) 
+                      td.itemCharge(colspan='2', style='text-align: left; ')= " "+ invoice.taxName
+                      td.itemValue= ((invoice.taxType=='flat' && invoice.currencySymbol!=null) ? invoice.currencySymbol : '' )+" "+invoice.tax+" "+((invoice.taxType=='flat' && invoicecurrencyCode!=null) ? invoice.currencyCode : invoice.taxType) 
                     tr
                       td(colspan='2')
-                      td.itemValue(colspan='2', style='text-align: left;font-family: Cormorant SC, serif;font-weight: 600')= invoice.discountName
+                      td.itemCharge(colspan='2', style='text-align: left;')= invoice.discountName
                       td.itemValue= invoice.discount+"%" 
                     tr
                       td(colspan='2')
-                      td.itemValue(colspan='2', style='text-align: left;font-family: Cormorant SC, serif;font-weight: 600')= invoice.additionalChargeName+":"
+                      td.itemCharge(colspan='2', style='text-align: left;')= invoice.additionalChargeName+":"
                       td.itemValue= (invoice.currencySymbol!=null ? invoice.currencySymbol : '' )+" "+invoice.additionalCharge+" "+(invoicecurrencyCode!=null ? invoice.currencyCode : '') 
                     tr
                       td(colspan='2')
-                      td.itemValue(colspan='2', style='text-align: left;font-family: Cormorant SC, serif;font-weight: 600')= "Total Due: " 
+                      td.itemCharge(colspan='2', style='text-align: left;font-family: Cormorant SC, serif;font-weight: 700')= "Total Due: " 
                       td.itemValue= (invoice.currencySymbol!=null ? invoice.currencySymbol : '' )+" "+Math.round((invoice.invoiceTotal + 0.00001) * 100) / 100 +" "+(invoicecurrencyCode!=null ? invoice.currencyCode : '')
-        div.payment
-          div.p1
-            div.docHeader Payment
-            div
-              div.paymentHeader(style="display: inline") Account 
-              div(style="display: inline")= invoice.companyAccount
-            div
-              div.paymentHeader(style="display: inline") Account holder 
-              div(style="display: inline")= invoice.companyBankAccountHolder
-            div
-              div.paymentHeader(style="display: inline") IBAN 
-              div(style="display: inline")= invoice.companyIBAN  
-            div
-              div.paymentHeader(style="display: inline") PayPal  
-              div(style="display: inline")= invoice.companyPayPalinfo  
-            div
-              div.paymentHeader(style="display: inline") Else 
-              div(style="display: inline")= invoice.companyOtherBilling  
-          div.p2
-            div
-              div.paymentHeader(style="display: inline") Bank name 
-              div(style="display: inline")= invoice.companyBankName
-            div
-              div.paymentHeader(style="display: inline") Bank address 
-              div(style="display: inline")= invoice.companyBankAddress
-            div
-              div.paymentHeader(style="display: inline") SWIFT 
-              div(style="display: inline")= invoice.companySWIFT  
-            div
-              div.paymentHeader(style="display: inline") BIC 
-              div(style="display: inline")= invoice.companyBIC  
- 
-            div.terms
-              div.docHeader(style="display: inline") Terms 
-              div(style="display: inline")= invoice.footer
-        div.notes
-          div= invoice.notes
-
+        div.footer
+          if (invoice.companyAccount ||  invoice.companyBankAccountHolder ||invoice.companyIBAN ||invoice.companyOtherBilling ||invoice.companyBankAddress ||invoice.companySWIFT ||invoice.companyBIC ||invoice.footer)
+            div.payment 
+              if (invoice.companyAccount ||  invoice.companyBankAccountHolder ||invoice.companyIBAN ||invoice.companyOtherBilling)
+                div.p1
+                  div.docHeader Payment
+                  div
+                    div.paymentHeader(style="display: inline")=  invoice.companyAccount? 'Account ' : ''
+                    div(style="display: inline")= invoice.companyAccount
+                  div
+                    div.paymentHeader(style="display: inline")= invoice.companyBankAccountHolder ? 'Account holder ' : '' 
+                    div(style="display: inline")= invoice.companyBankAccountHolder
+                  div
+                    div.paymentHeader(style="display: inline")=  invoice.companyIBAN ? 'IBAN ' : '' 
+                    div(style="display: inline")= invoice.companyIBAN  
+                  div
+                    div.paymentHeader(style="display: inline")= invoice.companyPayPalinfo ? 'PayPal ' : ''  
+                    div(style="display: inline")= invoice.companyPayPalinfo  
+                  div
+                    div.paymentHeader(style="display: inline")= invoice.companyOtherBilling ? 'Else ' : ''
+                    div(style="display: inline")= invoice.companyOtherBilling  
+              div.p2
+                div
+                  div.paymentHeader(style="display: inline")= invoice.companyBankName ? 'Bank name ' : ''
+                  div(style="display: inline")= invoice.companyBankName
+                div
+                  div.paymentHeader(style="display: inline")= invoice.companyBankAddress ? 'Bank address ' : ''
+                  div(style="display: inline")= invoice.companyBankAddress
+                div
+                  div.paymentHeader(style="display: inline")=  invoice.companySWIFT ? 'SWIFT ' : ''
+                  div(style="display: inline")= invoice.companySWIFT  
+                div
+                  div.paymentHeader(style="display: inline")= invoice.companyBIC ? 'BIC ' : '' 
+                  div(style="display: inline")= invoice.companyBIC  
+     
+                div.terms
+                  div.docHeader(style="display: inline")= invoice.footer ?  'Terms ' : ''
+                  div(style="display: inline")= invoice.footer
+            div.notes
+              div= invoice.notes
+          else 
+            div.notes
+              div= invoice.notes
+            
 
 
 

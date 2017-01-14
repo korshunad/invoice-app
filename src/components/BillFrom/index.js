@@ -47,15 +47,7 @@ class BillFromForm extends React.Component {
         <Form vertical>
           <Tabs defaultActiveKey="1">
             <TabPane tab="Name and contacts" key="1">
-              <FormItem className={styles.formPart} label="Company name">
-                {getFieldDecorator('name', {
-                  rules: 
-                    [{ required: true, 
-                    message: 'Please input company name' }] })(
-                   <Input />
-                )}
-              </FormItem>
-              <FormItem  className={styles.formPart} label="Website">
+              <FormItem  className={styles.formPart} label="Your website">
                 {getFieldDecorator('Website')(
                   <Input />
                 )}
@@ -78,7 +70,7 @@ class BillFromForm extends React.Component {
 
             < /TabPane>
             <TabPane tab="Address" key="2">
-              <FormItem  className={styles.formPart} label="Address">
+              <FormItem  className={styles.formPart} label="Your Address">
                 {getFieldDecorator('address1')(
                   <Input />
                 )}
@@ -194,7 +186,6 @@ class BillFrom extends React.Component{
         return;
       }
       self.props.addCompanyHandler({
-        newCompanyName: values.name,
         
         newCompanyAddressL1: values.address1,
         newCompanyAddressL2: values.address2,

@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './_InvoiceForm.css'
-import { Icon, Row, Col, Form, Select, Input, Button, InputNumber, DatePicker, LocaleProvider } from 'antd';
+import { Icon, Row,notification, Col, Form, Select, Input, Button, InputNumber, DatePicker, LocaleProvider } from 'antd';
 import moment from 'moment';
 import enUS from 'antd/lib/locale-provider/en_US'
 import 'moment/locale/ru';
@@ -8,6 +8,10 @@ import BillFrom from 'components/BillFrom'
 import BillTo from 'components/BillTo'
 import {currencies} from './currencies'
 import { addInvoice, submitInvoice } from 'redux/modules/api'
+
+//import { Button, notification, Icon } from 'antd';
+
+
 
 //console.log(JSON.stringify(currencies["USD"]))
 moment.locale('en')
@@ -141,16 +145,15 @@ class InvoiceForm extends React.Component {
     let submittableItems=Object.keys(this.state.items).map(key => this.state.items[key]);
     e.preventDefault();
     const self=this;
+    const today=new Date();
     this.props.form.validateFields( function checker (err, values)  {
       if (!err) {
         console.log('Received values of form: ', values);
-      }
-
     self.props.addInvoiceHandler({
       newInvoiceTitle: values.invoiceName,
       newInvoiceSummary: values.invoiceSummary,
       newInvoiceNumber: values.invoiceNumber,
-      newInvoiceDate: values.invoiceDate,
+      newInvoiceDate: values.invoiceDate || today.toString(),
 
       newPaymentDue: values.paymentDue,
 
@@ -176,7 +179,17 @@ class InvoiceForm extends React.Component {
 
       newNotes: values.notes,
       newFooter: values.terms,
+      newCompanyName: values.companyName,
+      newCustomerName: values.customerName,
        });
+  notification.open({
+    message: 'Your invoice is ready!',
+    description: <a href={'/pdfs/'+(self.props.justMadeId+1)}>  You can get it here </a>,
+    icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
+    duration: 0
+  });
+      }
+
     })
 
   }
@@ -340,9 +353,15 @@ let total=0;
           <Col span={12}>
             <FormItem
               className={styles.formPart}
-              wrapperCol={{ span: 8 }}
+              labelCol={{ span: 5 }}
+              wrapperCol={{ span: 15 }}
+              label="Bill from"
             >
-              <div>Bill from</div>
+              {getFieldDecorator('companyName',  {
+            rules: [{ required: true, message: 'Please add your or your company name' }]
+              })(
+                <Input  placeholder="Your Company Name here"/>
+              )}
             </FormItem>
           </Col>
           <Col span={12} style={{marginBottom:"10px"}}>
@@ -388,11 +407,15 @@ let total=0;
           <Col span={12}>
             <FormItem
               className={styles.formPart}
-              wrapperCol={{ span: 8 }}
+              labelCol={{ span: 4 }}
+              wrapperCol={{ span: 15, offset: 1 }}
+              label="Bill to"
             >
-                <div>
-                 Bill to: 
-                </div>
+              {getFieldDecorator('customerName',  {
+            rules: [{ required: true, message: 'Please add your customer or her company name' }]
+              })(
+                <Input  placeholder="Your Customer Name"/>
+              )}
             </FormItem>
           </Col>
           <Col span={12}>
@@ -427,7 +450,7 @@ let total=0;
               wrapperCol={{ span: 15 }}
               label="Payment Due"
             >
-              {getFieldDecorator('paymentDue')(
+              {getFieldDecorator('paymentDue', {rules: [{ required: true, message: 'Please specify when the invoice is due' }]})(
                  <DatePicker format={dateFormat} />
               )}
             </FormItem>
@@ -604,11 +627,11 @@ let total=0;
             <FormItem wrapperCol={{ span: 24 }}
             >
               {getFieldDecorator('addCharge', {
-                initialValue:0
+              initialValue:0
               })(
                 <Row>
-                  <Col className={this.state.preCur==null? styles.hidden : ""} span={2}>
-                    {this.state.preCur}
+                  <Col className={this.state.hideCur && !this.state.preCur ? styles.hidden :  ""} span={2}>
+                  {this.state.preCur}
                   </Col>
                   <Col span={8} offset={1}>
                     <Input />
@@ -674,7 +697,9 @@ let total=0;
         <Row>
           <Col span={24}>
             <FormItem wrapperCol={{ span: 20}}>
-              <Button type="primary" htmlType="submit" style={{width:"700px"}}>
+              <Button type="primary" 
+                htmlType="submit" 
+                style={{width:"700px"}}>
                 Save the invoice
               </Button>
             </FormItem>

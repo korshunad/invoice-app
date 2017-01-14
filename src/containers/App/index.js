@@ -3,16 +3,19 @@ import styles from './_App.css'
 import { connect } from 'react-redux'
 import {getInvoices, addInvoice, submitInvoice, addCompany, addCustomer} from 'redux/modules/api'
 import InvoiceForm from 'components/InvoiceForm'
-
-
+import { Button, notification, Icon } from 'antd';
 class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state={isModalOpen: false }
+
   };
   componentDidMount() {
     this.props.dispatch(getInvoices());
+  }
+  componentWillReceiveProps(nextProps) {
+    this.forceUpdate();
   }
   addInvoiceHandler(params) {
     console.log("HI FROM ADDINVOICEHANDLER!")
@@ -46,14 +49,16 @@ class App extends React.Component {
 
       newNotes: params.newNotes,
       newFooter: params.newFooter,
+      newCompanyName: params.newCompanyName,
+      newCustomerName: params.newCustomerName,
     }))
     console.log("helloInvoice Adder"+JSON.stringify(params))
     console.log(JSON.stringify(this.props.formData)+" formdata from helloinvoice")
     this.props.dispatch(submitInvoice())
+      console.log(this.props.justMadeId+"from addinvhandler and after submit dispatched") 
   }
   addCompanyHandler(params) {
     this.props.dispatch(addCompany({
-      newCompanyName: params.newCompanyName,
       newCompanyAddressL1: params.newCompanyAddressL1,
       newCompanyAddressL2: params.newCompanyAddressL2,
       newCompanyCity: params.newCompanyCity,
@@ -80,7 +85,6 @@ class App extends React.Component {
   addCustomerHandler(params) {
     this.props.dispatch(addCustomer({
 
-      newCustomerName: params.newCustomerName,
       newCustomerAddressL1: params.newCustomerAddressL1,
       newCustomerAddressL2: params.newCustomerAddressL2,
       newCustomerCity: params.newCustomerCity,
@@ -100,11 +104,12 @@ class App extends React.Component {
     console.log(JSON.stringify(params)+" this is adding customer info")
   }
   render() {
-//    console.log(this.props.invoices[0])
+      console.log(this.props.justMadeId+"last id made")
     return (
       <div>
         <div className={styles.page}>
           <InvoiceForm  
+            justMadeId={this.props.justMadeId}
             invoices={this.props.invoices}
             addInvoiceHandler={this.addInvoiceHandler.bind(this)}
             addCompanyHandler={this.addCompanyHandler.bind(this)}
@@ -120,7 +125,8 @@ class App extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     invoices: state.api.invoices,
-    formData: state.api.formData 
+    formData: state.api.formData, 
+    justMadeId: state.api.justMadeId
   };
 };
 

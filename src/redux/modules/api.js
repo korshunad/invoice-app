@@ -18,71 +18,8 @@ const GET_INVOICES_SUCCESS = 'GET_INVOICES_SUCCESS'
 
 const initialState = {
   invoices: [],
-  formData: {
-/*          invoiceTitle: null, 
-          invoiceSummary: null, 
-          invoiceNumber: null, 
-          invoiceDate: null, 
-
-          paymentdue: null, 
-
-          itemsName: null, 
-          unitPriceName: null, 
-          quantityName: null, 
-          totalName: null, 
-
-          currency: null, 
-
-          invoiceTotal: null, 
-          taxName: null, 
-          tax: null, 
-          discountName: null, 
-          discount: null, 
-          additionalChargeName: null, 
-          additionalCharge: null, 
-
-          items: null, 
-
-          notes: null, 
-          footer: null, 
-
-          companyName: null, 
-          companyAddressL1: null, 
-          companyAddressL2: null, 
-          companyCity: null, 
-          companyZip: null, 
-          companyCountry: null, 
-          companyProvince: null, 
-          companyPhone: null, 
-          companyWebsite: null, 
-          companyFax: null, 
-          companyEmail: null, 
-          companyAccount: null, 
-          companyBankAccountHolder: null, 
-          companyBankName: null, 
-          companyBankAddress: null, 
-          companySWIFT: null, 
-          companyBIC: null,  
-          companyIBAN: null,  
-          companyPayPalinfo: null,  
-          companyOtherBilling: null,  
-
-          customerName: null, 
-          customerAddressL1: null, 
-          customerAddressL2: null, 
-          customerCity: null, 
-          customerZip: null, 
-          customerCountry: null, 
-          customerProvince: null, 
-          customerPhone: null, 
-          customerEmail: null, 
-          customerContactFirstName: null, 
-          customerContactLastName: null, 
-          customerWebsite: null, 
-          customerFax: null, 
-          customerAccountNumber: null, 
-  */  
-  }
+  formData: {},
+  justMadeId: null,
 }
 
 
@@ -94,17 +31,22 @@ export default function api (state = initialState, action = {}) {
       return state;
 
     case GET_INVOICES_SUCCESS: 
+      let lastId=action.invoices[action.invoices.length-1]['_id']
       return {
         ...state,
-        invoices: action.invoices
+        invoices: action.invoices,
+        justMadeId: lastId
       };
     case SUBMIT_INVOICE_SUCCESS:
       let newInvoices = state.invoices.slice(0);
       newInvoices.push(action.invoice);
-      console.log("SUBMIT_INVOICE "+JSON.stringify(newInvoices))
+      let newId=action.justMadeId;
+      console.log("SUBMIT_INVOICE "+newId);
+      
       return {
         ...state,
-        invoices: newInvoices
+        invoices: newInvoices,
+        justMadeId: newId
       };
     case ADD_INVOICE:
     let overallInfo=Object.assign({}, state.formData, action.formData)
@@ -154,7 +96,7 @@ export function submitInvoice() {
       return response.json();
     })
     .then((invoiceResponse) => {
-      dispatch({type: SUBMIT_INVOICE_SUCCESS, invoice: invoiceResponse.invoice}) 
+      dispatch({type: SUBMIT_INVOICE_SUCCESS, justMadeId: invoiceResponse.invoice}) 
     });
     
   }
@@ -194,6 +136,8 @@ export function addInvoice(params) {
 
           notes: params.newNotes,
           footer: params.newFooter,
+          companyName: params.newCompanyName,
+          customerName: params.newCustomerName,
       } 
     });
   }
@@ -204,7 +148,6 @@ export function addCompany(params) {
       type:ADD_COMPANY, 
       formData: {
                 
-          companyName: params.newCompanyName,
           companyAddressL1: params.newCompanyAddressL1,
           companyAddressL2: params.newCompanyAddressL2,
           companyCity: params.newCompanyCity,
@@ -235,7 +178,6 @@ export function addCustomer(params) {
 
       formData: {
 
-          customerName: params.newCustomerName,
           customerAddressL1: params.newCustomerAddressL1,
           customerAddressL2: params.newCustomerAddressL2,
           customerCity: params.newCustomerCity,

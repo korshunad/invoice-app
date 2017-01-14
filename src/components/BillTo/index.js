@@ -46,15 +46,7 @@ class BillToForm extends React.Component {
       >
         <Form vertical>
           <Tabs defaultActiveKey="1">
-            <TabPane tab="Customer name" key="1">
-              <FormItem className={styles.formPart} label="Customer company name">
-                {getFieldDecorator('name', {
-                  rules: 
-                    [{ required: true, 
-                    message: 'Please input customer company name' }] })(
-                   <Input />
-                )}
-              </FormItem>
+            <TabPane tab="Customer name & account" key="1">
               <FormItem  className={styles.formPart} label="Contact first name"> 
                 {getFieldDecorator('firstName')(
                   <Input />
@@ -166,7 +158,6 @@ class BillTo extends React.Component{
       }
       self.props.addCustomerHandler({
         
-        newCustomerName: values.name,
         newCustomerAddressL1: values.address1,
         newCustomerAddressL2: values.address2,
         newCustomerCity: values.city,
@@ -194,7 +185,7 @@ class BillTo extends React.Component{
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>
-          Add customer
+          Add customer information
         </Button>
         <BillToForm
           ref={this.saveFormRef}
