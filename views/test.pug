@@ -261,18 +261,21 @@ html
                         td.itemValue(class='itemQuantity')= val.quantity
                         td.itemValue(class='itemPrice')= (invoice.currencySymbol==null?"":invoice.currencySymbol)+" "+val.price+" "+(invoice.currencyCode==null? "":invoice.currencyCode)
                         td.itemValue(class='itemTotal')= (invoice.currencySymbol==null?"":invoice.currencySymbol)+" "+val.quantity*val.price+" "+(invoice.currencyCode==null? "":invoice.currencyCode)
-                    tr
-                      td(colspan='2' style='')
-                      td.itemCharge(colspan='2', style='text-align: left; ')= " "+ invoice.taxName
-                      td.itemValue= ((invoice.taxType=='flat' && invoice.currencySymbol!=null) ? invoice.currencySymbol : '' )+" "+invoice.tax+" "+((invoice.taxType=='flat' && invoicecurrencyCode!=null) ? invoice.currencyCode : invoice.taxType) 
-                    tr
-                      td(colspan='2')
-                      td.itemCharge(colspan='2', style='text-align: left;')= invoice.discountName
-                      td.itemValue= invoice.discount+"%" 
-                    tr
-                      td(colspan='2')
-                      td.itemCharge(colspan='2', style='text-align: left;')= invoice.additionalChargeName+":"
-                      td.itemValue= (invoice.currencySymbol!=null ? invoice.currencySymbol : '' )+" "+invoice.additionalCharge+" "+(invoicecurrencyCode!=null ? invoice.currencyCode : '') 
+                    if (invoice.tax != null)
+                      tr
+                        td(colspan='2' style='')
+                        td.itemCharge(colspan='2', style='text-align: left; ')= " "+ invoice.taxName
+                        td.itemValue= ((invoice.taxType=='flat' && invoice.currencySymbol!=null) ? invoice.currencySymbol : '' )+" "+invoice.tax+" "+((invoice.taxType=='flat' && invoicecurrencyCode!=null) ? invoice.currencyCode : invoice.taxType) 
+                    if (invoice.discount != null)
+                      tr
+                        td(colspan='2')
+                        td.itemCharge(colspan='2', style='text-align: left;')= invoice.discountName
+                        td.itemValue= invoice.discount+"%" 
+                    if (invoice.additionalCharge != null)
+                      tr
+                        td(colspan='2')
+                        td.itemCharge(colspan='2', style='text-align: left;')= invoice.additionalChargeName+":"
+                        td.itemValue= (invoice.currencySymbol!=null ? invoice.currencySymbol : '' )+" "+invoice.additionalCharge+" "+(invoicecurrencyCode!=null ? invoice.currencyCode : '') 
                     tr
                       td(colspan='2')
                       td.itemCharge(colspan='2', style='text-align: left;font-family: Cormorant SC, serif;font-weight: 700')= "Total Due: " 

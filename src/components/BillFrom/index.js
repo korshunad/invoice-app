@@ -34,6 +34,7 @@ class BillFromForm extends React.Component {
   render() { 
     const { visible, onCancel, onCreate, form } = this.props;
     const { getFieldDecorator } = this.props.form;
+//    console.log(JSON.stringify(this.props.regionData)+"invoice region data from company form")
 //    const { country, region } = this.state;
     return (
       <Modal
@@ -48,22 +49,22 @@ class BillFromForm extends React.Component {
           <Tabs defaultActiveKey="1">
             <TabPane tab="Name and contacts" key="1">
               <FormItem  className={styles.formPart} label="Your website">
-                {getFieldDecorator('Website')(
+                {getFieldDecorator('Website', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyWebsite : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="E-mail">
-                {getFieldDecorator('Email')(
+                {getFieldDecorator('Email', { initialValue: this.props.invoiceToEdit != undefined? this.props.invoiceToEdit.companyEmail : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="Phone">
-                {getFieldDecorator('Phone')(
+                {getFieldDecorator('Phone', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyPhone : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="Fax">
-                {getFieldDecorator('Fax')(
+                {getFieldDecorator('Fax', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyFax : ''})(
                   <Input />
                 )}
               </FormItem>
@@ -71,81 +72,81 @@ class BillFromForm extends React.Component {
             < /TabPane>
             <TabPane tab="Address" key="2">
               <FormItem  className={styles.formPart} label="Your Address">
-                {getFieldDecorator('address1')(
+                {getFieldDecorator('address1', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyAddressL1 : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="Address (additional line)">
-                {getFieldDecorator('address2')(
+                {getFieldDecorator('address2', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyAddressL2 : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="City">
-                {getFieldDecorator('city')(
+                {getFieldDecorator('city', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyCity : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="ZIP">
-                {getFieldDecorator('ZIP')(
+                {getFieldDecorator('ZIP', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyZip : null})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="Country">
                   <CountryDropdown className={styles.antd}
-                    value={this.state.regionData["country"]}
+                    value={this.props.regionData != null ? this.props.regionData["country"] : this.state.regionData["country"] }
                     onChange={(val) => this.selectCountry(val)} />
               </FormItem>
               <FormItem className={styles.formPart}  label="Province">
                 <RegionDropdown className={styles.antd}
-                  country={this.state.regionData["country"]}
-                  value={this.state.regionData["region"]}
+                  country={this.props.regionData["country"] || this.state.regionData["country"]}
+                  value={this.props.regionData["region"] || this.state.regionData["region"]}
                   onChange={(val) => this.selectRegion(val)} />
               </FormItem>
 
             < /TabPane>
             <TabPane tab="Billing" key="3">
               <FormItem className={styles.formPart}  label="Bank account holder name">
-                {getFieldDecorator('holderName')(
+                {getFieldDecorator('holderName', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyBankAccounHolder : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="Bank account">
-                {getFieldDecorator('account')(
+                {getFieldDecorator('account', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyAccount : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="IBAN">
-                {getFieldDecorator('IBAN')(
+                {getFieldDecorator('IBAN', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyIBAN : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="BIC">
-                {getFieldDecorator('BIC')(
+                {getFieldDecorator('BIC', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyBIC : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="Bank name">
-                {getFieldDecorator('bankName')(
+                {getFieldDecorator('bankName', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyBankName : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="Bank address">
-                {getFieldDecorator('bankAddress')(
+                {getFieldDecorator('bankAddress', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyBankAddress : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="SWIFT">
-                {getFieldDecorator('SWIFT')(
+                {getFieldDecorator('SWIFT', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companySWIFT : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="PayPal e-mail or phone">
-                {getFieldDecorator('PayPal')(
+                {getFieldDecorator('PayPal', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyPayPalinfo : ''})(
                   <Input />
                 )}
               </FormItem>
               <FormItem className={styles.formPart}  label="Other billing information">
-                {getFieldDecorator('otherBill')(
+                {getFieldDecorator('otherBill', { initialValue: this.props.invoiceToEdit!=undefined? this.props.invoiceToEdit.companyOtherBilling : ''})(
                   <Input />
                 )}
               </FormItem>
@@ -168,6 +169,12 @@ class BillFrom extends React.Component{
     this.handleCreate=this.handleCreate.bind(this);
     this.saveFormRef=this.saveFormRef.bind(this);
     this._updateOnChange=this._updateOnChange.bind(this);
+  }
+  componentWillReceiveProps() {
+//    console.log(JSON.stringify(this.props.invoiceToEdit)+"another fucking try from billfrom wrap and comp receiving props")
+    let updCountry=this.props.invoiceToEdit.companyCountry
+    let updRegion=this.props.invoiceToEdit.companyProvince
+    this.setState({regionData: {country: updCountry, region: updRegion}})
   }
   _updateOnChange(value) {
     this.setState({regionData: value})
@@ -207,8 +214,7 @@ class BillFrom extends React.Component{
         newCompanyPayPalinfo:  values.PayPal,  
         newCompanyOtherBilling:  values.otherBill,  
       })
-      console.log('Received values of form: ', values);
-      form.resetFields();
+  //    console.log('Received values of form: ', values);
       this.setState({ visible: false });
     });
   }
@@ -216,6 +222,9 @@ class BillFrom extends React.Component{
     this.form = form;
   }
   render() {
+//    console.log(this.props.id+"from billfrom again")
+//    console.log(JSON.stringify(this.state.regionData)+"regiondata from billfrom wrap state") 
+//    console.log(JSON.stringify(this.props.invoiceToEdit)+"invoice from billfrom wrapper")
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>
@@ -225,7 +234,9 @@ class BillFrom extends React.Component{
           ref={this.saveFormRef}
           visible={this.state.visible}
           onCancel={this.handleCancel}
+          invoiceToEdit={this.props.invoiceToEdit}
           addCompanyHandler={this.props.addCompanyHandler}
+          regionData={this.state.regionData}
           onValueChange={this._updateOnChange}
           onCreate={this.handleCreate}
         />

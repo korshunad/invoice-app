@@ -4,15 +4,19 @@ import * as InvoiceController from '../controllers/invoice.controller';
 const router = new Router();
 
 
-// Add a new good
 router.route('/invoices').post(InvoiceController.addInvoice);
 
-// Get all invoices
 router.route('/invoices').get(InvoiceController.getInvoices);
 
 router.route('/pdf').get(InvoiceController.getPdf);
 
 router.route('/pdfs/:id').get(InvoiceController.generatePdf);
+
+router.route('/invoices/:id').put(InvoiceController.editInvoice);
+
+router.route('/invoices/:id').delete(InvoiceController.deleteInvoice);
+
+router.route('/invoices/:id').get(InvoiceController.getInvoice);
 
 export default router;
 

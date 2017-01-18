@@ -1,9 +1,11 @@
 import React from 'react'
 import styles from './_App.css'
 import { connect } from 'react-redux'
-import {getInvoices, addInvoice, submitInvoice, addCompany, addCustomer} from 'redux/modules/api'
+import {getInvoices, getInvoiceToEdit, changeInvoice, addInvoice, submitInvoice, addCompany, addCustomer} from 'redux/modules/api'
 import InvoiceForm from 'components/InvoiceForm'
 import { Button, notification, Icon } from 'antd';
+import { Router, Route, Link } from 'react-router'
+
 class App extends React.Component {
 
   constructor(props) {
@@ -12,13 +14,17 @@ class App extends React.Component {
 
   };
   componentDidMount() {
+    var id = this.props.params.id;
     this.props.dispatch(getInvoices());
+    if (id) {
+      this.props.dispatch(getInvoiceToEdit({ editInvoiceId: id}))
+    }
   }
   componentWillReceiveProps(nextProps) {
     this.forceUpdate();
   }
   addInvoiceHandler(params) {
-    console.log("HI FROM ADDINVOICEHANDLER!")
+   // console.log("HI FROM ADDINVOICEHANDLER!")
     this.props.dispatch(addInvoice({
       newInvoiceTitle: params.newInvoiceTitle,
       newInvoiceSummary: params.newInvoiceSummary,
@@ -52,10 +58,10 @@ class App extends React.Component {
       newCompanyName: params.newCompanyName,
       newCustomerName: params.newCustomerName,
     }))
-    console.log("helloInvoice Adder"+JSON.stringify(params))
-    console.log(JSON.stringify(this.props.formData)+" formdata from helloinvoice")
+ //   console.log("helloInvoice Adder"+JSON.stringify(params))
+ //   console.log(JSON.stringify(this.props.formData)+" formdata from helloinvoice")
     this.props.dispatch(submitInvoice())
-      console.log(this.props.justMadeId+"from addinvhandler and after submit dispatched") 
+     // console.log(this.props.justMadeId+"from addinvhandler and after submit dispatched") 
   }
   addCompanyHandler(params) {
     this.props.dispatch(addCompany({
@@ -79,7 +85,7 @@ class App extends React.Component {
       newCompanyPayPalinfo:  params.newCompanyPayPalinfo,  
       newCompanyOtherBilling:  params.newCompanyOtherBilling,  
     }))
-    console.log(JSON.stringify(params)+" this is adding company info")
+   // console.log(JSON.stringify(params)+" this is adding company info")
   }
 
   addCustomerHandler(params) {
@@ -101,19 +107,66 @@ class App extends React.Component {
       
 
     }))
-    console.log(JSON.stringify(params)+" this is adding customer info")
+  //  console.log(JSON.stringify(params)+" this is adding customer info")
+  }
+  updInvoiceHandler(params) {
+    console.log("HI FROM UPDINVOICEHANDLER!")
+    this.props.dispatch(changeInvoice({
+      updInvoiceId: this.props.params.id, 
+      updInvoiceTitle: params.updInvoiceTitle,
+      updInvoiceSummary: params.updInvoiceSummary,
+      updInvoiceNumber: params.updInvoiceNumber,
+      updInvoiceDate: params.updInvoiceDate,
+
+      updPaymentDue: params.updPaymentDue,
+
+      updItemsName: params.updItemsName,
+      updItemsDescriptionName: params.updItemsDescriptionName,
+      updUnitPriceName: params.updUnitPriceName,
+      updQuantityName: params.updQuantityName,
+      updTotalName: params.updTotalName,
+
+      updCurrencySymbol: params.updCurrencySymbol,
+      updCurrencyCode: params.updCurrencyCode,
+
+      updInvoiceTotal: params.updInvoiceTotal,
+      updTaxType: params.updTaxType,
+      updTaxName: params.updTaxName,
+      updTax: params.updTax,
+      updDiscountName: params.updDiscountName,
+      updDiscount: params.updDiscount,
+      updAdditionalChargeName: params.updAdditionalChargeName,
+      updAdditionalCharge: params.updAdditionalCharge,
+
+      updItems: params.updItems,  
+
+      updNotes: params.updNotes,
+      updFooter: params.updFooter,
+      updCompanyName: params.updCompanyName,
+      updCustomerName: params.updCustomerName,
+    }))
+    console.log("helloInvoice UPDer"+JSON.stringify(params))
+    console.log(JSON.stringify(this.props.formData)+"upd formdata from helloinvoice")
   }
   render() {
-      console.log(this.props.justMadeId+"last id made")
     return (
+
       <div>
-        <div className={styles.page}>
+      <div>
+      {this.props.params.id ? 'Edit the Invoice id '+this.props.params.id : ''}
+          <div style={{textAlign:"center", margin:"10px"}}><Link to="/allinvoices">All invoices</Link></div>
+        {this.props.children}
+      </div>
+        <div className={styles.page} style={{marginTop:"5px"}}>
           <InvoiceForm  
             justMadeId={this.props.justMadeId}
+            id={this.props.params.id}
             invoices={this.props.invoices}
+            invoiceToEdit={this.props.invoiceToEdit}
             addInvoiceHandler={this.addInvoiceHandler.bind(this)}
             addCompanyHandler={this.addCompanyHandler.bind(this)}
             addCustomerHandler={this.addCustomerHandler.bind(this)}
+            updInvoiceHandler={this.updInvoiceHandler.bind(this)}
            />
         </div>
       </div>
@@ -126,7 +179,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     invoices: state.api.invoices,
     formData: state.api.formData, 
-    justMadeId: state.api.justMadeId
+    justMadeId: state.api.justMadeId,
+    invoiceToEdit: state.api.invoiceToEdit
+    
   };
 };
 
