@@ -41,10 +41,8 @@ class InvoiceForm extends React.Component {
     this.handleItemDescription=this.handleItemDescription.bind(this);
   }
   componentWillReceiveProps(){
-    id=this.props.id
-//    console.log(JSON.stringify(this.props.invoiceToEdit)+'invoiceedit from form and componentdidmount')
-//    console.log(this.props.invoiceToEdit["invoiceSummary"]+"invoiceSummary from editing stage")
 var obj;
+    if (this.props.invoiceToEdit != undefined) {
     if (this.props.invoiceToEdit.items != undefined) {
 obj = this.props.invoiceToEdit.items.reduce(function(acc, cur, i) {
   acc[i] = cur;
@@ -53,16 +51,23 @@ obj = this.props.invoiceToEdit.items.reduce(function(acc, cur, i) {
 let newKeys=Object.keys(obj)
 //console.log(Object.keys(obj)+"checking timing for keys obj alternative")
   this.setState({
+      items: obj ,
+      keys: newKeys 
+  })
+}
+  this.setState({
     invoice: this.props.invoicetoEdit, 
       preCur: this.props.invoiceToEdit.currencySymbol,
       postCur: this.props.invoiceToEdit.currencyCode,
       taxType: this.props.invoiceToEdit.taxType,
-      items: obj ,
-      keys: newKeys 
   })
- }  
-//console.log(JSON.stringify(this.state.items)+"state items from props timing") 
+}
   }
+componentDidUpdate (prevProps) {
+//  console.log("component did update is firing")
+  if (prevProps.invoiceToEdit != this.props.invoiceToEdit)
+    { this.forceUpdate }
+}
   componentWillMount() {
   /*  this.props.form.setFieldsValue({
       keys: [0],
@@ -152,10 +157,10 @@ console.log(uuid+' uuid')
     // can use data-binding to get
    /* const keys = form.getFieldValue('keys');
     const nextKeys = keys.concat(uuid);*/
-    let moreKeys = this.state.keys.concat(uuid)
+    let moreKeys = this.state.keys.concat(this.state.keys.length)
     this.setState({keys: moreKeys})
     const newItems=this.state.items
-    newItems[uuid]={name:'', description:'', price:0, quantity:0}
+    newItems[this.state.keys.length]={name:'', description:'', price:0, quantity:0}
   //  console.log(JSON.stringify(newItems)+"newitems")
     this.setState({items: newItems})
  //   console.log(JSON.stringify(this.state.items)+" items from items")
@@ -276,7 +281,8 @@ console.log(JSON.stringify(this.state.invoice)+"from handleSubmit")
     const keys = getFieldValue('keys');
     //console.log(keys+"keys")
   //  console.log(this.props.id+"from invoiceform comp")
-    
+console.log(JSON.stringify(this.props.invoiceToEdit)+"invoicetoedit from invoiceform")
+console.log(this.props.justMadeId+"justmadeid")    
 function objectEntries(obj) {
     let index = 0;
 
@@ -419,7 +425,7 @@ console.log("keys "+newKeys)
           wrapperCol={{ span: 6, offset: 16 }}
         >
           {getFieldDecorator('invoiceName', {
-            rules: [{ required: true, message: 'Please name your document' }], initialValue: this.props.invoiceToEdit.invoiceTitle || "Invoice"
+            rules: [{ required: true, message: 'Please name your document' }], initialValue:  this.props.invoiceToEdit.invoiceTitle || "Invoice"
             })(
               <Input className={styles.borderless+ ' ' +styles.header} />
           )}
@@ -434,7 +440,7 @@ console.log("keys "+newKeys)
               label="Bill from"
             >
               {getFieldDecorator('companyName',  {
-            rules: [{ required: true, message: 'Please add your or your company name' }], initialValue: this.props.invoiceToEdit.companyName || ''
+            rules: [{ required: true, message: 'Please add your or your company name' }], initialValue:  this.props.invoiceToEdit.companyName || ''
               })(
                 <Input  placeholder="Your Company Name here"/>
               )}
@@ -447,7 +453,7 @@ console.log("keys "+newKeys)
               wrapperCol={{ span: 15 }}
               label="Invoice summary"
             >
-              {getFieldDecorator('invoiceSummary', {initialValue: this.props.invoiceToEdit.invoiceSummary || ''
+              {getFieldDecorator('invoiceSummary', {initialValue:  this.props.invoiceToEdit.invoiceSummary || ''
               })(
                 <Input type="textarea"rows={1} placeholder="Invoice summary"/>
               )}
@@ -473,7 +479,7 @@ console.log("keys "+newKeys)
               wrapperCol={{ span: 15 }}
               label="Invoice Number"
             >
-              {getFieldDecorator('invoiceNumber', { initialValue:  this.props.invoiceToEdit.invoiceNumber || 1 })(
+              {getFieldDecorator('invoiceNumber', { initialValue:   this.props.invoiceToEdit.invoiceNumber || 1 })(
                 <InputNumber min={1} />
               )}
             </FormItem>
@@ -515,7 +521,7 @@ console.log("keys "+newKeys)
               wrapperCol={{ span: 8 }}
             >
                 <div>
-                  <BillTo invoiceToEdit={this.props.invoiceToEdit} addCustomerHandler={this.props.addCustomerHandler} updInvoiceHandler={this.props.updInvoiceHandler}/>
+                  <BillTo id={this.props.id} invoiceToEdit={this.props.invoiceToEdit} addCustomerHandler={this.props.addCustomerHandler} updInvoiceHandler={this.props.updInvoiceHandler}/>
                 </div>
             </FormItem>
           </Col>
@@ -536,7 +542,7 @@ console.log("keys "+newKeys)
           <Col span={4} className={styles.denseHeight}>
             <FormItem wrapperCol={{ span: 24 }}>
               {getFieldDecorator('items', {
-                rules: [{ required: true, message: 'Please classify your items/services ' }], initialValue: this.props.invoiceToEdit.itemsName || "Items"
+                rules: [{ required: true, message: 'Please classify your items/services ' }], initialValue:  this.props.invoiceToEdit.itemsName || "Items"
               })(
                 <Input className={styles.borderless} />
               )}
@@ -546,7 +552,7 @@ console.log("keys "+newKeys)
           <Col span={7} className={styles.denseHeight}>
             <FormItem wrapperCol={{ span: 24 }}>
               {getFieldDecorator('itemsDescription', {
-                rules: [{ required: true, message: 'Please specify description way of your items/services ' }], initialValue:this.props.invoiceToEdit.itemsDescriptionName || "Description"
+                rules: [{ required: true, message: 'Please specify description way of your items/services ' }], initialValue:  this.props.invoiceToEdit.itemsDescriptionName || "Description"
               })(
                 <Input className={styles.borderless} />
               )}
@@ -556,7 +562,7 @@ console.log("keys "+newKeys)
           <Col span={3} className={styles.denseHeight}>
             <FormItem> 
               {getFieldDecorator('itemsQuantity', {
-                rules: [{ required: true, message: 'Please specify quantity name of your items/services ' }], initialValue:this.props.invoiceToEdit.quantityName || "Quantity"
+                rules: [{ required: true, message: 'Please specify quantity name of your items/services ' }], initialValue: this.props.invoiceToEdit.quantityName || "Quantity"
               })(
                 <Input className={styles.borderless} style={{textAlign:"center", width:"90%"}} />
               )}
@@ -566,7 +572,7 @@ console.log("keys "+newKeys)
           <Col span={4} className={styles.denseHeight}>
             <FormItem >
               {getFieldDecorator('itemsPrice', {
-                rules: [{ required: true, message: 'Please specify description way of pricing items/services ' }], initialValue: this.props.invoiceToEdit.unitPriceName || "Price"
+                rules: [{ required: true, message: 'Please specify description way of pricing items/services ' }], initialValue:   this.props.invoiceToEdit.unitPriceName || "Price"
               })(
                 <Input className={styles.borderless} style={{textAlign:"center", width:"90%"}} />
               )}
@@ -620,7 +626,7 @@ console.log("keys "+newKeys)
             <FormItem wrapperCol={{ span: 24 }}
             >
               {getFieldDecorator('taxName', {
-                initialValue: this.props.invoiceToEdit.taxName || "Tax:"
+                initialValue:  this.props.invoiceToEdit.taxName ||  "Tax:"
               })(
                 <Input style={{textAlign:"right", border:"none"}} />
               )}
@@ -632,11 +638,13 @@ console.log("keys "+newKeys)
               {getFieldDecorator('tax', {
               })(
                 <Row>
-                  <Col className={this.state.hideCur ? styles.hidden : this.state.preCur==null? styles.hidden : ""} span={2}>
+                  <Col  span={2}>
+                  <div className={this.state.hideCur && !this.state.preCur ? styles.hidden :  ""} style={{textAlign:"center"}}>
                     {this.state.preCur}
+                  </div>
                   </Col>
-                  <Col span={8} offset={1}>
-                    <Input placeholder={this.props.invoiceToEdit.tax || null }/>
+                  <Col span={8} >
+                    <Input placeholder={ this.props.invoiceToEdit.tax ||  null }/>
                   </Col>
                   <Col className={this.state.hideCur ? styles.hidden : this.state.postCur==null? styles.hidden : ""} span={2} offset={1}>
                     {this.state.postCur}
@@ -649,7 +657,7 @@ console.log("keys "+newKeys)
                   </Col>
                   <Col span={3} offset={1}>
                     <Select onChange={this.setTaxType} dropdownMatchSelectWidth={false} value="">
-                      <Option  styles={{width:"130px"}} key="%" value="%" >%</Option>
+                      <Option  style={{width:"130px"}} key="%" value="%" >%</Option>
                       <Option key="flat" value="flat">flat</Option>
                     </Select>
                   </Col>
@@ -663,7 +671,7 @@ console.log("keys "+newKeys)
             <FormItem wrapperCol={{ span: 24 }}
             >
               {getFieldDecorator('discountName', {
-                initialValue: this.props.invoiceToEdit.discountName || "Discount:"
+                initialValue:  this.props.invoiceToEdit.discountName || "Discount:"
               })(
                 <Input style={{textAlign:"right", border:"none"}} />
               )}
@@ -675,8 +683,8 @@ console.log("keys "+newKeys)
               {getFieldDecorator('discount', {
               })(
                 <Row>
-                  <Col span={8} offset={1}>
-                    <Input placeholder={this.props.invoiceToEdit.discount || null } />
+                  <Col span={8} offset={2}>
+                    <Input placeholder={ this.props.invoiceToEdit.discount || null } />
                   </Col>
                   <Col span={1} offset={1}>
                     <p>%</p>
@@ -691,7 +699,7 @@ console.log("keys "+newKeys)
             <FormItem wrapperCol={{ span: 24 }}
             >
               {getFieldDecorator('addChargeName', {
-                initialValue: this.props.invoiceToEdit.additionalChargeName || "Another charge:"
+                initialValue:  this.props.invoiceToEdit.additionalChargeName || "Another charge:"
               })(
                 <Input style={{textAlign:"right", border:"none"}} />
               )}
@@ -703,11 +711,13 @@ console.log("keys "+newKeys)
               {getFieldDecorator('addCharge', {
               })(
                 <Row>
-                  <Col className={this.state.hideCur && !this.state.preCur ? styles.hidden :  ""} span={2}>
+                  <Col span={2}>
+                  <div className={this.state.hideCur && !this.state.preCur ? styles.hidden :  ""} style={{textAlign:"center"}}>
                   {this.state.preCur}
+                  </div>
                   </Col>
-                  <Col span={8} offset={1}>
-                    <Input placeholder={this.props.invoiceToEdit.additionalCharge || null} />
+                  <Col span={8} >
+                    <Input placeholder={  this.props.invoiceToEdit.additionalCharge ||  null} />
                   </Col>
                   <Col className={this.state.postCur==null? styles.hidden : ""} span={2} offset={1}>
                     {this.state.postCur}
@@ -724,13 +734,13 @@ console.log("keys "+newKeys)
               label="Total:"
               labelCol={{ span:9 }}
             >
-              {getFieldDecorator('total', {initialValue: this.props.invoiceToEdit.invoiceTotal || total})(
+              {getFieldDecorator('total', {initialValue:  this.props.invoiceToEdit.invoiceTotal || total})(
               <div>
               <div className={styles.totalElems}>
                 {this.state.preCur}
               </div>
               <div className={styles.totalElems} style={{marginLeft:"5px", marginRight:"5px"}}>
-               {this.props.invoiceToEdit.invoiceTotal || total}
+               { this.props.invoiceToEdit.invoiceTotal || total}
               </div>
               <div className={styles.totalElems}>
                {this.state.postCur}
@@ -748,7 +758,7 @@ console.log("keys "+newKeys)
               wrapperCol={{ span: 24 }}
               label="Notes"
              >
-              {getFieldDecorator('notes', {initialValue: this.props.invoiceToEdit.notes || '' })(
+              {getFieldDecorator('notes', {initialValue:  this.props.invoiceToEdit.notes || '' })(
               <Input type="textarea" />
               )}
             </FormItem>
@@ -760,7 +770,7 @@ console.log("keys "+newKeys)
               wrapperCol={{ span: 24 }}
               label="Terms"
              >
-              {getFieldDecorator('terms', {initialValue: this.props.invoiceToEdit.footer || '' })(
+              {getFieldDecorator('terms', {initialValue:   this.props.invoiceToEdit.footer || '' })(
               <Input type="textarea" />
               )}
             </FormItem>

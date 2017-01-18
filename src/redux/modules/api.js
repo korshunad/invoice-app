@@ -25,6 +25,8 @@ const CHANGE_INVOICE_SUCCESS = 'CHANGE_INVOICE_SUCCESS'
 const DELETE_INVOICE = 'DELETE_INVOICE'
 const DELETE_INVOICE_SUCCESS = 'DELETE_INVOICE_SUCCESS'
 
+const CLEAN_EDITED_INVOICE = 'CLEAN_EDITED_INVOICE'
+
 const initialState = {
   invoices: [],
   formData: {},
@@ -55,12 +57,18 @@ export default function api (state = initialState, action = {}) {
         ...state,
         invoiceToEdit: toeditInvoice
       };
+    case CLEAN_EDITED_INVOICE:
+      return  {
+      ...state,
+      invoiceToEdit: {}
+      }  
     
     case SUBMIT_INVOICE_SUCCESS:
       let newInvoices = state.invoices.slice(0);
       newInvoices.push(action.invoice);
-      let newId=action.justMadeId;
+      let newId=action.invoice._id;
       console.log("SUBMIT_INVOICE "+newId);
+      console.log("SUBMIT_INVOICE "+JSON.stringify(newInvoices));
       
       return {
         ...state,
@@ -97,7 +105,6 @@ export default function api (state = initialState, action = {}) {
         ...state,
         invoices: updInvoices
       };
-
     case DELETE_INVOICE_SUCCESS:
       let leftInvoices = state.invoices.slice(0)
       let left = leftInvoices.filter((invoice) => {
@@ -115,7 +122,11 @@ export default function api (state = initialState, action = {}) {
       return state;
   }
 }
-
+export function cleanEditedInvoice() {
+  return(dispatch, getState) => {
+    dispatch({type:CLEAN_EDITED_INVOICE})
+  }
+}
 export function submitInvoice() {
   return (dispatch, getState) => {
     dispatch({type:SUBMIT_INVOICE});
@@ -141,7 +152,7 @@ export function submitInvoice() {
       return response.json();
     })
     .then((invoiceResponse) => {
-      dispatch({type: SUBMIT_INVOICE_SUCCESS, justMadeId: invoiceResponse.invoice}) 
+      dispatch({type: SUBMIT_INVOICE_SUCCESS, invoice: invoiceResponse.invoice}) 
     });
     
   }

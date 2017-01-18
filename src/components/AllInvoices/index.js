@@ -2,13 +2,16 @@ import React from 'react'
 import styles from './_AllInvoices.css'
 import { connect } from 'react-redux'
 import { Table, Icon, Button , Tooltip } from 'antd';
-import {deleteInvoice, changeInvoice} from 'redux/modules/api'
+import {deleteInvoice, changeInvoice, getInvoices} from 'redux/modules/api'
 import { Router, Route, Link} from 'react-router'
 
 class AllInvoices extends React.Component {
   constructor(props) {
     super(props);
     this.state={};
+  }
+  componentDidMount() {
+    this.props.dispatch(getInvoices());
   }
   deleteInvoiceHandler(id) {
     this.props.dispatch(deleteInvoice({

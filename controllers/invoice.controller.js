@@ -18,7 +18,7 @@ export function addInvoice(req, res) {
     if (err) {
      return res.status(500).send(err);
     }
-    res.json({ invoice: saved._id }); // or might be saved.id
+    res.json({ invoice: saved }); // or might be saved.id
   });
 }
 // Get all invoices

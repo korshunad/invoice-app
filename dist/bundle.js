@@ -69696,6 +69696,11 @@ var AllInvoices = function (_React$Component) {
   }
 
   _createClass(AllInvoices, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.dispatch((0, _api.getInvoices)());
+    }
+  }, {
     key: 'deleteInvoiceHandler',
     value: function deleteInvoiceHandler(id) {
       this.props.dispatch((0, _api.deleteInvoice)({
@@ -69846,25 +69851,37 @@ var _button = require('antd/lib/button');
 
 var _button2 = _interopRequireDefault(_button);
 
-var _css2 = require('antd/lib/modal/style/css');
+var _css2 = require('antd/lib/icon/style/css');
+
+var _icon = require('antd/lib/icon');
+
+var _icon2 = _interopRequireDefault(_icon);
+
+var _css3 = require('antd/lib/notification/style/css');
+
+var _notification = require('antd/lib/notification');
+
+var _notification2 = _interopRequireDefault(_notification);
+
+var _css4 = require('antd/lib/modal/style/css');
 
 var _modal = require('antd/lib/modal');
 
 var _modal2 = _interopRequireDefault(_modal);
 
-var _css3 = require('antd/lib/input/style/css');
+var _css5 = require('antd/lib/input/style/css');
 
 var _input = require('antd/lib/input');
 
 var _input2 = _interopRequireDefault(_input);
 
-var _css4 = require('antd/lib/tabs/style/css');
+var _css6 = require('antd/lib/tabs/style/css');
 
 var _tabs = require('antd/lib/tabs');
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
-var _css5 = require('antd/lib/form/style/css');
+var _css7 = require('antd/lib/form/style/css');
 
 var _form = require('antd/lib/form');
 
@@ -69963,22 +69980,22 @@ var BillFromForm = function (_React$Component) {
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'Your website' },
-                getFieldDecorator('Website', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyWebsite : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('Website', { initialValue: this.props.invoiceToEdit.companyWebsite != undefined ? this.props.invoiceToEdit.companyWebsite : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'E-mail' },
-                getFieldDecorator('Email', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyEmail : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('Email', { initialValue: this.props.invoiceToEdit.companyEmail != undefined ? this.props.invoiceToEdit.companyEmail : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'Phone' },
-                getFieldDecorator('Phone', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyPhone : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('Phone', { initialValue: this.props.invoiceToEdit.companyPhone != undefined ? this.props.invoiceToEdit.companyPhone : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'Fax' },
-                getFieldDecorator('Fax', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyFax : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('Fax', { initialValue: this.props.invoiceToEdit.companyFax != undefined ? this.props.invoiceToEdit.companyFax : '' })(_react2.default.createElement(_input2.default, null))
               )
             ),
             _react2.default.createElement(
@@ -69987,22 +70004,22 @@ var BillFromForm = function (_React$Component) {
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'Your Address' },
-                getFieldDecorator('address1', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyAddressL1 : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('address1', { initialValue: this.props.invoiceToEdit.companyAddressL1 != undefined ? this.props.invoiceToEdit.companyAddressL1 : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'Address (additional line)' },
-                getFieldDecorator('address2', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyAddressL2 : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('address2', { initialValue: this.props.invoiceToEdit.companyAddressL2 != undefined ? this.props.invoiceToEdit.companyAddressL2 : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'City' },
-                getFieldDecorator('city', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyCity : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('city', { initialValue: this.props.invoiceToEdit.companyCity != undefined ? this.props.invoiceToEdit.companyCity : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'ZIP' },
-                getFieldDecorator('ZIP', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyZip : null })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('ZIP', { initialValue: this.props.invoiceToEdit.companyZip != undefined ? this.props.invoiceToEdit.companyZip : null })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
@@ -70030,47 +70047,47 @@ var BillFromForm = function (_React$Component) {
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'Bank account holder name' },
-                getFieldDecorator('holderName', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyBankAccounHolder : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('holderName', { initialValue: this.props.invoiceToEdit.companyBankAccountHolder != undefined ? this.props.invoiceToEdit.companyBankAccounHolder : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'Bank account' },
-                getFieldDecorator('account', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyAccount : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('account', { initialValue: this.props.invoiceToEdit.companyAccount != undefined ? this.props.invoiceToEdit.companyAccount : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'IBAN' },
-                getFieldDecorator('IBAN', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyIBAN : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('IBAN', { initialValue: this.props.invoiceToEdit.companyIBAN != undefined ? this.props.invoiceToEdit.companyIBAN : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'BIC' },
-                getFieldDecorator('BIC', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyBIC : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('BIC', { initialValue: this.props.invoiceToEdit.companyBIC != undefined ? this.props.invoiceToEdit.companyBIC : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'Bank name' },
-                getFieldDecorator('bankName', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyBankName : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('bankName', { initialValue: this.props.invoiceToEdit.companyBankName != undefined ? this.props.invoiceToEdit.companyBankName : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'Bank address' },
-                getFieldDecorator('bankAddress', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyBankAddress : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('bankAddress', { initialValue: this.props.invoiceToEdit.companyBankAddress != undefined ? this.props.invoiceToEdit.companyBankAddress : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'SWIFT' },
-                getFieldDecorator('SWIFT', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companySWIFT : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('SWIFT', { initialValue: this.props.invoiceToEdit.companySWIFT != undefined ? this.props.invoiceToEdit.companySWIFT : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'PayPal e-mail or phone' },
-                getFieldDecorator('PayPal', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyPayPalinfo : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('PayPal', { initialValue: this.props.invoiceToEdit.companyPayPalinfo != undefined ? this.props.invoiceToEdit.companyPayPalinfo : '' })(_react2.default.createElement(_input2.default, null))
               ),
               _react2.default.createElement(
                 FormItem,
                 { className: _BillFrom2.default.formPart, label: 'Other billing information' },
-                getFieldDecorator('otherBill', { initialValue: this.props.invoiceToEdit != undefined ? this.props.invoiceToEdit.companyOtherBilling : '' })(_react2.default.createElement(_input2.default, null))
+                getFieldDecorator('otherBill', { initialValue: this.props.invoiceToEdit.companyOtherBilling != undefined ? this.props.invoiceToEdit.companyOtherBilling : '' })(_react2.default.createElement(_input2.default, null))
               )
             )
           )
@@ -70137,28 +70154,64 @@ var BillFrom = function (_React$Component2) {
         if (err) {
           return;
         }
-        self.props.addCompanyHandler({
+        console.log(_this4.props.id + "from bill from submit");
+        if (_this4.props.id != undefined) {
+          self.props.updInvoiceHandler({
 
-          newCompanyAddressL1: values.address1,
-          newCompanyAddressL2: values.address2,
-          newCompanyCity: values.city,
-          newCompanyZip: values.ZIP,
-          newCompanyCountry: self.state.regionData["country"],
-          newCompanyProvince: self.state.regionData["region"],
-          newCompanyPhone: values.Phone,
-          newCompanyWebsite: values.Website,
-          newCompanyFax: values.Fax,
-          newCompanyEmail: values.Email,
-          newCompanyAccount: values.account,
-          newCompanyBankAccountHolder: values.holderName,
-          newCompanyBankName: values.bankName,
-          newCompanyBankAddress: values.bankAddress,
-          newCompanySWIFT: values.SWIFT,
-          newCompanyBIC: values.BIC,
-          newCompanyIBAN: values.IBAN,
-          newCompanyPayPalinfo: values.PayPal,
-          newCompanyOtherBilling: values.otherBill
-        });
+            updCompanyAddressL1: values.address1,
+            updCompanyAddressL2: values.address2,
+            updCompanyCity: values.city,
+            updCompanyZip: values.ZIP,
+            updCompanyCountry: self.state.regionData["country"],
+            updCompanyProvince: self.state.regionData["region"],
+            updCompanyPhone: values.Phone,
+            updCompanyWebsite: values.Website,
+            updCompanyFax: values.Fax,
+            updCompanyEmail: values.Email,
+            updCompanyAccount: values.account,
+            updCompanyBankAccountHolder: values.holderName,
+            updCompanyBankName: values.bankName,
+            updCompanyBankAddress: values.bankAddress,
+            updCompanySWIFT: values.SWIFT,
+            updCompanyBIC: values.BIC,
+            updCompanyIBAN: values.IBAN,
+            updCompanyPayPalinfo: values.PayPal,
+            updCompanyOtherBilling: values.otherBill
+          });
+          _notification2.default.open({
+            message: 'Company information is updated!',
+            description: _react2.default.createElement(
+              'a',
+              { href: '/pdfs/' + self.props.id },
+              '  You can get it here '
+            ),
+            icon: _react2.default.createElement(_icon2.default, { type: 'smile-circle', style: { color: '#108ee9' } }),
+            duration: 0
+          });
+        } else {
+          self.props.addCompanyHandler({
+
+            newCompanyAddressL1: values.address1,
+            newCompanyAddressL2: values.address2,
+            newCompanyCity: values.city,
+            newCompanyZip: values.ZIP,
+            newCompanyCountry: self.state.regionData["country"],
+            newCompanyProvince: self.state.regionData["region"],
+            newCompanyPhone: values.Phone,
+            newCompanyWebsite: values.Website,
+            newCompanyFax: values.Fax,
+            newCompanyEmail: values.Email,
+            newCompanyAccount: values.account,
+            newCompanyBankAccountHolder: values.holderName,
+            newCompanyBankName: values.bankName,
+            newCompanyBankAddress: values.bankAddress,
+            newCompanySWIFT: values.SWIFT,
+            newCompanyBIC: values.BIC,
+            newCompanyIBAN: values.IBAN,
+            newCompanyPayPalinfo: values.PayPal,
+            newCompanyOtherBilling: values.otherBill
+          });
+        }
         //    console.log('Received values of form: ', values);
         _this4.setState({ visible: false });
       });
@@ -70203,7 +70256,7 @@ var BillFrom = function (_React$Component2) {
 
 exports.default = BillFrom;
 
-},{"./_BillFrom.css":976,"antd/lib/button":10,"antd/lib/button/style/css":11,"antd/lib/form":37,"antd/lib/form/style/css":38,"antd/lib/input":54,"antd/lib/input/style/css":55,"antd/lib/modal":63,"antd/lib/modal/style/css":65,"antd/lib/tabs":103,"antd/lib/tabs/style/css":104,"react":957,"react-country-region-selector":756}],978:[function(require,module,exports){
+},{"./_BillFrom.css":976,"antd/lib/button":10,"antd/lib/button/style/css":11,"antd/lib/form":37,"antd/lib/form/style/css":38,"antd/lib/icon":45,"antd/lib/icon/style/css":46,"antd/lib/input":54,"antd/lib/input/style/css":55,"antd/lib/modal":63,"antd/lib/modal/style/css":65,"antd/lib/notification":67,"antd/lib/notification/style/css":68,"antd/lib/tabs":103,"antd/lib/tabs/style/css":104,"react":957,"react-country-region-selector":756}],978:[function(require,module,exports){
 module.exports = {"formPart":"_src_components_BillTo_BillTo__formPart"}
 },{}],979:[function(require,module,exports){
 'use strict';
@@ -70218,25 +70271,37 @@ var _button = require('antd/lib/button');
 
 var _button2 = _interopRequireDefault(_button);
 
-var _css2 = require('antd/lib/modal/style/css');
+var _css2 = require('antd/lib/icon/style/css');
+
+var _icon = require('antd/lib/icon');
+
+var _icon2 = _interopRequireDefault(_icon);
+
+var _css3 = require('antd/lib/notification/style/css');
+
+var _notification = require('antd/lib/notification');
+
+var _notification2 = _interopRequireDefault(_notification);
+
+var _css4 = require('antd/lib/modal/style/css');
 
 var _modal = require('antd/lib/modal');
 
 var _modal2 = _interopRequireDefault(_modal);
 
-var _css3 = require('antd/lib/input/style/css');
+var _css5 = require('antd/lib/input/style/css');
 
 var _input = require('antd/lib/input');
 
 var _input2 = _interopRequireDefault(_input);
 
-var _css4 = require('antd/lib/tabs/style/css');
+var _css6 = require('antd/lib/tabs/style/css');
 
 var _tabs = require('antd/lib/tabs');
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
-var _css5 = require('antd/lib/form/style/css');
+var _css7 = require('antd/lib/form/style/css');
 
 var _form = require('antd/lib/form');
 
@@ -70478,6 +70543,35 @@ var BillTo = function (_React$Component2) {
         if (err) {
           return;
         }
+        if (_this4.props.id != undefined) {
+          self.props.updInvoiceHandler({
+
+            updCustomerAddressL1: values.address1,
+            updCustomerAddressL2: values.address2,
+            updCustomerCity: values.city,
+            updCustomerZip: values.ZIP,
+            updCustomerCountry: self.state.regionData["country"],
+            updCustomerProvince: self.state.regionData["region"],
+            updCustomerPhone: values.Phone,
+            updCustomerEmail: values.Email,
+            updCustomerContactFirstName: values.firstName,
+            updCustomerContactLastName: values.lastName,
+            updCustomerWebsite: values.Website,
+            updCustomerFax: values.Fax,
+            updCustomerAccountNumber: values.Account
+
+          });
+          _notification2.default.open({
+            message: 'Customer information is updated!',
+            description: _react2.default.createElement(
+              'a',
+              { href: '/pdfs/' + self.props.id },
+              '  You can get it here '
+            ),
+            icon: _react2.default.createElement(_icon2.default, { type: 'smile-circle', style: { color: '#108ee9' } }),
+            duration: 0
+          });
+        }
         self.props.addCustomerHandler({
 
           newCustomerAddressL1: values.address1,
@@ -70536,7 +70630,7 @@ var BillTo = function (_React$Component2) {
 
 exports.default = BillTo;
 
-},{"./_BillTo.css":978,"antd/lib/button":10,"antd/lib/button/style/css":11,"antd/lib/form":37,"antd/lib/form/style/css":38,"antd/lib/input":54,"antd/lib/input/style/css":55,"antd/lib/modal":63,"antd/lib/modal/style/css":65,"antd/lib/tabs":103,"antd/lib/tabs/style/css":104,"react":957,"react-country-region-selector":756}],980:[function(require,module,exports){
+},{"./_BillTo.css":978,"antd/lib/button":10,"antd/lib/button/style/css":11,"antd/lib/form":37,"antd/lib/form/style/css":38,"antd/lib/icon":45,"antd/lib/icon/style/css":46,"antd/lib/input":54,"antd/lib/input/style/css":55,"antd/lib/modal":63,"antd/lib/modal/style/css":65,"antd/lib/notification":67,"antd/lib/notification/style/css":68,"antd/lib/tabs":103,"antd/lib/tabs/style/css":104,"react":957,"react-country-region-selector":756}],980:[function(require,module,exports){
 module.exports = {"hidden":"_src_components_InvoiceForm_InvoiceForm__hidden","horizontalCentering":"_src_components_InvoiceForm_InvoiceForm__horizontalCentering","totalElems":"_src_components_InvoiceForm_InvoiceForm__totalElems","form":"_src_components_InvoiceForm_InvoiceForm__form","formPart":"_src_components_InvoiceForm_InvoiceForm__formPart","denseHeight":"_src_components_InvoiceForm_InvoiceForm__denseHeight","borderless":"_src_components_InvoiceForm_InvoiceForm__borderless","header":"_src_components_InvoiceForm_InvoiceForm__header"}
 },{}],981:[function(require,module,exports){
 "use strict";
@@ -71411,27 +71505,35 @@ var InvoiceForm = function (_React$Component) {
   _createClass(InvoiceForm, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps() {
-      id = this.props.id;
-      //    console.log(JSON.stringify(this.props.invoiceToEdit)+'invoiceedit from form and componentdidmount')
-      //    console.log(this.props.invoiceToEdit["invoiceSummary"]+"invoiceSummary from editing stage")
       var obj;
-      if (this.props.invoiceToEdit.items != undefined) {
-        obj = this.props.invoiceToEdit.items.reduce(function (acc, cur, i) {
-          acc[i] = cur;
-          return acc;
-        }, {});
-        var newKeys = Object.keys(obj);
-        //console.log(Object.keys(obj)+"checking timing for keys obj alternative")
+      if (this.props.invoiceToEdit != undefined) {
+        if (this.props.invoiceToEdit.items != undefined) {
+          obj = this.props.invoiceToEdit.items.reduce(function (acc, cur, i) {
+            acc[i] = cur;
+            return acc;
+          }, {});
+          var newKeys = Object.keys(obj);
+          //console.log(Object.keys(obj)+"checking timing for keys obj alternative")
+          this.setState({
+            items: obj,
+            keys: newKeys
+          });
+        }
         this.setState({
           invoice: this.props.invoicetoEdit,
           preCur: this.props.invoiceToEdit.currencySymbol,
           postCur: this.props.invoiceToEdit.currencyCode,
-          taxType: this.props.invoiceToEdit.taxType,
-          items: obj,
-          keys: newKeys
+          taxType: this.props.invoiceToEdit.taxType
         });
       }
-      //console.log(JSON.stringify(this.state.items)+"state items from props timing") 
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      //  console.log("component did update is firing")
+      if (prevProps.invoiceToEdit != this.props.invoiceToEdit) {
+        this.forceUpdate;
+      }
     }
   }, {
     key: 'componentWillMount',
@@ -71542,10 +71644,10 @@ var InvoiceForm = function (_React$Component) {
       /* const keys = form.getFieldValue('keys');
        const nextKeys = keys.concat(uuid);*/
 
-      var moreKeys = this.state.keys.concat(uuid);
+      var moreKeys = this.state.keys.concat(this.state.keys.length);
       this.setState({ keys: moreKeys });
       var newItems = this.state.items;
-      newItems[uuid] = { name: '', description: '', price: 0, quantity: 0 };
+      newItems[this.state.keys.length] = { name: '', description: '', price: 0, quantity: 0 };
       //  console.log(JSON.stringify(newItems)+"newitems")
       this.setState({ items: newItems });
       //   console.log(JSON.stringify(this.state.items)+" items from items")
@@ -71690,7 +71792,8 @@ var InvoiceForm = function (_React$Component) {
       var keys = getFieldValue('keys');
       //console.log(keys+"keys")
       //  console.log(this.props.id+"from invoiceform comp")
-
+      console.log(JSON.stringify(this.props.invoiceToEdit) + "invoicetoedit from invoiceform");
+      console.log(this.props.justMadeId + "justmadeid");
       function objectEntries(obj) {
         var _ref;
 
@@ -72007,7 +72110,7 @@ var InvoiceForm = function (_React$Component) {
                 _react2.default.createElement(
                   'div',
                   null,
-                  _react2.default.createElement(_BillTo2.default, { invoiceToEdit: this.props.invoiceToEdit, addCustomerHandler: this.props.addCustomerHandler, updInvoiceHandler: this.props.updInvoiceHandler })
+                  _react2.default.createElement(_BillTo2.default, { id: this.props.id, invoiceToEdit: this.props.invoiceToEdit, addCustomerHandler: this.props.addCustomerHandler, updInvoiceHandler: this.props.updInvoiceHandler })
                 )
               )
             ),
@@ -72170,12 +72273,16 @@ var InvoiceForm = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _col2.default,
-                    { className: this.state.hideCur ? _InvoiceForm2.default.hidden : this.state.preCur == null ? _InvoiceForm2.default.hidden : "", span: 2 },
-                    this.state.preCur
+                    { span: 2 },
+                    _react2.default.createElement(
+                      'div',
+                      { className: this.state.hideCur && !this.state.preCur ? _InvoiceForm2.default.hidden : "", style: { textAlign: "center" } },
+                      this.state.preCur
+                    )
                   ),
                   _react2.default.createElement(
                     _col2.default,
-                    { span: 8, offset: 1 },
+                    { span: 8 },
                     _react2.default.createElement(_input2.default, { placeholder: this.props.invoiceToEdit.tax || null })
                   ),
                   _react2.default.createElement(
@@ -72209,7 +72316,7 @@ var InvoiceForm = function (_React$Component) {
                       { onChange: this.setTaxType, dropdownMatchSelectWidth: false, value: '' },
                       _react2.default.createElement(
                         Option,
-                        { styles: { width: "130px" }, key: '%', value: '%' },
+                        { style: { width: "130px" }, key: '%', value: '%' },
                         '%'
                       ),
                       _react2.default.createElement(
@@ -72250,7 +72357,7 @@ var InvoiceForm = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _col2.default,
-                    { span: 8, offset: 1 },
+                    { span: 8, offset: 2 },
                     _react2.default.createElement(_input2.default, { placeholder: this.props.invoiceToEdit.discount || null })
                   ),
                   _react2.default.createElement(
@@ -72293,12 +72400,16 @@ var InvoiceForm = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _col2.default,
-                    { className: this.state.hideCur && !this.state.preCur ? _InvoiceForm2.default.hidden : "", span: 2 },
-                    this.state.preCur
+                    { span: 2 },
+                    _react2.default.createElement(
+                      'div',
+                      { className: this.state.hideCur && !this.state.preCur ? _InvoiceForm2.default.hidden : "", style: { textAlign: "center" } },
+                      this.state.preCur
+                    )
                   ),
                   _react2.default.createElement(
                     _col2.default,
-                    { span: 8, offset: 1 },
+                    { span: 8 },
                     _react2.default.createElement(_input2.default, { placeholder: this.props.invoiceToEdit.additionalCharge || null })
                   ),
                   _react2.default.createElement(
@@ -72618,16 +72729,16 @@ var App = function (_React$Component) {
   _createClass(App, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+
       var id = this.props.params.id;
       this.props.dispatch((0, _api.getInvoices)());
       if (id) {
         this.props.dispatch((0, _api.getInvoiceToEdit)({ editInvoiceId: id }));
+      } else {
+        console.log("sending CLEAN EDIT from comp mountedin APP");
+        this.props.dispatch((0, _api.cleanEditedInvoice)());
       }
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      this.forceUpdate();
+      console.log(JSON.stringify(this.props.invoiceToEdit) + "invoiceToEdit from comp did mount");
     }
   }, {
     key: 'addInvoiceHandler',
@@ -72755,7 +72866,40 @@ var App = function (_React$Component) {
         updNotes: params.updNotes,
         updFooter: params.updFooter,
         updCompanyName: params.updCompanyName,
-        updCustomerName: params.updCustomerName
+        updCustomerName: params.updCustomerName,
+        updCompanyAddressL1: params.updCompanyAddressL1,
+        updCompanyAddressL2: params.updCompanyAddressL2,
+        updCompanyCity: params.updCompanyCity,
+        updCompanyZip: params.updCompanyZip,
+        updCompanyCountry: params.updCompanyCountry,
+        updCompanyProvince: params.updCompanyProvince,
+        updCompanyPhone: params.updCompanyPhone,
+        updCompanyWebsite: params.updCompanyWebsite,
+        updCompanyFax: params.updCompanyFax,
+        updCompanyEmail: params.updCompanyEmail,
+        updCompanyAccount: params.updCompanyAccount,
+        updCompanyBankAccountHolder: params.updCompanyBankAccountHolder,
+        updCompanyBankName: params.updCompanyBankName,
+        updCompanyBankAddress: params.updCompanyBankAddress,
+        updCompanySWIFT: params.updCompanySWIFT,
+        updCompanyBIC: params.updCompanyBIC,
+        updCompanyIBAN: params.updCompanyIBAN,
+        updCompanyPayPalinfo: params.updCompanyPayPalinfo,
+        updCompanyOtherBilling: params.updCompanyOtherBilling,
+        updCustomerAddressL1: params.updCustomerAddressL1,
+        updCustomerAddressL2: params.updCustomerAddressL2,
+        updCustomerCity: params.updCustomerCity,
+        updCustomerZip: params.updCustomerZip,
+        updCustomerCountry: params.updCustomerCountry,
+        updCustomerProvince: params.updCustomerProvince,
+        updCustomerPhone: params.updCustomerPhone,
+        updCustomerEmail: params.updCustomerEmail,
+        updCustomerContactFirstName: params.updCustomerContactFirstName,
+        updCustomerContactLastName: params.updCustomerContactLastName,
+        updCustomerWebsite: params.updCustomerWebsite,
+        updCustomerFax: params.updCustomerFax,
+        updCustomerAccountNumber: params.updCustomerAccountNumber
+
       }));
       console.log("helloInvoice UPDer" + JSON.stringify(params));
       console.log(JSON.stringify(this.props.formData) + "upd formdata from helloinvoice");
@@ -72763,37 +72907,68 @@ var App = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var home = _react2.default.createElement(
+        'a',
+        { href: '/' },
+        'Create new invoice'
+      );
       return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
           'div',
           null,
-          this.props.params.id ? 'Edit the Invoice id ' + this.props.params.id : '',
           _react2.default.createElement(
             'div',
-            { style: { textAlign: "center", margin: "10px" } },
+            { style: { marginTop: "10px", marginLeft: "auto", marginRight: "auto", width: "600px", textAlign: "center" } },
             _react2.default.createElement(
-              _reactRouter.Link,
-              { to: '/allinvoices' },
-              'All invoices'
+              'div',
+              { style: { width: "200px", display: "inline" } },
+              _react2.default.createElement(
+                'div',
+                { style: { display: "inline", textAlign: "center" } },
+                _react2.default.createElement(
+                  _reactRouter.Link,
+                  { to: '/allinvoices' },
+                  'All invoices'
+                )
+              ),
+              this.props.children
+            ),
+            _react2.default.createElement(
+              'div',
+              { style: { width: "200px", display: "inline" } },
+              _react2.default.createElement(
+                'div',
+                { style: { display: "inline", textAlign: "center", marginLeft: "10px" } },
+                this.props.params.id ? home : ''
+              ),
+              this.props.children
+            ),
+            _react2.default.createElement(
+              'div',
+              { style: { width: "200px", display: "inline" } },
+              _react2.default.createElement(
+                'div',
+                { style: { width: "auto", display: "inline", marginLeft: "10px" } },
+                this.props.params.id ? 'Editing the Invoice id ' + this.props.params.id + ' ' : ''
+              )
             )
           ),
-          this.props.children
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _App2.default.page, style: { marginTop: "5px" } },
-          _react2.default.createElement(_InvoiceForm2.default, {
-            justMadeId: this.props.justMadeId,
-            id: this.props.params.id,
-            invoices: this.props.invoices,
-            invoiceToEdit: this.props.invoiceToEdit,
-            addInvoiceHandler: this.addInvoiceHandler.bind(this),
-            addCompanyHandler: this.addCompanyHandler.bind(this),
-            addCustomerHandler: this.addCustomerHandler.bind(this),
-            updInvoiceHandler: this.updInvoiceHandler.bind(this)
-          })
+          _react2.default.createElement(
+            'div',
+            { className: _App2.default.page, style: { marginTop: "10px" } },
+            _react2.default.createElement(_InvoiceForm2.default, {
+              justMadeId: this.props.justMadeId,
+              id: this.props.params.id,
+              invoices: this.props.invoices,
+              invoiceToEdit: this.props.invoiceToEdit,
+              addInvoiceHandler: this.addInvoiceHandler.bind(this),
+              addCompanyHandler: this.addCompanyHandler.bind(this),
+              addCustomerHandler: this.addCustomerHandler.bind(this),
+              updInvoiceHandler: this.updInvoiceHandler.bind(this)
+            })
+          )
         )
       );
     }
@@ -72882,6 +73057,7 @@ Object.defineProperty(exports, "__esModule", {
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.default = api;
+exports.cleanEditedInvoice = cleanEditedInvoice;
 exports.submitInvoice = submitInvoice;
 exports.addInvoice = addInvoice;
 exports.addCompany = addCompany;
@@ -72925,6 +73101,8 @@ var CHANGE_INVOICE_SUCCESS = 'CHANGE_INVOICE_SUCCESS';
 var DELETE_INVOICE = 'DELETE_INVOICE';
 var DELETE_INVOICE_SUCCESS = 'DELETE_INVOICE_SUCCESS';
 
+var CLEAN_EDITED_INVOICE = 'CLEAN_EDITED_INVOICE';
+
 var initialState = {
   invoices: [],
   formData: {},
@@ -72954,12 +73132,17 @@ function api() {
       return _extends({}, state, {
         invoiceToEdit: toeditInvoice
       });
+    case CLEAN_EDITED_INVOICE:
+      return _extends({}, state, {
+        invoiceToEdit: {}
+      });
 
     case SUBMIT_INVOICE_SUCCESS:
       var newInvoices = state.invoices.slice(0);
       newInvoices.push(action.invoice);
-      var newId = action.justMadeId;
+      var newId = action.invoice._id;
       console.log("SUBMIT_INVOICE " + newId);
+      console.log("SUBMIT_INVOICE " + JSON.stringify(newInvoices));
 
       return _extends({}, state, {
         invoices: newInvoices,
@@ -72992,7 +73175,6 @@ function api() {
       return _extends({}, state, {
         invoices: updInvoices
       });
-
     case DELETE_INVOICE_SUCCESS:
       var leftInvoices = state.invoices.slice(0);
       var left = leftInvoices.filter(function (invoice) {
@@ -73010,7 +73192,11 @@ function api() {
       return state;
   }
 }
-
+function cleanEditedInvoice() {
+  return function (dispatch, getState) {
+    dispatch({ type: CLEAN_EDITED_INVOICE });
+  };
+}
 function submitInvoice() {
   return function (dispatch, getState) {
     dispatch({ type: SUBMIT_INVOICE });
@@ -73033,7 +73219,7 @@ function submitInvoice() {
       };
       return response.json();
     }).then(function (invoiceResponse) {
-      dispatch({ type: SUBMIT_INVOICE_SUCCESS, justMadeId: invoiceResponse.invoice });
+      dispatch({ type: SUBMIT_INVOICE_SUCCESS, invoice: invoiceResponse.invoice });
     });
   };
 }

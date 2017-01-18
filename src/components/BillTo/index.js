@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './_BillTo.css'
-import { Button, Modal, Form, Input, Tabs, Select} from 'antd';
+import { Button, Modal, Form, Input, Tabs, Select, notification, Icon} from 'antd';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 
 const FormItem = Form.Item;
@@ -161,6 +161,31 @@ class BillTo extends React.Component{
     form.validateFields((err, values) => {
       if (err) {
         return;
+      }
+      if (this.props.id != undefined) {
+      self.props.updInvoiceHandler({
+        
+        updCustomerAddressL1: values.address1,
+        updCustomerAddressL2: values.address2,
+        updCustomerCity: values.city,
+        updCustomerZip: values.ZIP,
+        updCustomerCountry: self.state.regionData["country"],
+        updCustomerProvince: self.state.regionData["region"],
+        updCustomerPhone: values.Phone,
+        updCustomerEmail: values.Email,
+        updCustomerContactFirstName: values.firstName,
+        updCustomerContactLastName: values.lastName,
+        updCustomerWebsite: values.Website,
+        updCustomerFax: values.Fax,
+        updCustomerAccountNumber: values.Account,
+        
+      })
+  notification.open({
+    message: 'Customer information is updated!',
+    description: <a href={'/pdfs/'+(self.props.id)}>  You can get it here </a>,
+    icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
+    duration: 0
+  });
       }
       self.props.addCustomerHandler({
         

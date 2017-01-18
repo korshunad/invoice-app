@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './_App.css'
 import { connect } from 'react-redux'
-import {getInvoices, getInvoiceToEdit, changeInvoice, addInvoice, submitInvoice, addCompany, addCustomer} from 'redux/modules/api'
+import {getInvoices, getInvoiceToEdit,cleanEditedInvoice, changeInvoice, addInvoice, submitInvoice, addCompany, addCustomer} from 'redux/modules/api'
 import InvoiceForm from 'components/InvoiceForm'
 import { Button, notification, Icon } from 'antd';
 import { Router, Route, Link } from 'react-router'
@@ -14,14 +14,17 @@ class App extends React.Component {
 
   };
   componentDidMount() {
+
     var id = this.props.params.id;
     this.props.dispatch(getInvoices());
     if (id) {
       this.props.dispatch(getInvoiceToEdit({ editInvoiceId: id}))
+    } else  {
+      console.log("sending CLEAN EDIT from comp mountedin APP")
+      this.props.dispatch(cleanEditedInvoice())
     }
-  }
-  componentWillReceiveProps(nextProps) {
-    this.forceUpdate();
+    console.log(JSON.stringify(this.props.invoiceToEdit)+"invoiceToEdit from comp did mount")
+
   }
   addInvoiceHandler(params) {
    // console.log("HI FROM ADDINVOICEHANDLER!")
@@ -144,20 +147,64 @@ class App extends React.Component {
       updFooter: params.updFooter,
       updCompanyName: params.updCompanyName,
       updCustomerName: params.updCustomerName,
+      updCompanyAddressL1: params.updCompanyAddressL1,
+      updCompanyAddressL2: params.updCompanyAddressL2,
+      updCompanyCity: params.updCompanyCity,
+      updCompanyZip: params.updCompanyZip,
+      updCompanyCountry: params.updCompanyCountry,
+      updCompanyProvince: params.updCompanyProvince,
+      updCompanyPhone: params.updCompanyPhone,
+      updCompanyWebsite: params.updCompanyWebsite,
+      updCompanyFax: params.updCompanyFax,
+      updCompanyEmail: params.updCompanyEmail,
+      updCompanyAccount: params.updCompanyAccount,
+      updCompanyBankAccountHolder: params.updCompanyBankAccountHolder,
+      updCompanyBankName: params.updCompanyBankName,
+      updCompanyBankAddress: params.updCompanyBankAddress,
+      updCompanySWIFT: params.updCompanySWIFT,  
+      updCompanyBIC:  params.updCompanyBIC,  
+      updCompanyIBAN:  params.updCompanyIBAN,  
+      updCompanyPayPalinfo:  params.updCompanyPayPalinfo,  
+      updCompanyOtherBilling:  params.updCompanyOtherBilling,  
+      updCustomerAddressL1: params.updCustomerAddressL1,
+      updCustomerAddressL2: params.updCustomerAddressL2,
+      updCustomerCity: params.updCustomerCity,
+      updCustomerZip: params.updCustomerZip,
+      updCustomerCountry: params.updCustomerCountry,
+      updCustomerProvince: params.updCustomerProvince,
+      updCustomerPhone: params.updCustomerPhone,
+      updCustomerEmail: params.updCustomerEmail,
+      updCustomerContactFirstName: params.updCustomerContactFirstName,
+      updCustomerContactLastName: params.updCustomerContactLastName,
+      updCustomerWebsite: params.updCustomerWebsite,
+      updCustomerFax: params.updCustomerFax,
+      updCustomerAccountNumber: params.updCustomerAccountNumber,
+      
     }))
     console.log("helloInvoice UPDer"+JSON.stringify(params))
     console.log(JSON.stringify(this.props.formData)+"upd formdata from helloinvoice")
   }
   render() {
+let home=(<a href ='/'>Create new invoice</a>)
     return (
-
+<div>
       <div>
-      <div>
-      {this.props.params.id ? 'Edit the Invoice id '+this.props.params.id : ''}
-          <div style={{textAlign:"center", margin:"10px"}}><Link to="/allinvoices">All invoices</Link></div>
-        {this.props.children}
+      <div style={{marginTop:"10px", marginLeft: "auto", marginRight: "auto", width: "600px", textAlign: "center"}}>
+          <div style={{width:"200px", display: "inline"}}>
+          <div style={{display: "inline",textAlign:"center"}}><Link to="/allinvoices">All invoices</Link></div>
+          {this.props.children}
+          </div>
+          <div style={{width:"200px", display: "inline"}}>
+          <div style={{display:"inline",textAlign:"center", marginLeft: "10px"}}>
+          {this.props.params.id ? home : ''} 
+          </div>
+          {this.props.children}
+          </div>
+          <div style={{width:"200px", display: "inline"}}>
+          <div style={{width:"auto", display: "inline", marginLeft:"10px"}}>{this.props.params.id ? 'Editing the Invoice id '+this.props.params.id+' ' : ''}</div>
+          </div>
       </div>
-        <div className={styles.page} style={{marginTop:"5px"}}>
+        <div className={styles.page} style={{marginTop:"10px"}} >
           <InvoiceForm  
             justMadeId={this.props.justMadeId}
             id={this.props.params.id}
@@ -170,6 +217,7 @@ class App extends React.Component {
            />
         </div>
       </div>
+</div>
     );
   }
   
