@@ -100,10 +100,12 @@ export default function api (state = initialState, action = {}) {
           return false
         } else { return true }
       });
+console.log('CHANGE_INVOICE:'+JSON.stringify(action.invoice))      
       updInvoices.push(action.invoice);
       return {
         ...state,
-        invoices: updInvoices
+        invoices: updInvoices,
+        invoiceToEdit: action.invoice
       };
     case DELETE_INVOICE_SUCCESS:
       let leftInvoices = state.invoices.slice(0)
@@ -310,12 +312,13 @@ export function changeInvoice(params) {
           unitPriceName: params.updUnitPriceName,
           quantityName: params.updQuantityName,
           totalName: params.updTotalName,
-
-          currency: params.updCurrency,
+          currencySymbol: params.updCurrencySymbol,
+          currencyCode: params.updCurrencyCode,
 
           invoiceTotal: params.updInvoiceTotal,
           taxName: params.updTaxName,
           tax: params.updTax,
+          taxType: params.updTaxType,
           discountName: params.updDiscountName,
           discount: params.updDiscount,
           additionalChargeName: params.updAdditionalChargeName,

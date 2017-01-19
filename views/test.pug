@@ -227,13 +227,13 @@ html
         div.invoiceDetail
           div.invoiceDate
             p Invoice Date
-            p= 0+invoice.invoiceDate.getDate()+"."+invoice.invoiceDate.getMonth()+1+"."+invoice.invoiceDate.getFullYear()
+            p= invoice.invoiceDate.getDate()+"."+(invoice.invoiceDate.getMonth()+1)+"."+invoice.invoiceDate.getFullYear()
           div.invoiceTotal
             p Total
             p= (invoice.currencySymbol==null?"":invoice.currencySymbol)+" "+Math.round((invoice.invoiceTotal + 0.00001) * 100) / 100+" "+(invoice.currencyCode==null? "":invoice.currencyCode)
           div.paymentDate
             p Payment Due
-            p= invoice.paymentDue.getDate()+"."+invoice.invoiceDate.getMonth()+1+"."+invoice.invoiceDate.getFullYear()
+            p= invoice.paymentDue.getDate()+"."+(invoice.paymentDue.getMonth()+1)+"."+invoice.paymentDue.getFullYear()
         div.customer
           
           p.companyAddress(style="font-size:10px; font-weight:700; color:#DE5622;margin-bottom:5px; font-family: 'Cormorant SC', serif; display: inline;") To  

@@ -80,8 +80,8 @@ export function editInvoice(req, res) {
  invoice.quantityName =  req.body.invoice.quantityName || invoice.quantityName ,
  invoice.totalName =  req.body.invoice.totalName || invoice.totalName ,
 
- invoice.currencySymbol =  req.body.invoice.currencySymbol || invoice.currencySymbol ,
- invoice.currencyCode =  req.body.invoice.currencyCode || invoice.currencyCode ,
+ invoice.currencySymbol =  req.body.invoice.currencySymbol ,
+ invoice.currencyCode =  req.body.invoice.currencyCode,
 
  invoice.invoiceTotal =  req.body.invoice.invoiceTotal || invoice.invoiceTotal ,
  invoice.taxName =  req.body.invoice.taxName || invoice.taxName ,

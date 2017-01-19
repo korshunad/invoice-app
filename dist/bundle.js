@@ -70182,8 +70182,10 @@ var BillFrom = function (_React$Component2) {
             message: 'Company information is updated!',
             description: _react2.default.createElement(
               'a',
-              { href: '/pdfs/' + self.props.id },
-              '  You can get it here '
+              { href: '/pdfs/' + self.props.id, rel: 'noopener noreferrer', target: '_blank' },
+              'You can get updated invoice #',
+              self.props.id,
+              ' here '
             ),
             icon: _react2.default.createElement(_icon2.default, { type: 'smile-circle', style: { color: '#108ee9' } }),
             duration: 0
@@ -70565,8 +70567,10 @@ var BillTo = function (_React$Component2) {
             message: 'Customer information is updated!',
             description: _react2.default.createElement(
               'a',
-              { href: '/pdfs/' + self.props.id },
-              '  You can get it here '
+              { href: '/pdfs/' + self.props.id, rel: 'noopener noreferrer', target: '_blank' },
+              '  You can get updated invoice #',
+              self.props.id,
+              ' here '
             ),
             icon: _react2.default.createElement(_icon2.default, { type: 'smile-circle', style: { color: '#108ee9' } }),
             duration: 0
@@ -71468,11 +71472,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 _moment2.default.locale('en');
 var FormItem = _form2.default.Item;
-var itemTotal = 0;
 var Option = _select2.default.Option;
 var hide = false;
-var uuid = 0;
 var id = void 0;
+var lineTotal = 0;
 
 var InvoiceForm = function (_React$Component) {
   _inherits(InvoiceForm, _React$Component);
@@ -71484,7 +71487,7 @@ var InvoiceForm = function (_React$Component) {
 
     _this.state = {
       hideCur: true,
-      taxType: "",
+      taxType: "%",
       quantity: 0,
       items: { 0: { name: '', description: '', price: 0, quantity: 0 } },
       preCur: '',
@@ -71506,7 +71509,7 @@ var InvoiceForm = function (_React$Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps() {
       var obj;
-      if (this.props.invoiceToEdit != undefined) {
+      if (this.props.id != undefined && this.props.invoiceToEdit != undefined) {
         if (this.props.invoiceToEdit.items != undefined) {
           obj = this.props.invoiceToEdit.items.reduce(function (acc, cur, i) {
             acc[i] = cur;
@@ -71518,54 +71521,41 @@ var InvoiceForm = function (_React$Component) {
             items: obj,
             keys: newKeys
           });
+          this.setState({
+            invoice: this.props.invoiceToEdit,
+            taxType: this.props.invoiceToEdit.taxType,
+            preCur: this.props.currencySymbol,
+            postCur: this.props.currencyCode
+          });
         }
-        this.setState({
-          invoice: this.props.invoicetoEdit,
-          preCur: this.props.invoiceToEdit.currencySymbol,
-          postCur: this.props.invoiceToEdit.currencyCode,
-          taxType: this.props.invoiceToEdit.taxType
-        });
       }
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate(prevProps) {
-      //  console.log("component did update is firing")
-      if (prevProps.invoiceToEdit != this.props.invoiceToEdit) {
-        this.forceUpdate;
-      }
-    }
-  }, {
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      /*  this.props.form.setFieldsValue({
-          keys: [0],
-        });*/
     }
   }, {
     key: 'setTaxType',
     value: function setTaxType(value) {
-      if (value == "%") {
+      if (value === "%") {
         hide = true;
         this.setState({ hideCur: true, taxType: "%" });
       }
-      if (value == "flat") {
+      if (value === "flat") {
         hide = false;
         this.setState({ hideCur: false, taxType: "flat" });
       }
-      //  console.log(value)
-      //  console.log(hide)
+      if (this.props.invoiceToEdit.taxType == 'flat') {
+        this.setState({ taxtType: "flat", hideCur: false });
+      }
+      //   console.log(JSON.stringify(this.state)+"look at currency and tax"+value+"and at value")
     }
   }, {
     key: 'handleCurrencyChoice',
     value: function handleCurrencyChoice(value) {
-      //  console.log("chosen currency: "+value)
+      console.log("chosen currency: " + value);
       if (value == _currencies.currencies[value]["symbol"]) {
-        this.setState({ preCur: null, postCur: value, currency: _currencies.currencies[value]["code"] });
+        this.setState({ preCur: null, postCur: value });
         //   preCur=null;
         //   postCur=value; 
       } else {
-        this.setState({ postCur: null, preCur: _currencies.currencies[value]["symbol"], currency: _currencies.currencies[value]["code"] });
+        this.setState({ postCur: null, preCur: _currencies.currencies[value]["symbol"] });
         //   postCur=null;
         //   preCur=currencies[value]["symbol"]
       }
@@ -71575,7 +71565,7 @@ var InvoiceForm = function (_React$Component) {
     value: function handleQuant(k, e) {
       var quant = e.target.value;
       var items = this.state.items;
-      var amount = itemTotal;
+      var amount = lineTotal;
       // console.log("fromQuant amount "+amount)
       items[k]["quantity"] = quant;
       items[k]["amount"] = amount;
@@ -71587,7 +71577,7 @@ var InvoiceForm = function (_React$Component) {
     key: 'handlePrice',
     value: function handlePrice(k, e) {
       var price = e.target.value;
-      var amount = itemTotal;
+      var amount = lineTotal;
       //  console.log("fromPrice amount "+amount)
       var items = this.state.items;
       items[k]["price"] = price;
@@ -71637,8 +71627,6 @@ var InvoiceForm = function (_React$Component) {
   }, {
     key: 'add',
     value: function add() {
-      uuid++;
-      console.log(uuid + ' uuid');
       var form = this.props.form;
       // can use data-binding to get
       /* const keys = form.getFieldValue('keys');
@@ -71662,7 +71650,7 @@ var InvoiceForm = function (_React$Component) {
     value: function handleSubmit(e) {
       var _this2 = this;
 
-      console.log(JSON.stringify(this.state.invoice) + "from handleSubmit");
+      //console.log(JSON.stringify(this.state)+"from handleSubmit")
       if (this.props.id != undefined) {
         (function () {
           var submittableItems = Object.keys(_this2.state.items).map(function (key) {
@@ -71670,6 +71658,7 @@ var InvoiceForm = function (_React$Component) {
           });
           e.preventDefault();
           var self = _this2;
+
           _this2.props.form.validateFields(function checker(err, values) {
             if (!err) {
               console.log('Received values of form: ', values);
@@ -71687,8 +71676,8 @@ var InvoiceForm = function (_React$Component) {
                 updQuantityName: values.itemsQuantity,
                 updTotalName: values.Amount,
 
-                updCurrencySymbol: self.state.preCur,
-                updCurrencyCode: self.state.postCur,
+                updCurrencySymbol: self.state.preCur ? self.state.preCur : self.state.postCur ? '' : self.props.invoiceToEdit.currencySymbol,
+                updCurrencyCode: self.state.postCur ? self.state.postCur : self.state.preCur ? '' : self.props.invoiceToEdit.currencyCode,
 
                 updInvoiceTotal: values.total,
                 updTaxName: values.taxName,
@@ -71707,10 +71696,10 @@ var InvoiceForm = function (_React$Component) {
                 updCustomerName: values.customerName
               });
               _notification2.default.open({
-                message: 'Your invoice is updated!',
+                message: 'Your invoice #' + self.props.id + ' is updated!',
                 description: _react2.default.createElement(
                   'a',
-                  { href: '/pdfs/' + self.props.id },
+                  { href: '/pdfs/' + self.props.id, rel: 'noopener noreferrer', target: '_blank' },
                   '  You can get it here '
                 ),
                 icon: _react2.default.createElement(_icon2.default, { type: 'smile-circle', style: { color: '#108ee9' } }),
@@ -71764,14 +71753,14 @@ var InvoiceForm = function (_React$Component) {
                 newCustomerName: values.customerName
               });
               _notification2.default.open({
-                message: 'Your invoice is ready!',
+                message: 'Your invoice #' + (self.props.justMadeId + 1) + ' is ready!',
                 description: _react2.default.createElement(
                   'a',
-                  { href: '/pdfs/' + (self.props.justMadeId + 1) },
+                  { rel: 'noopener noreferrer', target: '_blank', href: '/pdfs/' + (self.props.justMadeId + 1) },
                   '  You can get it here '
                 ),
                 icon: _react2.default.createElement(_icon2.default, { type: 'smile-circle', style: { color: '#108ee9' } }),
-                duration: 0
+                duration: 10
               });
             }
           });
@@ -71784,6 +71773,8 @@ var InvoiceForm = function (_React$Component) {
       var _this3 = this;
 
       //  console.log(JSON.stringify(this.state.items)+"look at this.state (items)from invoiceform if it received props")
+      //console.log(JSON.stringify(this.props.invoiceToEdit)+"props invoice to edit")
+      //console.log(this.props.invoiceToEdit.currencyCode+this.props.invoiceToEdit.currencySymbol+ "currency from props")
       var dateFormat = 'DD.MM.YYYY';
       var _props$form = this.props.form,
           getFieldDecorator = _props$form.getFieldDecorator,
@@ -71792,8 +71783,8 @@ var InvoiceForm = function (_React$Component) {
       var keys = getFieldValue('keys');
       //console.log(keys+"keys")
       //  console.log(this.props.id+"from invoiceform comp")
-      console.log(JSON.stringify(this.props.invoiceToEdit) + "invoicetoedit from invoiceform");
-      console.log(this.props.justMadeId + "justmadeid");
+      //console.log(JSON.stringify(this.props.invoiceToEdit)+"invoicetoedit from invoiceform")
+      //console.log(this.props.justMadeId+"justmadeid")    
       function objectEntries(obj) {
         var _ref;
 
@@ -71891,24 +71882,22 @@ var InvoiceForm = function (_React$Component) {
       }, {})
       newKeys=Object.keys(this.state.items)
       }*/
-      console.log("keys " + newKeys);
+      //console.log("keys "+newKeys)
+      var itemTotal = 0;
       var formItems = this.state.keys.map(function (k, index) {
         var _React$createElement;
 
         var totStyle = { width: "24px" };
         var curStyle = { width: "24px" };
         //  console.log(JSON.stringify(this.state.items[k])+"from inside of mapping func - 1 item "+k+' k')
-        itemTotal = +_this3.state.items[k]["quantity"] * +_this3.state.items[k]["price"] || 0;
-        //  console.log(total+"total after itemTotal")
-        total += itemTotal;
-        _this3.state.taxType == "flat" ? total += tax : total = total + total * tax / 100;
-        discount == 0 ? total = total : total = total - total * discount / 100;
-        addCharge == 0 ? total = total : total += addCharge;
-        //  console.log(total+"total after charges")
+        lineTotal = +_this3.state.items[k]["quantity"] * +_this3.state.items[k]["price"] || 0;
+        itemTotal += lineTotal;
+        console.log(itemTotal + "itemTotal for item " + k);
+        console.log(total + "total after itemTotal");
         var price = _this3.state.items[k]["price"];
 
         curStyle = adjustWidth(price);
-        totStyle = adjustWidth(itemTotal);
+        totStyle = adjustWidth(lineTotal);
         //   console.log(JSON.stringify(totStyle))
         return _react2.default.createElement(
           _row2.default,
@@ -71940,11 +71929,11 @@ var InvoiceForm = function (_React$Component) {
               _react2.default.createElement(
                 'div',
                 { className: _InvoiceForm2.default.horizontalCentering },
-                _this3.state.preCur,
+                _this3.state.preCur ? _this3.state.preCur : _this3.state.postCur ? '' : _this3.props.invoiceToEdit.currencySymbol,
                 _react2.default.createElement(_input2.default, { key: k + "price", placeholder: _this3.state.items[k]["price"] || 0,
                   onChange: _this3.handlePrice.bind(_this3, k),
                   className: _InvoiceForm2.default.borderless, style: curStyle }),
-                _this3.state.postCur
+                _this3.state.postCur ? _this3.state.postCur : _this3.state.preCur ? '' : _this3.props.invoiceToEdit.currencyCode
               )
             ),
             _react2.default.createElement(
@@ -71953,12 +71942,12 @@ var InvoiceForm = function (_React$Component) {
               _react2.default.createElement(
                 'div',
                 { className: _InvoiceForm2.default.horizontalCentering },
-                _this3.state.preCur,
+                _this3.state.preCur ? _this3.state.preCur : _this3.state.postCur ? '' : _this3.props.invoiceToEdit.currencySymbol,
                 _react2.default.createElement(_input2.default, (_React$createElement = { style: curStyle, key: k + "item total", value: itemTotal,
                   className: _InvoiceForm2.default.borderless }, _defineProperty(_React$createElement, 'style', totStyle), _defineProperty(_React$createElement, 'placeholder', 0), _defineProperty(_React$createElement, 'onChange', function onChange(itemTotal) {
                   return itemTotal;
                 }), _React$createElement)),
-                _this3.state.postCur
+                _this3.state.postCur ? _this3.state.postCur : _this3.state.preCur ? '' : _this3.props.invoiceToEdit.currencyCode
               )
             )
           ),
@@ -71976,6 +71965,16 @@ var InvoiceForm = function (_React$Component) {
           )
         );
       });
+      total += itemTotal;
+      console.log(this.state.taxType + "state.tax type");
+      this.state.taxType == "flat" ? total += tax : total = total + total * tax / 100;
+      console.log(total + 'total after tax');
+      discount == 0 ? total = total : total = total - total * discount / 100;
+      console.log(total + 'total after discount');
+      addCharge == 0 ? total = total : total += addCharge;
+      console.log(total + 'total after added charge');
+      total = Math.round(total * 100) / 100;
+      console.log(total + "total after charges");
 
       return _react2.default.createElement(
         _localeProvider2.default,
@@ -72268,7 +72267,8 @@ var InvoiceForm = function (_React$Component) {
                 FormItem,
                 { wrapperCol: { span: 24 }
                 },
-                getFieldDecorator('tax', {})(_react2.default.createElement(
+                getFieldDecorator('tax', { initialValue: this.props.invoiceToEdit.tax
+                })(_react2.default.createElement(
                   _row2.default,
                   null,
                   _react2.default.createElement(
@@ -72276,19 +72276,19 @@ var InvoiceForm = function (_React$Component) {
                     { span: 2 },
                     _react2.default.createElement(
                       'div',
-                      { className: this.state.hideCur && !this.state.preCur ? _InvoiceForm2.default.hidden : "", style: { textAlign: "center" } },
-                      this.state.preCur
+                      { className: this.state.hideCur ? _InvoiceForm2.default.hidden : this.state.preCur ? "" : _InvoiceForm2.default.hidden, style: { textAlign: "center" } },
+                      this.state.preCur ? this.state.preCur : this.state.postCur ? '' : this.props.invoiceToEdit.currencySymbol
                     )
                   ),
                   _react2.default.createElement(
                     _col2.default,
                     { span: 8 },
-                    _react2.default.createElement(_input2.default, { placeholder: this.props.invoiceToEdit.tax || null })
+                    _react2.default.createElement(_input2.default, { placeholder: this.props.invoiceToEdit.tax })
                   ),
                   _react2.default.createElement(
                     _col2.default,
                     { className: this.state.hideCur ? _InvoiceForm2.default.hidden : this.state.postCur == null ? _InvoiceForm2.default.hidden : "", span: 2, offset: 1 },
-                    this.state.postCur
+                    this.state.postCur ? this.state.postCur : this.state.preCur ? '' : this.props.invoiceToEdit.currencyCode
                   ),
                   _react2.default.createElement(
                     _col2.default,
@@ -72352,13 +72352,14 @@ var InvoiceForm = function (_React$Component) {
                 FormItem,
                 { wrapperCol: { span: 24 }
                 },
-                getFieldDecorator('discount', {})(_react2.default.createElement(
+                getFieldDecorator('discount', { initialValue: this.props.invoiceToEdit.discount
+                })(_react2.default.createElement(
                   _row2.default,
                   null,
                   _react2.default.createElement(
                     _col2.default,
                     { span: 8, offset: 2 },
-                    _react2.default.createElement(_input2.default, { placeholder: this.props.invoiceToEdit.discount || null })
+                    _react2.default.createElement(_input2.default, { placeholder: this.props.invoiceToEdit.discount })
                   ),
                   _react2.default.createElement(
                     _col2.default,
@@ -72395,7 +72396,8 @@ var InvoiceForm = function (_React$Component) {
                 FormItem,
                 { wrapperCol: { span: 24 }
                 },
-                getFieldDecorator('addCharge', {})(_react2.default.createElement(
+                getFieldDecorator('addCharge', { initialValue: this.props.invoiceToEdit.additionalCharge
+                })(_react2.default.createElement(
                   _row2.default,
                   null,
                   _react2.default.createElement(
@@ -72404,18 +72406,18 @@ var InvoiceForm = function (_React$Component) {
                     _react2.default.createElement(
                       'div',
                       { className: this.state.hideCur && !this.state.preCur ? _InvoiceForm2.default.hidden : "", style: { textAlign: "center" } },
-                      this.state.preCur
+                      this.state.preCur ? this.state.preCur : this.state.postCur ? '' : this.props.invoiceToEdit.currencySymbol
                     )
                   ),
                   _react2.default.createElement(
                     _col2.default,
                     { span: 8 },
-                    _react2.default.createElement(_input2.default, { placeholder: this.props.invoiceToEdit.additionalCharge || null })
+                    _react2.default.createElement(_input2.default, { placeholder: this.props.invoiceToEdit.additionalCharge })
                   ),
                   _react2.default.createElement(
                     _col2.default,
                     { className: this.state.postCur == null ? _InvoiceForm2.default.hidden : "", span: 2, offset: 1 },
-                    this.state.postCur
+                    this.state.postCur ? this.state.postCur : this.state.preCur ? '' : this.props.invoiceToEdit.currencyCode
                   )
                 ))
               )
@@ -72434,23 +72436,23 @@ var InvoiceForm = function (_React$Component) {
                   label: 'Total:',
                   labelCol: { span: 9 }
                 },
-                getFieldDecorator('total', { initialValue: this.props.invoiceToEdit.invoiceTotal || total })(_react2.default.createElement(
+                getFieldDecorator('total', { initialValue: total })(_react2.default.createElement(
                   'div',
                   null,
                   _react2.default.createElement(
                     'div',
                     { className: _InvoiceForm2.default.totalElems },
-                    this.state.preCur
+                    this.state.preCur ? this.state.preCur : this.state.postCur ? '' : this.props.invoiceToEdit.currencySymbol
                   ),
                   _react2.default.createElement(
                     'div',
                     { className: _InvoiceForm2.default.totalElems, style: { marginLeft: "5px", marginRight: "5px" } },
-                    this.props.invoiceToEdit.invoiceTotal || total
+                    total
                   ),
                   _react2.default.createElement(
                     'div',
                     { className: _InvoiceForm2.default.totalElems },
-                    this.state.postCur
+                    this.state.postCur ? this.state.postCur : this.state.preCur ? '' : this.props.invoiceToEdit.currencyCode
                   )
                 ))
               )
@@ -73171,9 +73173,11 @@ function api() {
           return true;
         }
       });
+      console.log('CHANGE_INVOICE:' + JSON.stringify(action.invoice));
       updInvoices.push(action.invoice);
       return _extends({}, state, {
-        invoices: updInvoices
+        invoices: updInvoices,
+        invoiceToEdit: action.invoice
       });
     case DELETE_INVOICE_SUCCESS:
       var leftInvoices = state.invoices.slice(0);
@@ -73372,12 +73376,13 @@ function changeInvoice(params) {
           unitPriceName: params.updUnitPriceName,
           quantityName: params.updQuantityName,
           totalName: params.updTotalName,
-
-          currency: params.updCurrency,
+          currencySymbol: params.updCurrencySymbol,
+          currencyCode: params.updCurrencyCode,
 
           invoiceTotal: params.updInvoiceTotal,
           taxName: params.updTaxName,
           tax: params.updTax,
+          taxType: params.updTaxType,
           discountName: params.updDiscountName,
           discount: params.updDiscount,
           additionalChargeName: params.updAdditionalChargeName,

@@ -14,21 +14,20 @@ import { addInvoice, submitInvoice } from 'redux/modules/api'
 
 moment.locale('en')
 const FormItem = Form.Item;
-let itemTotal = 0;
 const Option = Select.Option;
 let hide=false;
-let uuid = 0;
 let id;
+let lineTotal = 0;
 class InvoiceForm extends React.Component {
   constructor(props) {
     super(props);
     this.state={
       hideCur:true,
-      taxType:"",
+      taxType:"%",
       quantity:0,
       items:{0:{name:'', description:'', price:0, quantity:0}},
-      preCur:  '',
-      postCur: '',
+      preCur:   '',
+      postCur:  '',
       keys: [0]
     };
     this.remove=this.remove.bind(this);
@@ -42,7 +41,7 @@ class InvoiceForm extends React.Component {
   }
   componentWillReceiveProps(){
 var obj;
-    if (this.props.invoiceToEdit != undefined) {
+    if ((this.props.id != undefined) && (this.props.invoiceToEdit != undefined)) {
     if (this.props.invoiceToEdit.items != undefined) {
 obj = this.props.invoiceToEdit.items.reduce(function(acc, cur, i) {
   acc[i] = cur;
@@ -54,46 +53,37 @@ let newKeys=Object.keys(obj)
       items: obj ,
       keys: newKeys 
   })
-}
   this.setState({
-    invoice: this.props.invoicetoEdit, 
-      preCur: this.props.invoiceToEdit.currencySymbol,
-      postCur: this.props.invoiceToEdit.currencyCode,
+    invoice: this.props.invoiceToEdit, 
       taxType: this.props.invoiceToEdit.taxType,
+      preCur: this.props.currencySymbol,
+      postCur: this.props.currencyCode
   })
 }
-  }
-componentDidUpdate (prevProps) {
-//  console.log("component did update is firing")
-  if (prevProps.invoiceToEdit != this.props.invoiceToEdit)
-    { this.forceUpdate }
 }
-  componentWillMount() {
-  /*  this.props.form.setFieldsValue({
-      keys: [0],
-    });*/
   }
-    
   setTaxType(value) {
-    if (value=="%") {
+    if (value==="%") {
       hide=true;
       this.setState({hideCur:true, taxType:"%"});
     }
-    if (value=="flat" ) {
+    if (value==="flat" ) {
       hide=false;
       this.setState({hideCur:false, taxType:"flat"});
     }
-  //  console.log(value)
-  //  console.log(hide)
+  if (this.props.invoiceToEdit.taxType=='flat') {
+    this.setState({taxtType: "flat", hideCur: false})
+  }
+ //   console.log(JSON.stringify(this.state)+"look at currency and tax"+value+"and at value")
   }
   handleCurrencyChoice(value) {
-  //  console.log("chosen currency: "+value)
+    console.log("chosen currency: "+value)
     if (value==currencies[value]["symbol"]) {
-      this.setState({preCur:null, postCur:value, currency: currencies[value]["code"]});
+      this.setState({preCur:null, postCur:value} );
   //   preCur=null;
   //   postCur=value; 
     } else {
-      this.setState({postCur:null, preCur:currencies[value]["symbol"], currency: currencies[value]["code"]})
+      this.setState({postCur:null, preCur:currencies[value]["symbol"]})
   //   postCur=null;
   //   preCur=currencies[value]["symbol"]
     }
@@ -101,7 +91,7 @@ componentDidUpdate (prevProps) {
   handleQuant(k,e) {
     const quant=e.target.value;
     const items=this.state.items;
-    const amount=itemTotal;
+    const amount=lineTotal;
     // console.log("fromQuant amount "+amount)
     items[k]["quantity"]=quant;
     items[k]["amount"]=amount;
@@ -111,7 +101,7 @@ componentDidUpdate (prevProps) {
   }
   handlePrice(k,e) {
     const price=e.target.value;
-    const amount=itemTotal;
+    const amount=lineTotal;
   //  console.log("fromPrice amount "+amount)
     const items=this.state.items;
     items[k]["price"]=price;
@@ -151,8 +141,6 @@ componentDidUpdate (prevProps) {
   }
 
   add(){
-    uuid++;
-console.log(uuid+' uuid')
     const { form } = this.props;
     // can use data-binding to get
    /* const keys = form.getFieldValue('keys');
@@ -171,11 +159,12 @@ console.log(uuid+' uuid')
     });*/
   }
   handleSubmit(e) {
-console.log(JSON.stringify(this.state.invoice)+"from handleSubmit")
+//console.log(JSON.stringify(this.state)+"from handleSubmit")
     if (this.props.id != undefined) {
     let submittableItems=Object.keys(this.state.items).map(key => this.state.items[key]);
     e.preventDefault();
     const self=this;
+    
     this.props.form.validateFields( function checker (err, values)  {
       if (!err) {
         console.log('Received values of form: ', values);
@@ -193,8 +182,8 @@ console.log(JSON.stringify(this.state.invoice)+"from handleSubmit")
       updQuantityName: values.itemsQuantity,
       updTotalName: values.Amount,
 
-      updCurrencySymbol: self.state.preCur,
-      updCurrencyCode: self.state.postCur,
+      updCurrencySymbol: (self.state.preCur? self.state.preCur : self.state.postCur ? '' : self.props.invoiceToEdit.currencySymbol),
+      updCurrencyCode: (self.state.postCur ? self.state.postCur : self.state.preCur ? '' : self.props.invoiceToEdit.currencyCode),
 
       updInvoiceTotal: values.total,
       updTaxName: values.taxName,
@@ -213,8 +202,8 @@ console.log(JSON.stringify(this.state.invoice)+"from handleSubmit")
       updCustomerName: values.customerName,
        });
   notification.open({
-    message: 'Your invoice is updated!',
-    description: <a href={'/pdfs/'+(self.props.id)}>  You can get it here </a>,
+    message: 'Your invoice #'+self.props.id+' is updated!',
+    description: <a href={'/pdfs/'+(self.props.id)} rel="noopener noreferrer" target="_blank" >  You can get it here </a>,
     icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
     duration: 0
   });
@@ -262,11 +251,11 @@ console.log(JSON.stringify(this.state.invoice)+"from handleSubmit")
       newCompanyName: values.companyName,
       newCustomerName: values.customerName,
        });
-  notification.open({
-    message: 'Your invoice is ready!',
-    description: <a href={'/pdfs/'+(self.props.justMadeId+1)}>  You can get it here </a>,
+notification.open({
+    message: 'Your invoice #'+(self.props.justMadeId+1)+' is ready!',
+    description: <a rel="noopener noreferrer" target="_blank" href={'/pdfs/'+(self.props.justMadeId+1)} >  You can get it here </a>,
     icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
-    duration: 0
+    duration: 10,
   });
       }
 
@@ -276,13 +265,15 @@ console.log(JSON.stringify(this.state.invoice)+"from handleSubmit")
   }
   render() {
   //  console.log(JSON.stringify(this.state.items)+"look at this.state (items)from invoiceform if it received props")
+//console.log(JSON.stringify(this.props.invoiceToEdit)+"props invoice to edit")
+//console.log(this.props.invoiceToEdit.currencyCode+this.props.invoiceToEdit.currencySymbol+ "currency from props")
     const dateFormat = 'DD.MM.YYYY';
     const { getFieldDecorator, getFieldValue } = this.props.form;
     const keys = getFieldValue('keys');
     //console.log(keys+"keys")
   //  console.log(this.props.id+"from invoiceform comp")
-console.log(JSON.stringify(this.props.invoiceToEdit)+"invoicetoedit from invoiceform")
-console.log(this.props.justMadeId+"justmadeid")    
+//console.log(JSON.stringify(this.props.invoiceToEdit)+"invoicetoedit from invoiceform")
+//console.log(this.props.justMadeId+"justmadeid")    
 function objectEntries(obj) {
     let index = 0;
 
@@ -352,22 +343,20 @@ var obj=this.props.invoiceToEdit.items.reduce(function(acc, cur, i) {
 }, {})
 newKeys=Object.keys(this.state.items)
 }*/
-console.log("keys "+newKeys)
+//console.log("keys "+newKeys)
+let itemTotal = 0;
     const formItems = ( this.state.keys).map((k, index) => {
     let totStyle={width:"24px"};
     let curStyle={width:"24px"};
   //  console.log(JSON.stringify(this.state.items[k])+"from inside of mapping func - 1 item "+k+' k')
-    itemTotal=((+this.state.items[k]["quantity"]) *(+this.state.items[k]["price"])) || 0  
-  //  console.log(total+"total after itemTotal")
-    total+=itemTotal;
-    this.state.taxType=="flat"? total+=tax : total=total+(total*tax/100);
-    discount==0? total=total : total=total-(total*discount/100);
-    addCharge==0? total=total : total += addCharge;
-  //  console.log(total+"total after charges")
+ lineTotal=((+this.state.items[k]["quantity"]) *(+this.state.items[k]["price"])) || 0  ;
+   itemTotal+=lineTotal;
+console.log(itemTotal+"itemTotal for item "+k)  
+  console.log(total+"total after itemTotal")
     let price=this.state.items[k]["price"]
     
     curStyle=adjustWidth(price);
-    totStyle=adjustWidth(itemTotal);
+    totStyle=adjustWidth(lineTotal);
     //   console.log(JSON.stringify(totStyle))
       return (
             <Row key={k+"row"} className={styles.denseHeight}> 
@@ -387,20 +376,20 @@ console.log("keys "+newKeys)
               </Col>
               <Col key={k+"priceCol"} span={4} >
                 <div className={styles.horizontalCentering}>
-                  {this.state.preCur}
+                  {this.state.preCur ? this.state.preCur : this.state.postCur ? '' : this.props.invoiceToEdit.currencySymbol }
                   <Input key={k+"price"} placeholder={this.state.items[k]["price"] ||  0} 
                     onChange={this.handlePrice.bind(this, k)} 
                     className={styles.borderless} style={curStyle} />
-                  {this.state.postCur}
+                  {this.state.postCur ? this.state.postCur : this.state.preCur ? '' : this.props.invoiceToEdit.currencyCode }
                 </div>
               </Col>
               <Col key={k+"totalCol"} span={5}>
                 <div className={styles.horizontalCentering}>
-                  {this.state.preCur}
+                  {this.state.preCur ? this.state.preCur : this.state.postCur ? '' : this.props.invoiceToEdit.currencySymbol}
                   <Input style={curStyle} key={k+"item total"} value={itemTotal} 
                     className={styles.borderless} style={totStyle} 
                     placeholder={0} onChange={(itemTotal) => {return itemTotal}}/>
-                  {this.state.postCur}
+                  {this.state.postCur ? this.state.postCur : this.state.preCur ? '' : this.props.invoiceToEdit.currencyCode}
                 </div>
               </Col>
             </div>
@@ -417,6 +406,16 @@ console.log("keys "+newKeys)
             </Row>
       );
     });
+    total+=itemTotal;
+    console.log(this.state.taxType+"state.tax type")
+    this.state.taxType=="flat"? total+=tax : total=total+(total*tax/100);
+console.log(total+'total after tax')
+    discount==0? total=total : total=total-(total*discount/100);
+console.log(total+'total after discount')
+    addCharge==0? total=total : total += addCharge;
+console.log(total+'total after added charge')
+    total=Math.round(total * 100) / 100
+   console.log(total+"total after charges")
 
   return (
     <LocaleProvider locale={enUS}>
@@ -635,19 +634,19 @@ console.log("keys "+newKeys)
           <Col span={9} >
             <FormItem wrapperCol={{ span: 24 }}
             >
-              {getFieldDecorator('tax', {
+              {getFieldDecorator('tax', {initialValue: this.props.invoiceToEdit.tax 
               })(
                 <Row>
                   <Col  span={2}>
-                  <div className={this.state.hideCur && !this.state.preCur ? styles.hidden :  ""} style={{textAlign:"center"}}>
-                    {this.state.preCur}
+                  <div className={this.state.hideCur ? styles.hidden : this.state.preCur ? "" :  styles.hidden} style={{textAlign:"center"}}>
+                    {this.state.preCur ? this.state.preCur : this.state.postCur ? '' : this.props.invoiceToEdit.currencySymbol }
                   </div>
                   </Col>
                   <Col span={8} >
-                    <Input placeholder={ this.props.invoiceToEdit.tax ||  null }/>
+                    <Input placeholder={ this.props.invoiceToEdit.tax }/>
                   </Col>
                   <Col className={this.state.hideCur ? styles.hidden : this.state.postCur==null? styles.hidden : ""} span={2} offset={1}>
-                    {this.state.postCur}
+                    {this.state.postCur ? this.state.postCur : this.state.preCur ? '' : this.props.invoiceToEdit.currencyCode}
                   </Col>
                   <Col className={this.state.taxType=="%" ? "" : styles.hidden} span={1} offset={1}>
                     <p>%</p>
@@ -680,11 +679,11 @@ console.log("keys "+newKeys)
           <Col span={9} >
             <FormItem wrapperCol={{ span: 24 }}
             >
-              {getFieldDecorator('discount', {
+              {getFieldDecorator('discount', { initialValue: this.props.invoiceToEdit.discount
               })(
                 <Row>
                   <Col span={8} offset={2}>
-                    <Input placeholder={ this.props.invoiceToEdit.discount || null } />
+                    <Input placeholder={ this.props.invoiceToEdit.discount } />
                   </Col>
                   <Col span={1} offset={1}>
                     <p>%</p>
@@ -708,19 +707,19 @@ console.log("keys "+newKeys)
           <Col span={9} >
             <FormItem wrapperCol={{ span: 24 }}
             >
-              {getFieldDecorator('addCharge', {
+              {getFieldDecorator('addCharge', { initialValue: this.props.invoiceToEdit.additionalCharge
               })(
                 <Row>
                   <Col span={2}>
                   <div className={this.state.hideCur && !this.state.preCur ? styles.hidden :  ""} style={{textAlign:"center"}}>
-                  {this.state.preCur}
+                  {this.state.preCur ? this.state.preCur : this.state.postCur ? '' : this.props.invoiceToEdit.currencySymbol}
                   </div>
                   </Col>
                   <Col span={8} >
-                    <Input placeholder={  this.props.invoiceToEdit.additionalCharge ||  null} />
+                    <Input placeholder={  this.props.invoiceToEdit.additionalCharge } />
                   </Col>
                   <Col className={this.state.postCur==null? styles.hidden : ""} span={2} offset={1}>
-                    {this.state.postCur}
+                    {this.state.postCur ? this.state.postCur : this.state.preCur ? '' : this.props.invoiceToEdit.currencyCode}
                   </Col>
                 </Row>
               )}
@@ -734,16 +733,16 @@ console.log("keys "+newKeys)
               label="Total:"
               labelCol={{ span:9 }}
             >
-              {getFieldDecorator('total', {initialValue:  this.props.invoiceToEdit.invoiceTotal || total})(
+              {getFieldDecorator('total', {initialValue:  total})(
               <div>
               <div className={styles.totalElems}>
-                {this.state.preCur}
+                {this.state.preCur ? this.state.preCur : this.state.postCur ? '' :  this.props.invoiceToEdit.currencySymbol}
               </div>
               <div className={styles.totalElems} style={{marginLeft:"5px", marginRight:"5px"}}>
-               { this.props.invoiceToEdit.invoiceTotal || total}
+               { total}
               </div>
               <div className={styles.totalElems}>
-               {this.state.postCur}
+               {this.state.postCur ? this.state.postCur : this.state.preCur ? '' : this.props.invoiceToEdit.currencyCode}
               </div>
               </div>
               )}

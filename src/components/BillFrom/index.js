@@ -218,7 +218,7 @@ class BillFrom extends React.Component{
       })
   notification.open({
     message: 'Company information is updated!',
-    description: <a href={'/pdfs/'+(self.props.id)}>  You can get it here </a>,
+    description: <a href={'/pdfs/'+(self.props.id)} rel="noopener noreferrer" target="_blank">You can get updated invoice #{self.props.id} here </a>,
     icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
     duration: 0
   });
