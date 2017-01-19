@@ -8,7 +8,7 @@ router.route('/invoices').post(InvoiceController.addInvoice);
 
 router.route('/invoices').get(InvoiceController.getInvoices);
 
-router.route('/pdf').get(InvoiceController.getPdf);
+// router.route('/pdf').get(InvoiceController.getPdf);
 
 router.route('/pdfs/:id').get(InvoiceController.generatePdf);
 

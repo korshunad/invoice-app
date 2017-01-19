@@ -31,14 +31,14 @@ export function getInvoices(req, res) {
   });
 }
 
-export function getPdf(req, res) {
+/*export function getPdf(req, res) {
   Invoice.find().exec((err, invoices) => {
     if (err) {
       return res.status(500).send(err);
     }
   res.render('pdf', { invoice: invoices[1]})
   });
-}
+}*/
 
 
 export function generatePdf(req, res) {
