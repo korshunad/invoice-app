@@ -13,22 +13,24 @@ class App extends React.Component {
     this.state={isModalOpen: false }
 
   };
+
   componentDidMount() {
 
-    var id = this.props.params.id;
-    this.props.dispatch(getInvoices());
-    if (id) {
-      this.props.dispatch(getInvoiceToEdit({ editInvoiceId: id}))
-    } else  {
-      console.log("sending CLEAN EDIT from comp mountedin APP")
-      this.props.dispatch(cleanEditedInvoice())
-    }
-    console.log(JSON.stringify(this.props.invoiceToEdit)+"invoiceToEdit from comp did mount")
+    let id = this.props.params.id;
 
+    this.props.dispatch(getInvoices());
+
+      if (id) {
+        this.props.dispatch(getInvoiceToEdit({ editInvoiceId: id}))
+      } else  {
+        this.props.dispatch(cleanEditedInvoice())
+      }
   }
+
   addInvoiceHandler(params) {
-   // console.log("HI FROM ADDINVOICEHANDLER!")
+
     this.props.dispatch(addInvoice({
+
       newInvoiceTitle: params.newInvoiceTitle,
       newInvoiceSummary: params.newInvoiceSummary,
       newInvoiceNumber: params.newInvoiceNumber,
@@ -61,13 +63,15 @@ class App extends React.Component {
       newCompanyName: params.newCompanyName,
       newCustomerName: params.newCustomerName,
     }))
- //   console.log("helloInvoice Adder"+JSON.stringify(params))
- //   console.log(JSON.stringify(this.props.formData)+" formdata from helloinvoice")
+
     this.props.dispatch(submitInvoice())
-     // console.log(this.props.justMadeId+"from addinvhandler and after submit dispatched") 
+
   }
+
   addCompanyHandler(params) {
+
     this.props.dispatch(addCompany({
+
       newCompanyAddressL1: params.newCompanyAddressL1,
       newCompanyAddressL2: params.newCompanyAddressL2,
       newCompanyCity: params.newCompanyCity,
@@ -88,10 +92,11 @@ class App extends React.Component {
       newCompanyPayPalinfo:  params.newCompanyPayPalinfo,  
       newCompanyOtherBilling:  params.newCompanyOtherBilling,  
     }))
-   // console.log(JSON.stringify(params)+" this is adding company info")
+
   }
 
   addCustomerHandler(params) {
+
     this.props.dispatch(addCustomer({
 
       newCustomerAddressL1: params.newCustomerAddressL1,
@@ -107,14 +112,13 @@ class App extends React.Component {
       newCustomerWebsite: params.newCustomerWebsite,
       newCustomerFax: params.newCustomerFax,
       newCustomerAccountNumber: params.newCustomerAccountNumber,
-      
-
     }))
-  //  console.log(JSON.stringify(params)+" this is adding customer info")
   }
+
   updInvoiceHandler(params) {
-    console.log("HI FROM UPDINVOICEHANDLER!")
+
     this.props.dispatch(changeInvoice({
+
       updInvoiceId: this.props.params.id, 
       updInvoiceTitle: params.updInvoiceTitle,
       updInvoiceSummary: params.updInvoiceSummary,
@@ -181,29 +185,32 @@ class App extends React.Component {
       updCustomerAccountNumber: params.updCustomerAccountNumber,
       
     }))
-    console.log("helloInvoice UPDer"+JSON.stringify(params))
-    console.log(JSON.stringify(this.props.formData)+"upd formdata from helloinvoice")
   }
+
   render() {
-let home=(<a href ='/'>Create new invoice</a>)
+
+    let home=(<a href ='/'>Create new invoice</a>)
+
     return (
-<div>
       <div>
-      <div style={{marginTop:"10px", marginLeft: "auto", marginRight: "auto", width: "600px", textAlign: "center"}}>
-          <div style={{width:"200px", display: "inline"}}>
-          <div style={{display: "inline",textAlign:"center"}}><Link to="/allinvoices">All invoices</Link></div>
-          {this.props.children}
+        <div>
+          <div style={{marginTop:"10px", marginLeft: "auto", marginRight: "auto", width: "600px", textAlign: "center"}}>
+            <div style={{width:"200px", display: "inline"}}>
+              <div style={{display: "inline",textAlign:"center"}}><Link to="/allinvoices">All invoices</Link></div>
+              {this.props.children}
+            </div>
+            <div style={{width:"200px", display: "inline"}}>
+              <div style={{display:"inline",textAlign:"center", marginLeft: "10px"}}>
+                {this.props.params.id ? home : ''} 
+              </div>
+              {this.props.children}
+            </div>
+            <div style={{width:"200px", display: "inline"}}>
+            <div style={{width:"auto", display: "inline", marginLeft:"10px"}}>
+              {this.props.params.id ? 'Editing the Invoice id '+this.props.params.id+' ' : ''}
+            </div>
           </div>
-          <div style={{width:"200px", display: "inline"}}>
-          <div style={{display:"inline",textAlign:"center", marginLeft: "10px"}}>
-          {this.props.params.id ? home : ''} 
-          </div>
-          {this.props.children}
-          </div>
-          <div style={{width:"200px", display: "inline"}}>
-          <div style={{width:"auto", display: "inline", marginLeft:"10px"}}>{this.props.params.id ? 'Editing the Invoice id '+this.props.params.id+' ' : ''}</div>
-          </div>
-      </div>
+        </div>
         <div className={styles.page} style={{marginTop:"10px"}} >
           <InvoiceForm  
             justMadeId={this.props.justMadeId}
@@ -217,14 +224,14 @@ let home=(<a href ='/'>Create new invoice</a>)
            />
         </div>
       </div>
-</div>
+    </div>
     );
   }
-  
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
+
     invoices: state.api.invoices,
     formData: state.api.formData, 
     justMadeId: state.api.justMadeId,

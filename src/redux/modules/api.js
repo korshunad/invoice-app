@@ -51,12 +51,14 @@ export default function api (state = initialState, action = {}) {
       };
     case GET_INVOICE_TO_EDIT:
       return state;
+
     case GET_INVOICE_TO_EDIT_SUCCESS:
       let toeditInvoice=action.invoiceToEdit
       return {
         ...state,
         invoiceToEdit: toeditInvoice
       };
+
     case CLEAN_EDITED_INVOICE:
       return  {
       ...state,
@@ -67,30 +69,26 @@ export default function api (state = initialState, action = {}) {
       let newInvoices = state.invoices.slice(0);
       newInvoices.push(action.invoice);
       let newId=action.invoice._id;
-      console.log("SUBMIT_INVOICE "+newId);
-      console.log("SUBMIT_INVOICE "+JSON.stringify(newInvoices));
-      
       return {
         ...state,
         invoices: newInvoices,
         justMadeId: newId
       };
-    case ADD_INVOICE:
-    let overallInfo=Object.assign({}, state.formData, action.formData)
 
-      return Object.assign({}, state,
-       {formData: overallInfo}
-      )
+    case ADD_INVOICE:
+      let overallInfo=Object.assign({}, state.formData, action.formData)
+        return Object.assign({}, state,
+         {formData: overallInfo}
+        )
+
     case ADD_COMPANY:
-    let companyData=Object.assign({}, state.formData, 
-      action.formData)
-    console.log("ADD_COMPANY "+JSON.stringify(companyData))
+      let companyData=Object.assign({}, state.formData, 
+        action.formData)
       return Object.assign({}, state, {formData:companyData}) 
 
     case ADD_CUSTOMER:
-    let customerData=Object.assign({}, state.formData, 
-      action.formData)
-    console.log("ADD_CUSTOMER "+JSON.stringify(customerData))
+      let customerData=Object.assign({}, state.formData, 
+        action.formData)
       return Object.assign({}, state, {formData:customerData}) 
 
     case CHANGE_INVOICE_SUCCESS:
@@ -100,13 +98,13 @@ export default function api (state = initialState, action = {}) {
           return false
         } else { return true }
       });
-console.log('CHANGE_INVOICE:'+JSON.stringify(action.invoice))      
       updInvoices.push(action.invoice);
       return {
         ...state,
         invoices: updInvoices,
         invoiceToEdit: action.invoice
       };
+
     case DELETE_INVOICE_SUCCESS:
       let leftInvoices = state.invoices.slice(0)
       let left = leftInvoices.filter((invoice) => {
@@ -124,11 +122,13 @@ console.log('CHANGE_INVOICE:'+JSON.stringify(action.invoice))
       return state;
   }
 }
+
 export function cleanEditedInvoice() {
   return(dispatch, getState) => {
     dispatch({type:CLEAN_EDITED_INVOICE})
   }
 }
+
 export function submitInvoice() {
   return (dispatch, getState) => {
     dispatch({type:SUBMIT_INVOICE});
@@ -142,14 +142,11 @@ export function submitInvoice() {
       cache: 'default',
       body: JSON.stringify({
         invoice:  getState().api.formData 
-       
       })
     })
     .then((response) => {
       if (response.status >=400) {
-        console.log(JSON.stringify(response)+"response")
         throw new Error("Bad response from server");
-
       };
       return response.json();
     })
@@ -159,6 +156,7 @@ export function submitInvoice() {
     
   }
 }
+
 export function addInvoice(params) {
   return (dispatch, getState) => {
     dispatch({
@@ -200,6 +198,7 @@ export function addInvoice(params) {
     });
   }
 }
+
 export function addCompany(params) {
   return (dispatch, getState) => {
     dispatch({
@@ -229,6 +228,7 @@ export function addCompany(params) {
     })
   }
 }
+
 export function addCustomer(params) {
   return (dispatch, getState) => {
     dispatch({
@@ -254,6 +254,7 @@ export function addCustomer(params) {
     })
   }
 }
+
 export function getInvoices() {
   return (dispatch, getState) => {
     dispatch({type: GET_INVOICES});
@@ -269,13 +270,13 @@ export function getInvoices() {
       });
   }
 }
+
 export function getInvoiceToEdit(params) {
   return (dispatch, getState) => {
     dispatch({type: GET_INVOICE_TO_EDIT});
     fetch('/invoices/'+params.editInvoiceId, {method: 'get' })
       .then((response) =>  {
         if (response.status >= 400) {
-        console.log("get to edit error "+params.editInvoiceId)
         throw new Error("Bad response from server");
         };
         return response.json();
@@ -285,6 +286,7 @@ export function getInvoiceToEdit(params) {
       });
   }
 }
+
 export function changeInvoice(params) {
   return (dispatch, getState) => {
     dispatch({type:CHANGE_INVOICE});
@@ -297,10 +299,7 @@ export function changeInvoice(params) {
       cashe: 'default',
       body: JSON.stringify({
         invoice: {
-          /*name: params.updInvoiceName, 
-          purchasingPrice: params.updPurchasingPrice, 
-          retailPrice: params.updRetailPrice, 
-          categoryId: params.updCatId}*/
+
           invoiceTitle: params.updInvoiceTitle,
           invoiceSummary: params.updInvoiceSummary,
           invoiceNumber: params.updInvoiceNumber,
@@ -370,7 +369,6 @@ export function changeInvoice(params) {
       if (response.status >=400) {
         console.log(params.updInvoiceId+"params before error")
         throw new Error("Bad response from server");
-       // dispatch({type: SERVER_ERROR, message: "Не удалось изменить товар. Проверьте правильность входных данных и их наличие."})
       };
       return response.json();
     })
@@ -381,15 +379,12 @@ export function changeInvoice(params) {
 }
 
 export function deleteInvoice(params) {
-  console.log("hello from delete invoice"+params)
   return (dispatch, getState) => {
     dispatch({type:DELETE_INVOICE});
     fetch('/invoices/'+params.delInvoiceId, {
       method: 'delete'
     }).then((response) => {
       if (response.status >=400) {
-        console.log("error"+params.delInvoiceId)
-        //dispatch({type: SERVER_ERROR, message: "Не удалось удалить товар. Перезагрузите страницу."})
         throw new Error("Bad response from server");
       };
       return true;
@@ -399,73 +394,3 @@ export function deleteInvoice(params) {
     });
   }
 }
-
-
-
-
-
-
-       let someinvoice: {
-          invoiceTitle: params.newInvoiceTitle,
-          invoiceSummary: params.newInvoiceSummary,
-          invoiceNumber: params.newInvoiceNumber,
-          invoiceDate: params.newInvoiceDate,
-
-          paymentdue: params.newPaymentDue,
-
-          itemsName: params.newItemsName,
-          unitPriceName: params.newUnitPriceName,
-          quantityName: params.newQuantityName,
-          totalName: params.newTotalName,
-
-          currency: params.newCurrency,
-
-          invoiceTotal: params.newInvoiceTotal,
-          taxName: params.newTaxName,
-          tax: params.newTax,
-          discountName: params.newDiscountName,
-          discount: params.newDiscount,
-          additionalChargeName: params.newAdditionalChargeName,
-          additionalCharge: params.newAdditionalCharge,
-
-          items: params.newItems,  
-
-          notes: params.newItems,
-          footer: params.newFooter,
-
-          companyName: params.newCompanyName,
-          companyAddressL1: params.newCompanyAddressL1,
-          companyAddressL2: params.newCompanyAddressL2,
-          companyCity: params.newCompanyCity,
-          companyZip: params.newCompanyZip,
-          companyCountry: params.newCompanyCountry,
-          companyProvince: params.newCompanyProvince,
-          companyPhone: params.newCompanyPhone,
-          companyWebsite: params.newCompanyWebsite,
-          companyFax: params.newCompanyFax,
-          companyEmail: params.newCompanyEmail,
-          companyAccount: params.newCompanyAccount,
-          companyBankAccountHolder: params.newCompanyBankAccountHolder,
-          companyBankName: params.newCompanyBankName,
-          companyBankAddress: params.newCompanyBankAddress,
-          companySWIFT: params.newCompanySWIFT,  
-          companyBIC:  params.newCompanyBIC,  
-          companyIBAN:  params.newCompanyIBAN,  
-          companyPayPalinfo:  params.newCompanyPayPalinfo,  
-          companyOtherBilling:  params.newCompanyOtherBilling,  
-
-          customerName: params.newCustomerName,
-          customerAddressL1: params.newCustomerAddressL1,
-          customerAddressL2: params.newCustomerAddressL2,
-          customerCity: params.newCustomerCity,
-          customerZip: params.newCustomerZip,
-          customerCountry: params.newCustomerCountry,
-          customerProvince: params.newCustomerProvince,
-          customerPhone: params.newCustomerPhone,
-          customerEmail: params.newCustomerEmail,
-          customerContactFirstName: params.newCustomerContactFirstName,
-          customerContactLastName: params.newCustomerContactLastName,
-          customerWebsite: params.newCustomerWebsite,
-          customerFax: params.newCustomerFax,
-          customerAccountNumber: params.newCustomerAccountNumber,
-        }

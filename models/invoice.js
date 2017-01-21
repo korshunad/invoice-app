@@ -18,16 +18,16 @@ const invoiceSchema = new mongoose.Schema( {
   invoiceDate: {type: Date/*, required: true*/},
   paymentDue: {type: Date},
 
-  itemsName: {type: String/*, default: 'ITEMS'*/},
-  itemsDescriptionName: {type:String/*, default: 'DESCRIPTION'*/},
-  unitPriceName: {type: String/*, default: 'UNIT PRICE'*/},
-  quantityName: {type: String/*, default: 'QUANTITY'*/},
-  totalName: {type: String/*, default: 'TOTAL'*/},
+  itemsName: {type: String},
+  itemsDescriptionName: {type:String},
+  unitPriceName: {type: String},
+  quantityName: {type: String},
+  totalName: {type: String},
 
   currencySymbol: {type: String},
   currencyCode: {type: String},
 
-  invoiceTotal: {type: Number/*, required: true*/},
+  invoiceTotal: {type: Number},
   taxName: {type: String},
   tax: {type: Number},
   taxType: {type: String},
@@ -41,7 +41,7 @@ const invoiceSchema = new mongoose.Schema( {
   notes: {type: String},
   footer: {type: String},
 
-  companyName: {type: String/*, required: true*/},
+  companyName: {type: String},
   companyAddressL1: {type: String},
   companyAddressL2: {type: String},
   companyCity: {type: String},
