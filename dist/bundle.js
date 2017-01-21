@@ -72276,7 +72276,7 @@ var InvoiceForm = function (_React$Component) {
                     { span: 2 },
                     _react2.default.createElement(
                       'div',
-                      { className: this.state.hideCur ? _InvoiceForm2.default.hidden : this.state.preCur ? "" : _InvoiceForm2.default.hidden, style: { textAlign: "center" } },
+                      { className: this.state.hideCur ? _InvoiceForm2.default.hidden : "", style: { textAlign: "center" } },
                       this.state.preCur ? this.state.preCur : this.state.postCur ? '' : this.props.invoiceToEdit.currencySymbol
                     )
                   ),
@@ -72287,7 +72287,7 @@ var InvoiceForm = function (_React$Component) {
                   ),
                   _react2.default.createElement(
                     _col2.default,
-                    { className: this.state.hideCur ? _InvoiceForm2.default.hidden : this.state.postCur == null ? _InvoiceForm2.default.hidden : "", span: 2, offset: 1 },
+                    { className: this.state.hideCur ? _InvoiceForm2.default.hidden : this.state.preCur ? _InvoiceForm2.default.hidden : this.props.invoiceToEdit.currencySymbol ? _InvoiceForm2.default.hidden : this.state.postCur ? "" : this.props.invoiceToEdit.currencyCode ? '' : _InvoiceForm2.default.hidden, span: 2, offset: 1 },
                     this.state.postCur ? this.state.postCur : this.state.preCur ? '' : this.props.invoiceToEdit.currencyCode
                   ),
                   _react2.default.createElement(
@@ -72504,7 +72504,7 @@ var InvoiceForm = function (_React$Component) {
                   { type: 'primary',
                     htmlType: 'submit',
                     style: { width: "700px" } },
-                  'Save the invoice'
+                  this.props.id ? 'Update the invoice' : 'Save new invoice'
                 )
               )
             )

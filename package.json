@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "build": "NODE_PATH=./src browserify -p [css-modulesify -o dist/main.css --json dist/css-modules.json --global true] -t [ babelify --presets [ es2015 react ] ] ./src/main.js -o ./dist/bundle.js",
+    "build": "NODE_ENV=production NODE_PATH=./src browserify -p [css-modulesify -o dist/main.css --json dist/css-modules.json --global true] -t [ babelify --presets [ es2015 react ] ] ./src/main.js -o ./dist/bundle.js",
     "watch": "NODE_PATH=./src watchify -p [css-modulesify -o dist/main.css --json dist/css-modules.json --global true] -t [ babelify --presets [ es2015 react ] ] -p [ browserify-livereload --host 127.0.0.1 --port 1337 ] ./src/main.js -o ./dist/bundle.js -v"
   },
   "repository": {

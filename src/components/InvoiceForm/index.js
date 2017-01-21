@@ -638,14 +638,14 @@ console.log(total+'total after added charge')
               })(
                 <Row>
                   <Col  span={2}>
-                  <div className={this.state.hideCur ? styles.hidden : this.state.preCur ? "" :  styles.hidden} style={{textAlign:"center"}}>
+                  <div className={this.state.hideCur ? styles.hidden :  "" } style={{textAlign:"center"}}>
                     {this.state.preCur ? this.state.preCur : this.state.postCur ? '' : this.props.invoiceToEdit.currencySymbol }
                   </div>
                   </Col>
                   <Col span={8} >
                     <Input placeholder={ this.props.invoiceToEdit.tax }/>
                   </Col>
-                  <Col className={this.state.hideCur ? styles.hidden : this.state.postCur==null? styles.hidden : ""} span={2} offset={1}>
+                  <Col className={this.state.hideCur ? styles.hidden : this.state.preCur ? styles.hidden : this.props.invoiceToEdit.currencySymbol  ? styles.hidden : this.state.postCur ? "" : this.props.invoiceToEdit.currencyCode ? '' : styles.hidden} span={2} offset={1}>
                     {this.state.postCur ? this.state.postCur : this.state.preCur ? '' : this.props.invoiceToEdit.currencyCode}
                   </Col>
                   <Col className={this.state.taxType=="%" ? "" : styles.hidden} span={1} offset={1}>
@@ -782,7 +782,7 @@ console.log(total+'total after added charge')
               <Button type="primary" 
                 htmlType="submit" 
                 style={{width:"700px"}}>
-                Save the invoice
+                {this.props.id ? 'Update the invoice' : 'Save new invoice'}
               </Button>
             </FormItem>
           </Col>
