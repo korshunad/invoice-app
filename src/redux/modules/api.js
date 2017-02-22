@@ -68,7 +68,7 @@ export default function api (state = initialState, action = {}) {
     case SUBMIT_INVOICE_SUCCESS:
       let newInvoices = state.invoices.slice(0);
       newInvoices.push(action.invoice);
-      let newId=action.invoice._id;
+      let newId=action.justId;
       return {
         ...state,
         invoices: newInvoices,
@@ -134,7 +134,6 @@ export function submitInvoice() {
     dispatch({type:SUBMIT_INVOICE});
     let myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
-    console.log(JSON.stringify(getState().api.formData)+"getState")
     fetch('/invoices', {
       method: 'post',
       headers: myHeaders,
@@ -151,7 +150,7 @@ export function submitInvoice() {
       return response.json();
     })
     .then((invoiceResponse) => {
-      dispatch({type: SUBMIT_INVOICE_SUCCESS, invoice: invoiceResponse.invoice}) 
+      dispatch({type: SUBMIT_INVOICE_SUCCESS, invoice: invoiceResponse.invoice, justId: invoiceResponse.invoice._id}) 
     });
     
   }
@@ -367,7 +366,6 @@ export function changeInvoice(params) {
     })
     .then((response) => {
       if (response.status >=400) {
-        console.log(params.updInvoiceId+"params before error")
         throw new Error("Bad response from server");
       };
       return response.json();

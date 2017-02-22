@@ -31,7 +31,9 @@ class InvoiceForm extends React.Component {
       items:{0:{name:'', description:'', price:0, quantity:0}},
       preCur:   '',
       postCur:  '',
-      keys: [0]
+      keys: [0],
+      lastId: '',
+
     };
 
     this.remove=this.remove.bind(this);
@@ -272,18 +274,24 @@ class InvoiceForm extends React.Component {
             newCompanyName: values.companyName,
             newCustomerName: values.customerName,
              });
-          notification.open({
-            message: 'Your invoice #'+(self.props.justMadeId+1)+' is ready!',
-            description: <a rel="noopener noreferrer" target="_blank" href={'/pdfs/'+(self.props.justMadeId+1)} >  You can get it here </a>,
-            icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
-            duration: 10,
-          });
+
         }
   
       })
     }
   }
 
+  componentWillReceiveProps(nextProps){
+  if ((nextProps.justMadeId != this.props.justMadeId) && (this.props.justMadeId!=null)) {
+          notification.open({
+
+            message: 'Your invoice #'+(nextProps.justMadeId)+' is ready!',
+            description: <a rel="noopener noreferrer" target="_blank" href={'/pdfs/'+nextProps.justMadeId} >  You can get it here </a>,
+            icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
+            duration: 10,
+          });
+}
+  }
   render() {
 
     const dateFormat = 'DD.MM.YYYY';
