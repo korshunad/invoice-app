@@ -25,13 +25,17 @@ const CHANGE_INVOICE_SUCCESS = 'CHANGE_INVOICE_SUCCESS'
 const DELETE_INVOICE = 'DELETE_INVOICE'
 const DELETE_INVOICE_SUCCESS = 'DELETE_INVOICE_SUCCESS'
 
+const SERVER_ERROR = 'SERVER_ERROR'
+const CLEAN_ERRORS = 'CLEAN_ERRORS'
+
 const CLEAN_EDITED_INVOICE = 'CLEAN_EDITED_INVOICE'
 
 const initialState = {
   invoices: [],
   formData: {},
   justMadeId: null,
-  invoiceToEdit: {} 
+  invoiceToEdit: {}, 
+  errorMessage: null
 }
 
 
@@ -116,11 +120,27 @@ export default function api (state = initialState, action = {}) {
         ...state,
         invoices: left
       };
+    case SERVER_ERROR:
+      return {
+        ...state,
+        errorMessage: action.message
+      }
+    case CLEAN_ERRORS:
+      return {
+        ...state,
+        errorMessage: null
+      }
 
 
     default:
       return state;
   }
+}
+
+export function cleanandclearerrors() {
+  return (dispatch, getState) => {
+    dispatch({type:CLEAN_ERRORS})
+  } 
 }
 
 export function cleanEditedInvoice() {
@@ -145,7 +165,7 @@ export function submitInvoice() {
     })
     .then((response) => {
       if (response.status >=400) {
-        throw new Error("Bad response from server");
+        dispatch({type: SERVER_ERROR, message: "Could not save invoice. Please try again"})
       };
       return response.json();
     })
@@ -259,14 +279,17 @@ export function getInvoices() {
     dispatch({type: GET_INVOICES});
     fetch('/invoices', {method: 'get' })
       .then((response) =>  {
-        if (response.status >= 400) {
-        throw new Error("Bad response from server");
-        };
         return response.json();
       })
       .then((invoicesResponse) => {
         dispatch({type: GET_INVOICES_SUCCESS, invoices: invoicesResponse.invoices })
-      });
+      })
+      .catch(function(e) {
+        dispatch({
+          type: SERVER_ERROR, 
+          message: "Could not get invoices. Please go to invoice creation page and try to load all invoices again. Sorry for inconvenience."
+        })
+      })
   }
 }
 
@@ -276,7 +299,7 @@ export function getInvoiceToEdit(params) {
     fetch('/invoices/'+params.editInvoiceId, {method: 'get' })
       .then((response) =>  {
         if (response.status >= 400) {
-        throw new Error("Bad response from server");
+        dispatch({type: SERVER_ERROR, message: "Could not load invoice to edit. Please try again."})
         };
         return response.json();
       })
@@ -366,7 +389,7 @@ export function changeInvoice(params) {
     })
     .then((response) => {
       if (response.status >=400) {
-        throw new Error("Bad response from server");
+        dispatch({type: SERVER_ERROR, message: "Could not update invoice. Please try again."})
       };
       return response.json();
     })
@@ -383,7 +406,7 @@ export function deleteInvoice(params) {
       method: 'delete'
     }).then((response) => {
       if (response.status >=400) {
-        throw new Error("Bad response from server");
+        dispatch({type: SERVER_ERROR, message: "Could not delete invoice. Please try again."})
       };
       return true;
     })

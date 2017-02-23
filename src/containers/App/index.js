@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './_App.css'
 import { connect } from 'react-redux'
-import {getInvoices, getInvoiceToEdit,cleanEditedInvoice, changeInvoice, addInvoice, submitInvoice, addCompany, addCustomer} from 'redux/modules/api'
+import {getInvoices, getInvoiceToEdit,cleanEditedInvoice, changeInvoice, addInvoice, submitInvoice, addCompany, addCustomer, cleanandclearerrors} from 'redux/modules/api'
 import InvoiceForm from 'components/InvoiceForm'
 import { Button, notification, Icon } from 'antd';
 import { Router, Route, Link } from 'react-router'
@@ -26,7 +26,17 @@ class App extends React.Component {
         this.props.dispatch(cleanEditedInvoice())
       }
   }
+  componentWillReceiveProps(nextProps) {
+    if ((nextProps.errorMessage != this.props.errorMessage) && (nextProps.errorMessage != null) && (this.props.invoices.length != 0)) {
+        notification["error"]({
+          message: 'Ошибка',
+          description: nextProps.errorMessage,
+          duration: 10
+        })
+        this.props.dispatch(cleanandclearerrors())
 
+    }
+  }
   addInvoiceHandler(params) {
 
     this.props.dispatch(addInvoice({
@@ -235,7 +245,8 @@ const mapStateToProps = (state, ownProps) => {
     invoices: state.api.invoices,
     formData: state.api.formData, 
     justMadeId: state.api.justMadeId,
-    invoiceToEdit: state.api.invoiceToEdit
+    invoiceToEdit: state.api.invoiceToEdit,
+    errorMessage: state.api.errorMessage
     
   };
 };

@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './_AllInvoices.css'
 import { connect } from 'react-redux'
 import { Table, Icon, Button , Tooltip } from 'antd';
+import { Popconfirm, message, Popcancel } from 'antd';
 import {deleteInvoice, changeInvoice, getInvoices} from 'redux/modules/api'
 import { Router, Route, Link} from 'react-router'
 
@@ -28,6 +29,18 @@ class AllInvoices extends React.Component {
       delInvoiceId: id 
     }))
   }
+  
+    agree(id) {
+       this.props.dispatch(deleteInvoice({
+       delInvoiceId: id  
+       }))
+       message.success('Invoice deleted');
+    }
+
+
+    cancel() {
+      message.error('Invoice remains in database');
+    }
 
   render() {
 
@@ -83,12 +96,12 @@ class AllInvoices extends React.Component {
               </div>
               {this.props.params.id}
             </div>
-            <Button style={{display:"inline", marginLeft:"5px"}} 
-              size="small" 
-              onClick={this.deleteInvoiceHandler.bind(this, invoices._id)}
-             >
-              Delete
-            </Button>
+            <Popconfirm title={"Do you want to delete invoice#"+invoices._id+"?"} 
+              onConfirm={this.agree.bind(this, invoices._id)} 
+              onCancel={this.cancel.bind(this, invoices._id)} 
+              okText="Yes" cancelText="No">
+              <Button size = "small" style={{display:"inline", marginLeft:"5px"}}>Delete</Button>
+            </Popconfirm>
           </div>
         </span>
       ),
@@ -99,7 +112,7 @@ class AllInvoices extends React.Component {
         <div style={{margin: "15px auto", width: "90%", height: "90%"}}>
           <h3> Here are all invoices you saved so far </h3>
           <Link to='/'>Go create another one</Link>
-          <Table deleteInvoiceHandler={this.deleteInvoiceHandler.bind(this)}columns={columns} dataSource={this.props.invoices}  />
+          <Table  locale={{emptyText:"No invoices yet"}} deleteInvoiceHandler={this.deleteInvoiceHandler.bind(this)}columns={columns} dataSource={this.props.invoices}  />
         </div>
       </div>
     )
